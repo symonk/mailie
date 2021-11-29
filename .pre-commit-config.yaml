@@ -1,7 +1,7 @@
 exclude: ^(.tox|doc|ci/templates|)(/|$)
 repos:
   - repo: https://github.com/ambv/black
-    rev: 21.11b1
+    rev: a18ee4018f855007bf4a23027a8d6478e56a36bf
     hooks:
       - id: black
         args:
@@ -10,7 +10,7 @@ repos:
           - '--line-length=120'
         language_version: python3.8
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: 083b0d8174f80e7a4c4322800115d2dbede53980
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -30,10 +30,10 @@ repos:
       - id: mypy
         files: mailie/
   - repo: https://github.com/PyCQA/flake8
-    rev: 4.0.1
+    rev: 7a02d04919a2209bc2612373d46d2edfa4d59773
     hooks:
       - id: flake8
   - repo: https://github.com/symonk/pre-commit-pdb-vars
-    rev: 0.3.0
+    rev: 1d605b572d9b4d1e3ee9f592dec0fc2181dc2059
     hooks:
       - id: pdb-vars
