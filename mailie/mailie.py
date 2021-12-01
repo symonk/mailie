@@ -20,13 +20,15 @@ app = typer.Typer()
 # TODO: smarter SSL/startTLS etc
 # TODO: add a flag for --ssl with --cert too?
 # TODO: Allow a debugger or less verbose functionality
-# TODO: add versioning via --version and exit (Completed - Added via `mailie --version` [X]).
+# TODO: add versioning via --version and exit (Completed - Added via `mailie mail --version` [X]).
 # TODO: Improve --help via better docstrings
 # TODO: Auto detect common mail providers such as gmail and assist with configurations?
 # TODO: Attachments inline support and auto detect types of files at runtime
 # TODO: Consider env variables for passwords; or a prompt via typeR
 # TODO: Setup typeR friendly testing using the built in client for invocation
 # TODO: Consider allowing a config file on disk
+# TODO: Better native support for --from, in python land its a pain; in cli land its not!
+# TODO: Write logs to file if required?
 
 
 def version_callback(value: bool):
