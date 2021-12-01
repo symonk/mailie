@@ -1,7 +1,7 @@
 exclude: ^(.tox|doc|ci/templates|)(/|$)
 repos:
   - repo: https://github.com/ambv/black
-    rev: a18ee4018f855007bf4a23027a8d6478e56a36bf
+    rev: f1813e31b6deed0901c8a7fb1f102b9af53de351
     hooks:
       - id: black
         args:
@@ -33,6 +33,7 @@ repos:
     rev: 7a02d04919a2209bc2612373d46d2edfa4d59773
     hooks:
       - id: flake8
+        args: ["--max-line-length=120"]
   - repo: https://github.com/symonk/pre-commit-pdb-vars
     rev: 1d605b572d9b4d1e3ee9f592dec0fc2181dc2059
     hooks:

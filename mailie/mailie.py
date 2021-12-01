@@ -1,10 +1,13 @@
-from ._argv import build_configuration
+import typer
+
+app = typer.Typer()
 
 
-def main() -> int:
-    config = build_configuration()  # noqa
-    return 0
+@app.command()
+def mail() -> None:
+    typer.echo("Mailie is sending a mail...")
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+@app.command()
+def turret() -> None:
+    typer.echo("Mailis is turreting mails...")

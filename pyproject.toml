@@ -1,0 +1,58 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "mailie"
+version = "0.1.0"
+description = "A Python email DSL and CLI with asynchronous sending capabilities."
+authors = ["symonk <jackofspaces@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+mailie = "mailie.mailie:app"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+typer = "^0.4.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+codecov = "^2.1.12"
+ipython = "^7.30.0"
+pre-commit = "^2.16.0"
+
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = 'True'
+force_grid_wrap = 0
+use_parentheses = 'True'
+ensure_newline_before_comments = 'True'
+line_length = 120
+force_single_line = 'True'
+known_first_party = 'restpite'
+default_section = 'THIRDPARTY'
+forced_separate = 'tests'
+skip = '.tox,.eggs,ci/templates'
+
+[tool.mypy]
+mypy_path = 'restpite'
+check_untyped_defs = 'True'
+disallow_any_generics = 'True'
+ignore_missing_imports = 'True'
+show_error_codes = 'True'
+strict_equality = 'True'
+warn_redundant_casts = 'True'
+warn_return_any = 'True'
+warn_unreachable = 'True'
+warn_unused_configs = 'True'
+no_implicit_reexport = 'False'
+ignore_errors = 'False'
+
+[tool.black]
+target-version = ['py38']
+line-length = 120
+
+[tool.flake8]
+# flake8 does not currently support pyproject.toml.

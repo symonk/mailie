@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import email.policy
-import smtplib
 import typing
 from email.message import EmailMessage
 
@@ -39,6 +38,4 @@ class Email:
         return self
 
     def send(self) -> Email:
-        smtpobj = smtplib.SMTP("localhost", port=2500)
-        smtpobj.sendmail(self.message["From"], [self.message["To"]], str(self))
-        return self
+        ...
