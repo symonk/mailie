@@ -25,6 +25,7 @@ app = typer.Typer()
 # TODO: Attachments inline support and auto detect types of files at runtime
 # TODO: Consider env variables for passwords; or a prompt via typeR
 # TODO: Setup typeR friendly testing using the built in client for invocation
+# TODO: Consider allowing a config file on disk
 
 
 @app.command()
