@@ -37,11 +37,19 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
+def validate_policy(value: str) -> str:
+    supported = "default", "smtp", "smtputf8", "strict", "http"
+    value = value.lower()
+    if value not in supported:
+        raise typer.BadParameter(f"--policy must be in: {supported}")
+    return value
+
+
 @app.command()
 def mail(
     frm: str,
     to: typing.List[str],
-    policy: str = typer.Option("default", case_sensitive=False),
+    policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),
     subject: str = "",
     message: str = "",
     hostname: str = "",
