@@ -1,3 +1,4 @@
-from ._email import Email
+from ._email import EmailFactory
+from ._policy import Policies
 
-__all__ = ["Email"]
+__all__ = ["EmailFactory", "Policies"]

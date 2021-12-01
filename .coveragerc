@@ -1,0 +1,13 @@
+[paths]
+source = mailie
+
+[run]
+branch = true
+source =
+    mailie
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = tests/*
