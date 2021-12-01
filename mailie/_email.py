@@ -11,10 +11,10 @@ from ._policy import Policies
 
 class Email:
     # version 0.1.0 will encompass a simple plaintext mail; then iterate.
-    def __init__(self, *, frm: str, to: str, policy: str, subject: str, message: str):
+    def __init__(self, *, frm: str, to: typing.List[str], policy: str, subject: str, message: str):
         self.delegate = EmailMessage(Policies.get(policy))
         self.add_header("From", frm)
-        self.add_header("To", to)
+        self.add_header("To", ", ".join(to))
         self.add_header("Subject", subject)
         self.set_payload(message)
 
@@ -60,5 +60,7 @@ class EmailFactory:
     # Todo: Apply the pattern fully.
 
     @classmethod
-    def create(cls, *, frm: str, to: str, subject: str = "", message: str = "", policy: str = "default") -> Email:
+    def create(
+        cls, *, frm: str, to: typing.List[str], subject: str = "", message: str = "", policy: str = "default"
+    ) -> Email:
         return Email(frm=frm, to=to, policy=policy, subject=subject, message=message)

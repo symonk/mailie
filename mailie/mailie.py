@@ -1,3 +1,5 @@
+import typing
+
 import typer
 
 from ._email import Dispatcher
@@ -9,7 +11,7 @@ app = typer.Typer()
 @app.command()
 def mail(
     frm: str,
-    to: str,
+    to: typing.List[str],
     policy: str = typer.Option("default", case_sensitive=False),
     subject: str = "",
     message: str = "",
