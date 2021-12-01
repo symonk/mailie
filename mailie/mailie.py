@@ -2,6 +2,7 @@ import typing
 
 import typer
 
+from .__version__ import VERSION
 from ._email import Dispatcher
 from ._email import EmailFactory
 
@@ -19,13 +20,19 @@ app = typer.Typer()
 # TODO: smarter SSL/startTLS etc
 # TODO: add a flag for --ssl with --cert too?
 # TODO: Allow a debugger or less verbose functionality
-# TODO: add versioning via --version and exit
+# TODO: add versioning via --version and exit (Completed - Added via `mailie --version` [X]).
 # TODO: Improve --help via better docstrings
 # TODO: Auto detect common mail providers such as gmail and assist with configurations?
 # TODO: Attachments inline support and auto detect types of files at runtime
 # TODO: Consider env variables for passwords; or a prompt via typeR
 # TODO: Setup typeR friendly testing using the built in client for invocation
 # TODO: Consider allowing a config file on disk
+
+
+def version_callback(value: bool):
+    if value:
+        typer.secho(f"Mailie version: {VERSION}", fg=typer.colors.BRIGHT_GREEN, bold=True)
+        raise typer.Exit()
 
 
 @app.command()
@@ -37,10 +44,11 @@ def mail(
     message: str = "",
     hostname: str = "",
     port: int = 0,
+    version: typing.Optional[bool] = typer.Option(None, "--version", "-v", callback=version_callback, is_eager=True),
 ) -> None:
-    typer.secho("Mailie is generating a mail.", fg=typer.colors.GREEN, bold=True)
+    typer.secho("Mailie is generating a mail.", fg=typer.colors.BRIGHT_GREEN, bold=True)
     email = EmailFactory.create(frm=frm, to=to, policy=policy, message=message, subject=subject)
-    typer.secho("Sending mail...", fg=typer.colors.GREEN, bold=True)
+    typer.secho("Sending mail...", fg=typer.colors.BRIGHT_GREEN, bold=True)
     Dispatcher(message=email, host=hostname, port=port).send()
 
 
