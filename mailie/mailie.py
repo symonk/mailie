@@ -22,6 +22,9 @@ app.add_typer(send.app, name="send")
 # TODO: Setup testing using the app runner for invocations of the CLI app?
 # TODO: Consider adding a config file on disk? (maybe smtp data for 'known servers' to start?
 # TODO: Add the capability to store the aforementioned debugging to a file on disk?
+# TODO: Build a robust read me and sphinx/makedocs documentation website?
+# TODO: Consider async send capabilities
+# TODO: Consider a turret capability when async is in play
 
 # -----
 
