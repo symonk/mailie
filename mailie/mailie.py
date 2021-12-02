@@ -14,27 +14,37 @@ app.add_typer(attach.app, name="attach")
 app.add_typer(send.app, name="send")
 
 
-# TODO: headers subcommand
-# TODO: auth subcommand
-# TODO: attachments subcommand
+# TODO (General)
+# TODO: Add a `--version` flag on the root `mailie`?
+# TODO: Allow general debugging and verbosity counts?
+# TODO: Well documented --help for every argument & option?
+# TODO: Expose environment variables for things like smtp passwords?
+# TODO: Setup testing using the app runner for invocations of the CLI app?
+# TODO: Consider adding a config file on disk? (maybe smtp data for 'known servers' to start?
+# TODO: Add the capability to store the aforementioned debugging to a file on disk?
 
-# TODO: support charsets
-# TODO: support recipients from a file, based on a delimiter (later)
-# TODO: add short hand flags like -f, -t etc
-# TODO: support reply-to by default
-# TODO: add --conversation for debugging smtp conversations
-# TODO: smarter SSL/startTLS etc
-# TODO: add a flag for --ssl with --cert too?
-# TODO: Allow a debugger or less verbose functionality
-# TODO: add versioning via --version and exit (Completed - Added via `mailie mail --version` [X]).
-# TODO: Improve --help via better docstrings
-# TODO: Auto detect common mail providers such as gmail and assist with configurations?
-# TODO: Attachments inline support and auto detect types of files at runtime
-# TODO: Consider env variables for passwords; or a prompt via typeR
-# TODO: Setup typeR friendly testing using the built in client for invocation
-# TODO: Consider allowing a config file on disk
-# TODO: Better native support for --from, in python land its a pain; in cli land its not!
-# TODO: Write logs to file if required?
+# -----
+
+# TODO (Send)
+# TODO: Support --ssl, --starttls etc?
+# TODO: Add support for a --cert if using ssl etc?
+# TODO: Add debugging information around SMTP conversations?
+# TODO: Add common configuration for known providers like gmail?
+
+# -----
+
+# TODO (Mail)
+# TODO: Add support for charsets?
+# TODO: Support recipients from a file with a delimiter?
+# TODO: Add shorthand flags for most options (-f, -t etc)?
+# TODO: Support --reply-to & -rt explicitly?
+# TODO: Better support for --from, CLI is fine but it is a python keyword?
+
+# -----
+
+# TODO (Attach)
+# TODO: Support attachments; inline?
+# TODO: Auto detect attachment mime types?
 
 
 def version_callback(value: bool):
@@ -58,7 +68,11 @@ def mail(
     policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),
     subject: str = "",
     message: str = "",
-    version: typing.Optional[bool] = typer.Option(None, "--version", "-v", callback=version_callback, is_eager=True),
 ) -> None:
     typer.secho("Mailie is generating a mail.", fg=typer.colors.BRIGHT_GREEN, bold=True)
     _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject)
+
+
+@app.callback()
+def main(version: bool = False):
+    ...
