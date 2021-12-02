@@ -3,10 +3,16 @@ import typing
 import typer
 
 from .__version__ import VERSION
-from ._email import Dispatcher
-from ._email import EmailFactory
+from ._email import email_factory
+from .commands import attach
+from .commands import headers
+from .commands import send
 
-app = typer.Typer()
+app = typer.Typer(name="mail")
+app.add_typer(headers.app, name="headers")
+app.add_typer(attach.app, name="attach")
+app.add_typer(send.app, name="send")
+
 
 # TODO: headers subcommand
 # TODO: auth subcommand
@@ -47,21 +53,12 @@ def validate_policy(value: str) -> str:
 
 @app.command()
 def mail(
-    frm: str,
-    to: typing.List[str],
+    frm: str = typer.Option(..., "--from", "-f"),
+    to: typing.List[str] = typer.Option(..., "--to", "-t"),
     policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),
     subject: str = "",
     message: str = "",
-    hostname: str = "",
-    port: int = 0,
     version: typing.Optional[bool] = typer.Option(None, "--version", "-v", callback=version_callback, is_eager=True),
 ) -> None:
     typer.secho("Mailie is generating a mail.", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    email = EmailFactory.create(frm=frm, to=to, policy=policy, message=message, subject=subject)
-    typer.secho("Sending mail...", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    Dispatcher(message=email, host=hostname, port=port).send()
-
-
-@app.command()
-def turret() -> None:
-    ...
+    _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject)
