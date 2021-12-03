@@ -5,14 +5,8 @@ import typer
 from .__version__ import VERSION
 from ._email import email_factory
 from ._utility import unpack_recipients_from_csv
-from .commands import attach
-from .commands import headers
-from .commands import send
 
 app = typer.Typer(name="mail")
-app.add_typer(headers.app, name="headers")
-app.add_typer(attach.app, name="attach")
-app.add_typer(send.app, name="send")
 
 
 # TODO (General)
