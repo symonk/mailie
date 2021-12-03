@@ -85,7 +85,7 @@ def mail(
     subject: str = typer.Option(..., "--subject", "-sub", "-s"),
     message: str = typer.Option(..., "--message", "-msg", "-m"),
     charset: str = typer.Option(None, "--charset", "-cs"),
-    headers: typing.List[str] = typer.Option(..., "--header", "-h", callback=split_headers),
+    header: typing.List[str] = typer.Option(..., "--header", "-h", callback=split_headers),
     verbosity: int = typer.Option(0, "-v", count=True),
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
