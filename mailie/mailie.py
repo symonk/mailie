@@ -81,7 +81,7 @@ def mail(
         "-t",
         callback=unpack_recipients,
     ),
-    policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),
+    policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),  # Todo: show_choices=?
     subject: str = typer.Option("", "--subject", "-sub", "-s"),
     message: str = typer.Option("", "--message", "-msg", "-m"),
     charset: str = typer.Option(None, "--charset", "-cs"),
