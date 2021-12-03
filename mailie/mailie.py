@@ -15,7 +15,6 @@ app.add_typer(send.app, name="send")
 
 
 # TODO (General)
-# TODO: Add a `--version` flag on the root `mailie`?
 # TODO: Allow general debugging and verbosity counts?
 # TODO: Well documented --help for every argument & option?
 # TODO: Expose environment variables for things like smtp passwords?
@@ -69,13 +68,18 @@ def mail(
     frm: str = typer.Option(..., "--from", "-f"),
     to: typing.List[str] = typer.Option(..., "--to", "-t"),
     policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),
-    subject: str = "",
-    message: str = "",
+    subject: str = typer.Option(...),
+    message: str = typer.Option(...),
 ) -> None:
     typer.secho("Mailie is generating a mail.", fg=typer.colors.BRIGHT_GREEN, bold=True)
     _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject)
 
 
 @app.callback()
-def main(version: bool = False):
-    ...
+def main(version: bool = typer.Option(None, "--version", callback=version_callback, is_eager=True)):
+    """
+    A powerful python email command line tool.
+    """
+    if version:
+        typer.secho(f"Mailie: {VERSION}", fg=typer.colors.BRIGHT_GREEN, bold=True)
+        raise typer.Exit()
