@@ -81,8 +81,9 @@ def mail(
     subject: str = typer.Option(..., "--subject", "-sub", "-s"),
     message: str = typer.Option(..., "--message", "-msg", "-m"),
     charset: str = typer.Option(None, "--charset", "-cs"),
+    verbosity: int = typer.Option(0, "-v", count=True),
 ) -> None:
-    typer.secho("Mailie is generating a mail.", fg=typer.colors.BRIGHT_GREEN, bold=True)
+    typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
     _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject, charset=charset)
 
 
