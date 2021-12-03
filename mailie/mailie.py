@@ -4,6 +4,7 @@ import typer
 
 from .__version__ import VERSION
 from ._email import email_factory
+from ._utility import unpack_recipients_from_csv
 from .commands import attach
 from .commands import headers
 from .commands import send
@@ -63,16 +64,32 @@ def validate_policy(value: str) -> str:
     return value
 
 
+def unpack_recipients(recipients: typing.List[str]) -> typing.List[str]:
+    """
+    Validates the mail `--to` input, for any of the inputs, if they are a valid
+    file on disk (csv) we will extract the email addresses from the file delimiting
+    on `,`.  The emails are then squashed into a flat list and handed off to the
+    `Email` instance.
+    """
+    return [email for group in [unpack_recipients_from_csv(recipient) for recipient in recipients] for email in group]
+
+
 @app.command()
 def mail(
     frm: str = typer.Option(..., "--from", "-f"),
-    to: typing.List[str] = typer.Option(..., "--to", "-t"),
+    to: typing.List[str] = typer.Option(
+        ...,
+        "--to",
+        "-t",
+        callback=unpack_recipients,
+    ),
     policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),
-    subject: str = typer.Option(...),
-    message: str = typer.Option(...),
+    subject: str = typer.Option(..., "--subject", "-sub", "-s"),
+    message: str = typer.Option(..., "--message", "-msg", "-m"),
+    charset: str = typer.Option(None, "--charset", "-cs"),
 ) -> None:
     typer.secho("Mailie is generating a mail.", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject)
+    _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject, charset=charset)
 
 
 @app.callback()

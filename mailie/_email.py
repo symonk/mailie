@@ -11,7 +11,9 @@ from ._policy import Policies
 
 class Email:
     # version 0.1.0 will encompass a simple plaintext mail; then iterate.
-    def __init__(self, *, frm: str, to: typing.List[str], policy: str, subject: str, message: str, charset: str):
+    def __init__(
+        self, *, frm: str, to: typing.List[str], policy: str, subject: str, message: str, charset: typing.Optional[str]
+    ):
         self.delegate = EmailMessage(Policies.get(policy))
         self.add_header("From", frm)
         self.add_header("To", ", ".join(to))
@@ -63,7 +65,7 @@ def email_factory(
     subject: str = "",
     message: str = "",
     policy: str = "default",
-    charset: str = "",
+    charset: typing.Optional[str] = None,
 ) -> Email:
     """
     A simple factory, for Emails.
