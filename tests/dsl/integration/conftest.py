@@ -4,7 +4,7 @@ import pytest
 from server import FakeSMTPServer
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def mail_to_disk_server():
     server = FakeSMTPServer(("localhost", 1250), None)
     asyncore.loop()
