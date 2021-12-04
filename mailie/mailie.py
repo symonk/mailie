@@ -50,26 +50,28 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-def validate_policy(value: str) -> str:
-    supported = "default", "smtp", "smtputf8", "strict", "http"
-    value = value.lower()
-    if value not in supported:
-        raise typer.BadParameter(f"--policy must be in: {supported}")
-    return value
+def validate_policy(ctx: typer.Context, value: str) -> typing.Optional[str]:
+    if not ctx.resilient_parsing:
+        supported = "default", "smtp", "smtputf8", "strict", "http"
+        value = value.lower()
+        if value not in supported:
+            raise typer.BadParameter(f"--policy must be in: {supported}")
+        return value
+    return None
 
 
-def split_headers(value: typing.List[str]) -> str:
-    ...
-
-
-def unpack_recipients(recipients: typing.List[str]) -> typing.List[str]:
+def unpack_recipients(ctx: typer.Context, recipients: typing.List[str]) -> typing.Optional[typing.List[str]]:
     """
     Validates the mail `--to` input, for any of the inputs, if they are a valid
     file on disk (csv) we will extract the email addresses from the file delimiting
     on `,`.  The emails are then squashed into a flat list and handed off to the
     `Email` instance.
     """
-    return [email for group in [unpack_recipients_from_csv(recipient) for recipient in recipients] for email in group]
+    if not ctx.resilient_parsing:
+        return [
+            email for group in [unpack_recipients_from_csv(recipient) for recipient in recipients] for email in group
+        ]
+    return None
 
 
 @app.command()
@@ -85,11 +87,13 @@ def mail(
     subject: str = typer.Option("", "--subject", "-sub", "-s"),
     message: str = typer.Option("", "--message", "-msg", "-m"),
     charset: str = typer.Option(None, "--charset", "-cs"),
-    header: typing.List[str] = typer.Option(None, "--header", "-h", callback=split_headers),
+    headers: typing.List[str] = typer.Option(None, "--headers", "-h"),
     verbosity: int = typer.Option(0, "-v", count=True),
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    _ = email_factory(frm=frm, to=to, policy=policy, message=message, subject=subject, charset=charset)
+    _ = email_factory(
+        frm=frm, to=to, policy=policy, message=message, subject=subject, charset=charset, headers=headers  # noqa
+    )
 
 
 @app.callback()
