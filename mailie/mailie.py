@@ -92,7 +92,7 @@ def mail(
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
     _ = email_factory(
-        frm=frm, to=to, policy=policy, message=message, subject=subject, charset=charset, headers=headers  # noqa
+        frm=frm, to=to, policy=policy, text_body=message, subject=subject, charset=charset, headers=headers  # noqa
     )
 
 
