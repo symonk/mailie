@@ -2,7 +2,8 @@ import typing
 
 import typer
 
-from .__version__ import VERSION
+from mailie import version
+
 from ._email import email_factory
 from ._utility import unpack_recipients_from_csv
 
@@ -46,7 +47,7 @@ app = typer.Typer(name="mail")
 
 def version_callback(value: bool):
     if value:
-        typer.secho(f"Mailie version: {VERSION}", fg=typer.colors.BRIGHT_GREEN, bold=True)
+        typer.secho(f"Mailie version: {version}", fg=typer.colors.BRIGHT_GREEN, bold=True)
         raise typer.Exit()
 
 
@@ -114,5 +115,5 @@ def main(version: bool = typer.Option(None, "--version", callback=version_callba
     A powerful python email command line tool.
     """
     if version:
-        typer.secho(f"Mailie: {VERSION}", fg=typer.colors.BRIGHT_GREEN, bold=True)
+        typer.secho(f"Mailie: {version}", fg=typer.colors.BRIGHT_GREEN, bold=True)
         raise typer.Exit()

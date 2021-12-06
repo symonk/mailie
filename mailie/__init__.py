@@ -1,6 +1,9 @@
-from .__version__ import VERSION
+import importlib
+
 from ._email import EmailHeader
 from ._email import email_factory
 from ._policy import Policies
 
-__all__ = ["email_factory", "Policies", "VERSION", "EmailHeader"]
+version = importlib.metadata.version("mailie")  # type: ignore [attr-defined]
+
+__all__ = ["email_factory", "Policies", "version", "EmailHeader"]
