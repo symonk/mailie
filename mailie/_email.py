@@ -30,7 +30,7 @@ class Email:
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
         subject: str = "",
-        text_body: str = "",
+        text: str = "",
         html: typing.Optional[str] = None,
         charset: typing.Optional[str],
         headers: typing.Optional[typing.List[EmailHeader]] = None,
@@ -43,16 +43,16 @@ class Email:
         self.cc = cc or []
         self.bcc = bcc or []
         self.all_recipients = self.to + self.cc + self.bcc
-        self.delegate["CC"] = ", ".join(self.cc)
         self.subject = subject
         self.headers = self._build_headers(headers or ())
-        self.delegate.set_content(text_body, subtype="plain")
+        for header in self.headers:
+            self.delegate[header.field_name] = header.value
+        self.delegate.set_content(text, subtype="plain")
         self.html = html
         if html:
             self.delegate.add_alternative(self.html, subtype="html")
         self.attachments = attachments
         self.write_eml_on_disk = write_eml_on_disk
-        EmailSender(message=self, host="localhost", port=2500).send()
 
     def _build_headers(self, optional: typing.Sequence[EmailHeader]) -> typing.List[EmailHeader]:
         required = self._get_required_headers()
@@ -62,7 +62,7 @@ class Email:
     def _get_required_headers(self) -> typing.List[EmailHeader]:
         return [
             EmailHeader(field, value)
-            for field, value in [("From", ", ".join(self.frm)), ", ".join(self.to), ("Subject", self.subject)]
+            for field, value in [("From", self.frm), ("To", ", ".join(self.to)), ("Subject", self.subject)]
         ]
 
     def render(self) -> None:
@@ -133,10 +133,10 @@ def email_factory(
     *,
     frm: str,
     to: typing.Union[typing.List[str], str],
-    cc: typing.Optional[typing.List[str]],
-    bcc: typing.Optional[typing.List[str]],
+    cc: typing.Optional[typing.List[str]] = None,
+    bcc: typing.Optional[typing.List[str]] = None,
     subject: str = "",
-    text_body: str = "",
+    text: str = "",
     html: str = "",
     policy: str = "default",
     charset: typing.Optional[str] = None,
@@ -159,7 +159,7 @@ def email_factory(
         bcc=bcc,
         policy=policy,
         subject=subject,
-        text_body=text_body,
+        text=text,
         html=html,
         charset=charset,
         headers=resolved_headers,

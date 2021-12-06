@@ -83,8 +83,8 @@ def mail(
         "-t",
         callback=unpack_recipients,
     ),
-    cc: typing.List[str] = typer.Option(..., "--cc", callback=unpack_recipients),
-    bcc: typing.List[str] = typer.Option(..., "--bcc", callback=unpack_recipients),
+    cc: typing.List[str] = typer.Option(None, "--cc", callback=unpack_recipients),
+    bcc: typing.List[str] = typer.Option(None, "--bcc", callback=unpack_recipients),
     policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),  # Todo: show_choices=?
     subject: str = typer.Option("", "--subject", "-sub", "-s"),
     message: str = typer.Option("", "--message", "-msg", "-m"),
@@ -101,7 +101,7 @@ def mail(
         bcc=bcc,
         html=html,
         policy=policy,
-        text_body=message,
+        text=message,
         subject=subject,
         charset=charset,
         headers=headers,  # noqa
