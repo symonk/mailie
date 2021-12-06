@@ -19,6 +19,17 @@ class Email:
 
         :: adding bcc explicitly in headers is acceptable as when sending they will not be visible.
         :: Prefer bcc=[..., ...] tho over a header encompassing bcc.
+
+        Dev priorities:
+            :: Complete delegation
+            :: Refactor API
+            :: Consider Builder pattern ?
+            :: Use a tree and handle render so the data is in memory and accessible for assertions?
+            :: Handle recursive `Email` types for subparts
+            :: Do not couple sending of a mail, to the mail objects themselves
+            :: Use the data model for header indexing etc?
+            :: Implement factory pattern properly; rejig `Email` defaults`
+            :: Fully type this code.
     """
 
     def __init__(
@@ -69,12 +80,6 @@ class Email:
         # TODO: Implement better handling here; return a dictionary of parent:root nodes?
         _structure(self.delegate)
 
-    def __str__(self) -> str:
-        return str(self.delegate)
-
-    def __bytes__(self) -> bytes:
-        return bytes(self.delegate)
-
     def add_header(self, name: str, value: typing.Any, **params) -> Email:
         self.delegate.add_header(name, value, **params)
         return self
@@ -89,6 +94,29 @@ class Email:
     def set_content(self, data: str, x: str) -> Email:
         self.delegate.set_content(data, x)
         return self
+
+    def clear(self) -> Email:
+        """
+        Clears the headers and payload from the delegated `EmailMessage` messaged.
+        If you want to retain non Content- headers, use `clear_content()` instead.
+        """
+        self.delegate.clear()
+        return self
+
+    def clear_content(self) -> Email:
+        """
+        Clears the payload and all non Content- headers.
+        """
+        self.delegate.clear_content()
+        return self
+
+    # ----- Data model specifics ----- #
+
+    def __str__(self) -> str:
+        return str(self.delegate)
+
+    def __bytes__(self) -> bytes:
+        return bytes(self.delegate)
 
 
 class EmailHeader:
