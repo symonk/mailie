@@ -30,6 +30,8 @@ class Email:
             :: Use the data model for header indexing etc?
             :: Implement factory pattern properly; rejig `Email` defaults`
             :: Fully type this code.
+            :: Revisit logging, debugging etc
+            ::
     """
 
     def __init__(
