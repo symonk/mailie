@@ -1,0 +1,7 @@
+site_name: Mailie Documentation
+site_url: https://www.google.com
+nav:
+    - Home: index.md
+    - About: about.md
+theme:
+  name: material
