@@ -83,16 +83,28 @@ def mail(
         "-t",
         callback=unpack_recipients,
     ),
+    cc: typing.List[str] = typer.Option(..., "--cc", callback=unpack_recipients),
+    bcc: typing.List[str] = typer.Option(..., "--bcc", callback=unpack_recipients),
     policy: str = typer.Option("default", case_sensitive=False, callback=validate_policy),  # Todo: show_choices=?
     subject: str = typer.Option("", "--subject", "-sub", "-s"),
     message: str = typer.Option("", "--message", "-msg", "-m"),
+    html: str = typer.Option("", "--html"),
     charset: str = typer.Option(None, "--charset", "-cs"),
     headers: typing.List[str] = typer.Option(None, "--headers", "-h"),
     verbosity: int = typer.Option(0, "-v", count=True),
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
     _ = email_factory(
-        frm=frm, to=to, policy=policy, text_body=message, subject=subject, charset=charset, headers=headers  # noqa
+        frm=frm,
+        to=to,
+        cc=cc,
+        bcc=bcc,
+        html=html,
+        policy=policy,
+        text_body=message,
+        subject=subject,
+        charset=charset,
+        headers=headers,  # noqa
     )
 
 
