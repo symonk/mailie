@@ -1,12 +1,12 @@
-import asyncore
+import time
 
 import pytest
-from server import FakeSMTPServer
+from server import BackgroundSMTPServer
 
 
-@pytest.fixture(scope="session")
-def mail_to_disk_server():
-    server = FakeSMTPServer(("localhost", 1250), None)
-    asyncore.loop()
-    yield server
-    server.close()
+@pytest.fixture(scope="function")
+def mail_to_disk_server(request):
+    server = BackgroundSMTPServer()
+    server.start()
+    request.addfinalizer(server.close)
+    time.sleep(1.5)
