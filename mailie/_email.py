@@ -13,10 +13,24 @@ from ._policy import Policies
 
 class Email:
     """
-    An Email.  For now we want to support a simple plaintext & html relative mail.  That is the focus
-    to iron out the API then build on more in depth structures going forward.  Client code should create
-    email objects through the `email_factory` ideally.
+    An encapsulation and representation of an email message.  At present only simple plaintext
+    mails and multipart/alternative plain + html content mails are supported.  Client code should
+    opt for using the email_factory rather than importing and instantiating `Email` instances
+    themselves.  Only keyword arguments are supported in both `Email` and `email_factory` in a bid
+    to build a more robust API.
 
+        :param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP
+        communication as part of the `MAIL FROM` part of the conversation later.
+
+        :param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP
+        communication as part of the `RCPT TO` part of the conversation later.  to_addrs can be a single email address
+        (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
+        implicitly.
+
+        :param policy: (Optional) ...
+
+
+    :: Dev Goals:
         :: adding bcc explicitly in headers is acceptable as when sending they will not be visible.
         :: Prefer bcc=[..., ...] tho over a header encompassing bcc.
 
@@ -31,14 +45,13 @@ class Email:
             :: Implement factory pattern properly; rejig `Email` defaults`
             :: Fully type this code.
             :: Revisit logging, debugging etc
-            ::
     """
 
     def __init__(
         self,
         *,
-        frm: str,
-        to: typing.List[str],
+        from_addr: str,
+        to_addrs: typing.Union[typing.List[str], str],
         policy: str,
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
@@ -50,12 +63,14 @@ class Email:
         attachments: typing.Optional[typing.List[Path]] = None,
         write_eml_on_disk: bool = False,
     ):
+        if isinstance(to_addrs, str):
+            to_addrs = [to_addrs]
         self.delegate = EmailMessage(Policies.get(policy))
-        self.frm = frm
-        self.to = to
+        self.from_addr = from_addr
+        self.to_addrs = to_addrs
         self.cc = cc or []
         self.bcc = bcc or []
-        self.all_recipients = self.to + self.cc + self.bcc
+        self.all_recipients = self.to_addrs + self.cc + self.bcc
         self.subject = subject
         self.headers = self._build_headers(headers or ())
         for header in self.headers:
@@ -75,7 +90,7 @@ class Email:
     def _get_required_headers(self) -> typing.List[EmailHeader]:
         return [
             EmailHeader(field, value)
-            for field, value in [("From", self.frm), ("To", ", ".join(self.to)), ("Subject", self.subject)]
+            for field, value in [("From", self.from_addr), ("To", ", ".join(self.to_addrs)), ("Subject", self.subject)]
         ]
 
     def render(self) -> None:
@@ -154,15 +169,15 @@ class EmailSender:
         # send_message does not transmit any Bcc or Resent-Bcc headers that may appear in msg
         with smtplib.SMTP(self.host, port=self.port) as smtp:
             # Do not change this to use `smtp.sendmail(...)`.
-            result = smtp.send_message(self.message.delegate, self.message.frm, self.message.all_recipients)
+            result = smtp.send_message(self.message.delegate, self.message.from_addr, self.message.all_recipients)
             typer.secho(result, fg=typer.colors.GREEN, bold=True)
         return self.message
 
 
 def email_factory(
     *,
-    frm: str,
-    to: typing.Union[typing.List[str], str],
+    from_addr: str,
+    to_addrs: typing.Union[typing.List[str], str],
     cc: typing.Optional[typing.List[str]] = None,
     bcc: typing.Optional[typing.List[str]] = None,
     subject: str = "",
@@ -179,12 +194,10 @@ def email_factory(
     """
     if headers is None:
         headers = []
-    if isinstance(to, str):
-        to = [to]
     resolved_headers = [EmailHeader.from_string(header) for header in headers]
     return Email(
-        frm=frm,
-        to=to,
+        from_addr=from_addr,
+        to_addrs=to_addrs,
         cc=cc,
         bcc=bcc,
         policy=policy,

@@ -77,8 +77,8 @@ def unpack_recipients(ctx: typer.Context, recipients: typing.List[str]) -> typin
 
 @app.command()
 def mail(
-    frm: str = typer.Option(..., "--from", "-f"),
-    to: typing.List[str] = typer.Option(
+    from_addr: str = typer.Option(..., "--from", "-f"),
+    to_addrs: typing.List[str] = typer.Option(
         ...,
         "--to",
         "-t",
@@ -96,8 +96,8 @@ def mail(
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
     _ = email_factory(
-        frm=frm,
-        to=to,
+        from_addr=from_addr,
+        to_addrs=to_addrs,
         cc=cc,
         bcc=bcc,
         html=html,

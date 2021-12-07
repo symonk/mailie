@@ -2,7 +2,7 @@ from mailie import email_factory
 
 
 def test_structure_of_mail(capsys, render_checker):
-    mail = email_factory(frm="test@one.com", to="two@three.com", html="<b> Hi There! </b>")
+    mail = email_factory(from_addr="test@one.com", to_addrs="two@three.com", html="<b> Hi There! </b>")
     mail.render()
     stdout, stderr = capsys.readouterr()
     lines = render_checker(stdout)
