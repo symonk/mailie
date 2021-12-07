@@ -26,10 +26,26 @@ class Email:
 
         :param policy: (Optional) ...
 
+        :param cc: (Optional) ...
 
-    :: Dev Goals:
-        :: adding bcc explicitly in headers is acceptable as when sending they will not be visible.
-        :: Prefer bcc=[..., ...] tho over a header encompassing bcc.
+        :param bcc: (Optional) ...
+                :: adding bcc explicitly in headers is acceptable as when sending they will not be visible.
+                :: Prefer bcc=[..., ...] tho over a header encompassing bcc.
+
+        :param subject: (Optional) ...
+
+        :param text: (Optional) ...
+
+        :param html: (Optional) ...
+
+        :param charset: (Optional) ...
+
+        :param headers: (Optional) ...
+
+        :param attachments: (Optional) ...
+
+        :param save_as_eml: (Default: False) ...
+
 
         Dev priorities:
             :: Complete delegation
@@ -58,7 +74,7 @@ class Email:
         charset: typing.Optional[str],
         headers: typing.Optional[typing.List[EmailHeader]] = None,
         attachments: typing.Optional[typing.List[Path]] = None,
-        write_eml_on_disk: bool = False,
+        save_as_eml: bool = False,
     ):
         if isinstance(to_addrs, str):
             to_addrs = [to_addrs]
@@ -67,6 +83,7 @@ class Email:
         self.to_addrs = to_addrs
         self.cc = cc or []
         self.bcc = bcc or []
+        self.charset = charset
         self.all_recipients = self.to_addrs + self.cc + self.bcc
         self.subject = subject
         self.headers = self._build_headers(headers or ())
@@ -77,7 +94,7 @@ class Email:
         if html:
             self.delegate.add_alternative(self.html, subtype="html")
         self.attachments = attachments
-        self.write_eml_on_disk = write_eml_on_disk
+        self.save_as_eml = save_as_eml
 
     def _build_headers(self, optional: typing.Sequence[EmailHeader]) -> typing.List[EmailHeader]:
         required = self._get_required_headers()
@@ -162,7 +179,7 @@ def email_factory(
     charset: typing.Optional[str] = None,
     headers: typing.Optional[typing.List[str]] = None,
     attachments: typing.Optional[typing.List[Path]] = None,
-    write_eml_on_disk: bool = False,
+    save_as_eml: bool = False,
 ) -> Email:
     """
     A simple factory, for Emails.
@@ -182,5 +199,5 @@ def email_factory(
         charset=charset,
         headers=resolved_headers,
         attachments=attachments,
-        write_eml_on_disk=write_eml_on_disk,
+        save_as_eml=save_as_eml,
     )
