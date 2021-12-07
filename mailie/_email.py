@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-import smtplib
 import typing
 from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 from pathlib import Path
-
-import typer
 
 from ._policy import Policies
 
@@ -150,28 +147,6 @@ class EmailHeader:
     @classmethod
     def from_string(cls, header: str, delimiter: str = ":") -> EmailHeader:
         return cls(*header.split(":"))
-
-
-class EmailSender:
-    def __init__(
-        self,
-        *,
-        message: Email,
-        host: str = "",
-        port: int = 0,
-        # Todo: More options.
-    ) -> None:
-        self.message = message
-        self.host = host
-        self.port = port
-
-    def send(self) -> Email:
-        # send_message does not transmit any Bcc or Resent-Bcc headers that may appear in msg
-        with smtplib.SMTP(self.host, port=self.port) as smtp:
-            # Do not change this to use `smtp.sendmail(...)`.
-            result = smtp.send_message(self.message.delegate, self.message.from_addr, self.message.all_recipients)
-            typer.secho(result, fg=typer.colors.GREEN, bold=True)
-        return self.message
 
 
 def email_factory(

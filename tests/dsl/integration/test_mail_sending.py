@@ -1,5 +1,5 @@
+from mailie import SimpleDispatcher
 from mailie import email_factory
-from mailie._email import EmailSender
 
 
 def test_email_example(mail_to_disk_server):
@@ -11,6 +11,6 @@ def test_email_example(mail_to_disk_server):
         text="plaintext content",
         html="<b> html content </b>",
     )
-    EmailSender(
+    SimpleDispatcher(
         message=mail, host="localhost", port=9222
     ).send()  # Test for now using the background thread SMTP server
