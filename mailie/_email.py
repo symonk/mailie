@@ -92,7 +92,8 @@ class Email:
         self.cc = emails_to_list(cc)
         self.bcc = emails_to_list(bcc)
         self.charset = charset
-        self.all_recipients = self.to_addrs + self.cc + self.bcc
+        # smtp servers do not care about email headers.
+        self.smtp_recipients = self.to_addrs + self.cc + self.bcc
         self.subject = subject
         self.headers = self._build_headers(headers or ())
         for header in self.headers:
@@ -103,6 +104,9 @@ class Email:
             self.delegate.add_alternative(self.html, subtype="html")
         self.attachments = attachments
         self.save_as_eml = save_as_eml
+
+    def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
+        return self.delegate, self.from_addr, self.smtp_recipients
 
     def _build_headers(self, optional: typing.Sequence[EmailHeader]) -> typing.List[EmailHeader]:
         required = self._get_required_headers()

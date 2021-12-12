@@ -27,7 +27,7 @@ class SimpleDispatcher(Dispatcher):  # TODO: Terrible name; improve it.
         # send_message does not transmit any Bcc or Resent-Bcc headers that may appear in msg
         with smtplib.SMTP(self.host, port=self.port) as smtp:
             # Do not change this to use `smtp.sendmail(...)`.
-            result = smtp.send_message(self.message.delegate, self.message.from_addr, self.message.all_recipients)
+            result = smtp.send_message(*self.message.smtp_arguments())
             typer.secho(result, fg=typer.colors.GREEN, bold=True)
         return self.message
 
