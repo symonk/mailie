@@ -6,6 +6,7 @@ from email.message import EmailMessage
 from pathlib import Path
 
 from ._policy import Policies
+from ._utility import emails_to_list
 
 
 class Email:
@@ -76,13 +77,11 @@ class Email:
         attachments: typing.Optional[typing.List[Path]] = None,
         save_as_eml: bool = False,
     ):
-        if isinstance(to_addrs, str):
-            to_addrs = [to_addrs]
         self.delegate = EmailMessage(Policies.get(policy))
         self.from_addr = from_addr
-        self.to_addrs = to_addrs
-        self.cc = cc or []
-        self.bcc = bcc or []
+        self.to_addrs = emails_to_list(to_addrs)
+        self.cc = emails_to_list(cc)
+        self.bcc = emails_to_list(bcc)
         self.charset = charset
         self.all_recipients = self.to_addrs + self.cc + self.bcc
         self.subject = subject

@@ -2,6 +2,21 @@ import csv
 import pathlib
 import typing
 
+from ._types import EMAIL_ITERABLE_ALIAS
+
+
+def emails_to_list(emails: typing.Optional[EMAIL_ITERABLE_ALIAS] = None) -> typing.List[str]:
+    """
+    Given a single email address, or an iterable of emails, returns
+    distinct email addresses in a new list.  if emails is not provided,
+    an empty list is returned.
+
+    :param emails: A single email address or iterable of emails.
+    """
+    if emails is None:
+        return []
+    return [emails] if isinstance(emails, str) else [email for email in set(emails)]
+
 
 def check_is_email(email: str):
     ...
