@@ -1,9 +1,9 @@
+from mailie import Email
 from mailie import SimpleDispatcher
-from mailie import email_factory
 
 
 def test_email_example(mail_to_disk_server):
-    mail = email_factory(
+    mail = Email(
         to_addrs=["recip@recip.com"],
         from_addr="sender@onetwothree.com",
         subject="fooo!",

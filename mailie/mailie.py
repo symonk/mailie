@@ -4,7 +4,8 @@ import typer
 
 from mailie import version
 
-from ._email import email_factory
+from ._email import Email
+from ._header import EmailHeader
 from ._utility import unpack_recipients_from_csv
 
 app = typer.Typer(name="mail")
@@ -95,7 +96,7 @@ def mail(
     verbosity: int = typer.Option(0, "-v", count=True),
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    _ = email_factory(
+    _ = Email(
         from_addr=from_addr,
         to_addrs=to_addrs,
         cc=cc,
@@ -105,7 +106,7 @@ def mail(
         text=message,
         subject=subject,
         charset=charset,
-        headers=headers,  # noqa
+        headers=[EmailHeader.from_string(h) for h in headers],  # noqa
     )
 
 

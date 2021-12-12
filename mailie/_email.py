@@ -5,7 +5,12 @@ from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 from pathlib import Path
 
+from ._header import FROM_HEADER
+from ._header import SUBJECT_HEADER
+from ._header import TO_HEADER
 from ._policy import Policies
+from ._types import EMAIL_HEADER_ALIAS
+from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
 
 
@@ -17,8 +22,13 @@ class Email:
     themselves.  Only keyword arguments are supported in both `Email` and `email_factory` in a bid
     to build a more robust API.
 
+    An email message is a combination of RFC-2822 headers and a payload.  If the message is a container
+    (e.g a multipart message) then the payload is a list of EmailMessage objects, otherwise it is just
+    a string.
+
         :param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP
-        communication as part of the `MAIL FROM` part of the conversation later.
+        communication as part of the `MAIL FROM` part of the conversation later.  Mailie will not assign a
+        FROM header in the message itself, but consider this the envelope/unix from.
 
         :param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP
         communication as part of the `RCPT TO` part of the conversation later.  to_addrs can be a single email address
@@ -42,11 +52,19 @@ class Email:
 
         Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.
 
-        :param subject: (Optional) ...
+        :param subject: (Optional) A string to include in the message as part of the subject header.
+        By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted
+        the subject of the email will be empty ''.
 
-        :param text: (Optional) ...
+        :param text: (Optional) A string of text to include as the text/plain payload (body) of the email.
+        By default, an empty body will be created.  For simple plaintext mails, text= is the only data
+        necessary, however for more multipart variants html & attachments  can be provided.
 
-        :param html: (Optional) ...
+        :param html: (Optional) A string of html content to include in the payload (body) of the email.
+        By default, html is omitted and a simple plain text mail is built, if provided the mail is
+        converted to a multipart/alternative where the payload includes both plain text and HTML content.
+        Depending on the recipient(s) client, displaying of this will vary however mailie will signal
+        that the HTML is priority (by the order in which the data is transmitted).
 
         :param charset: (Optional) ...
 
@@ -60,7 +78,6 @@ class Email:
         Dev priorities:
             :: Complete delegation
             :: Refactor API
-            :: Consider Builder pattern ?
             :: Use a tree and handle render so the data is in memory and accessible for assertions?
             :: Handle recursive `Email` types for subparts
             :: Do not couple sending of a mail, to the mail objects themselves
@@ -75,49 +92,56 @@ class Email:
         *,
         from_addr: str,
         to_addrs: typing.Union[typing.List[str], str],
-        policy: str,
+        policy: str = "default",
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
         subject: str = "",
         text: str = "",
         html: typing.Optional[str] = None,
-        charset: typing.Optional[str],
-        headers: typing.Optional[typing.List[EmailHeader]] = None,
+        charset: str = "utf-8",
+        headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
         attachments: typing.Optional[typing.List[Path]] = None,
         save_as_eml: bool = False,
+        preamble: typing.Optional[str] = None,
+        epilogue: typing.Optional[str] = None,
     ):
         self.delegate = EmailMessage(Policies.get(policy))
         self.from_addr = from_addr
         self.to_addrs = emails_to_list(to_addrs)
         self.cc = emails_to_list(cc)
         self.bcc = emails_to_list(bcc)
-        self.charset = charset
-        # smtp servers do not care about email headers.
-        self.smtp_recipients = self.to_addrs + self.cc + self.bcc
-        self.subject = subject
-        self.headers = self._build_headers(headers or ())
-        for header in self.headers:
-            self.delegate[header.field_name] = header.value
-        self.delegate.set_content(text, subtype="plain")
         self.html = html
+        self.text = text
+        self.charset = charset  # Todo: Where does this fit, charset of what exactly?
+        # smtp servers do not care about email headers.
+        self.subject = subject
+        self.preamble = preamble  # Todo: Implement later
+        self.epilogue = epilogue  # Todo: Implement later
+        self.attachments = attachments  # Todo: Implement later
+        self.save_as_eml = save_as_eml  # Todo: Implement later
+        self.headers = convert_strings_to_headers(headers)
+
+        # -- Delegation Specifics ---
+        self.add_header(FROM_HEADER, self.from_addr)
+        self.add_header(TO_HEADER, ", ".join(self.to_addrs))
+        self.add_header(SUBJECT_HEADER, self.subject)
+
+        # Text provided; set the text/plain content
+        self.delegate.set_content(self.text, subtype="plain")
         if html:
+            # html content provided; convert to multipart/alternative
+            # Rendering is client specific here and mileage may vary on delivery.
             self.delegate.add_alternative(self.html, subtype="html")
-        self.attachments = attachments
-        self.save_as_eml = save_as_eml
+
+        for header in self.headers:
+            self.add_header(header.field_name, header.field_body)
+
+    @property
+    def smtp_recipients(self) -> typing.List[str]:
+        return self.to_addrs + self.cc + self.bcc
 
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
         return self.delegate, self.from_addr, self.smtp_recipients
-
-    def _build_headers(self, optional: typing.Sequence[EmailHeader]) -> typing.List[EmailHeader]:
-        required = self._get_required_headers()
-        required.extend(optional)
-        return required
-
-    def _get_required_headers(self) -> typing.List[EmailHeader]:
-        return [
-            EmailHeader(field, value)
-            for field, value in [("From", self.from_addr), ("To", ", ".join(self.to_addrs)), ("Subject", self.subject)]
-        ]
 
     def render(self) -> None:
         # TODO: Implement better handling here; return a dictionary of parent:root nodes?
@@ -160,56 +184,3 @@ class Email:
 
     def __bytes__(self) -> bytes:
         return bytes(self.delegate)
-
-
-class EmailHeader:
-    def __init__(self, field_name: str, value: str):
-        self.field_name = field_name
-        self.value = value
-
-    def __iter__(self):
-        return iter((self.field_name, self.value))
-
-    def __repr__(self) -> str:
-        return f"Header=(field_name={self.field_name}, value={self.value})"
-
-    @classmethod
-    def from_string(cls, header: str, delimiter: str = ":") -> EmailHeader:
-        return cls(*header.split(":"))
-
-
-def email_factory(
-    *,
-    from_addr: str,
-    to_addrs: typing.Union[typing.List[str], str],
-    cc: typing.Optional[typing.List[str]] = None,
-    bcc: typing.Optional[typing.List[str]] = None,
-    subject: str = "",
-    text: str = "",
-    html: str = "",
-    policy: str = "default",
-    charset: typing.Optional[str] = None,
-    headers: typing.Optional[typing.List[str]] = None,
-    attachments: typing.Optional[typing.List[Path]] = None,
-    save_as_eml: bool = False,
-) -> Email:
-    """
-    A simple factory, for Emails.
-    """
-    if headers is None:
-        headers = []
-    resolved_headers = [EmailHeader.from_string(header) for header in headers]
-    return Email(
-        from_addr=from_addr,
-        to_addrs=to_addrs,
-        cc=cc,
-        bcc=bcc,
-        policy=policy,
-        subject=subject,
-        text=text,
-        html=html,
-        charset=charset,
-        headers=resolved_headers,
-        attachments=attachments,
-        save_as_eml=save_as_eml,
-    )
