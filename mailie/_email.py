@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import logging
+import os
 import typing
 from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
-from pathlib import Path
 
 from ._header import FROM_HEADER
 from ._header import SUBJECT_HEADER
@@ -12,6 +13,9 @@ from ._policy import Policies
 from ._types import EMAIL_HEADER_ALIAS
 from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
+from ._utility import paths_to_attachments
+
+log = logging.getLogger(__name__)
 
 
 class Email:
@@ -95,10 +99,8 @@ class Email:
             :: Refactor API
             :: Use a tree and handle render so the data is in memory and accessible for assertions?
             :: Handle recursive `Email` types for subparts
-            :: Do not couple sending of a mail, to the mail objects themselves
             :: Use the data model for header indexing etc?
             :: Implement factory pattern properly; rejig `Email` defaults`
-            :: Fully type this code.
             :: Revisit logging, debugging etc
     """
 
@@ -115,7 +117,7 @@ class Email:
         html: typing.Optional[str] = None,
         charset: str = "utf-8",
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
-        attachments: typing.Optional[typing.List[Path]] = None,
+        attachments: typing.Optional[typing.List[typing.Union[str, "os.PathLike[str]"]]] = None,
         preamble: typing.Optional[str] = None,
         epilogue: typing.Optional[str] = None,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
@@ -132,7 +134,7 @@ class Email:
         self.subject = subject
         self.preamble = preamble  # Todo: Implement later
         self.epilogue = epilogue  # Todo: Implement later
-        self.attachments = attachments  # Todo: Implement later
+        self.attachments = paths_to_attachments(attachments) if attachments else []
         self.hooks = hooks
         self.headers = convert_strings_to_headers(headers)
 

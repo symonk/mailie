@@ -1,10 +1,19 @@
 import csv
+import os
 import pathlib
 import typing
 
 from ._header import EmailHeader
 from ._types import EMAIL_HEADER_ALIAS
 from ._types import EMAIL_ITERABLE_ALIAS
+
+
+def paths_to_attachments(attachment_paths: typing.List[typing.Union[str, "os.PathLike[str]"]]):
+    """
+    Given a list of file paths, builds a container (list) of the actual attachment files,
+    ready to be attached to an email.
+    """
+    ...
 
 
 def convert_strings_to_headers(headers: typing.Optional[EMAIL_HEADER_ALIAS] = None):
@@ -37,11 +46,11 @@ def emails_to_list(emails: typing.Optional[EMAIL_ITERABLE_ALIAS] = None) -> typi
 
 
 def check_is_email(email: str):
+    # TODO: Validate valid emails here - easier said than done me thinks;
     ...
 
 
 def unpack_recipients_from_csv(recipient_or_path: str) -> typing.List[str]:
-    # TODO: Validate valid emails here - easier said than done me thinks;
     results = []
     recipient_or_path = recipient_or_path.strip()
     path = pathlib.Path(recipient_or_path)

@@ -27,6 +27,7 @@ pytest-cov = "^3.0.0"
 mkdocs = "^1.2.3"
 mkdocs-material = "^8.0.5"
 mkdocstrings = "^0.16.2"
+Pillow = "^8.4.0"
 
 
 [tool.isort]

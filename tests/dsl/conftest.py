@@ -1,4 +1,5 @@
 import pytest
+from PIL import Image
 
 
 @pytest.fixture()
@@ -12,3 +13,11 @@ def render_checker():
         return list(map(str.strip, output.splitlines()))
 
     return parse
+
+
+@pytest.fixture
+def png_path(tmp_path):
+    image = Image.new("RGB", (800, 1280), (255, 255, 255))
+    path = f"{tmp_path}/image.png"
+    image.save(path, "PNG")
+    return path
