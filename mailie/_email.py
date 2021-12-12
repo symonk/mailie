@@ -27,11 +27,20 @@ class Email:
 
         :param policy: (Optional) ...
 
-        :param cc: (Optional) ...
+        :param cc: (Optional) A single email address (string) or an iterable of email addresses. In both cases the
+        emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible
+        to each other; in order to include a hidden recipient, opt for `bcc=...` instead.  CC recipients are
+        handled via a `CC` header and are also added to to_addrs and bcc during the SMTP conversation.
 
-        :param bcc: (Optional) ...
-                :: adding bcc explicitly in headers is acceptable as when sending they will not be visible.
-                :: Prefer bcc=[..., ...] tho over a header encompassing bcc.
+        Including arbitrary headers for CC is not advised as this is handled internally by the Email instance.
+
+        :param bcc: (Optional) A single email address (string) or an iterable of email addresses. In both cases
+        the emails are converted to a list of distinct addresses.  In older versions of python email handling
+        via a BCC header revealed recipients, but is however fixed using send_message(...).  However mailie will
+        not include a `BCC` header in the email regardless and all to_addrs; cc + bcc addresses will be compressed
+        into a single iterable when having the SMTP conversation.
+
+        Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.
 
         :param subject: (Optional) ...
 
