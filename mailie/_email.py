@@ -68,11 +68,26 @@ class Email:
 
         :param charset: (Optional) ...
 
-        :param headers: (Optional) ...
+        :param headers: (Optional) A list of either strings which are rfc-2822 compliant (name:value) or a
+        list of `EmailHeader`.  In the event that strings are present in the iterable dataset, they are
+        converted to `EmailHeader` instances internally.  All headers are then assigned onto the delegate
+        EmailMessage prior to sending.
 
         :param attachments: (Optional) ...
 
-        :param save_as_eml: (Default: False) ...
+        :param hooks: (Optional) A mapping of callable instances for executing user defined code at various
+        stages of the SMTP flow.  Currently the following hooks are supported:
+            :: 'post' - Invoked after sending the email (successfully).
+            This permits user defined code to hook and handle post processing before exiting.  Some useful
+            examples of these hooks could be to write the sent email to .eml, or update some other system.
+            Callables set for 'post' should adhere to the following interface:
+
+                def post(email: Email, result: Dict) -> Email:
+                    ...
+
+            `email` and `result` are automatically injected into the callable after the mail has been sent.
+            email is the instance of `Email` that was built and `result` is the dictionary of errors from
+            calling `send_message(...)` in aiosmtplib.
 
 
         Dev priorities:
@@ -101,9 +116,9 @@ class Email:
         charset: str = "utf-8",
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
         attachments: typing.Optional[typing.List[Path]] = None,
-        save_as_eml: bool = False,
         preamble: typing.Optional[str] = None,
         epilogue: typing.Optional[str] = None,
+        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
     ):
         self.delegate = EmailMessage(Policies.get(policy))
         self.from_addr = from_addr
@@ -118,7 +133,7 @@ class Email:
         self.preamble = preamble  # Todo: Implement later
         self.epilogue = epilogue  # Todo: Implement later
         self.attachments = attachments  # Todo: Implement later
-        self.save_as_eml = save_as_eml  # Todo: Implement later
+        self.hooks = hooks
         self.headers = convert_strings_to_headers(headers)
 
         # -- Delegation Specifics ---
