@@ -777,7 +777,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "f62dc17f1093b59eefdc6d86ad015cebe43f6310b1489cddf4464a5e2d975dd4"
+content-hash = "dad912f6a642ba1265f55a70072426192fbfe3711151c8966ae4e1a19fd1d6c7"
 
 [metadata.files]
 aiosmtplib = [
