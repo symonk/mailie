@@ -40,5 +40,5 @@ def plain_strategy(
     debug: int = 2,
 ):
     with smtplib.SMTP(host, port, local_hostname, timeout, source_address) as connection:
-        connection.set_debuglevel(debuglevel=2)
+        connection.set_debuglevel(debug)
         log.debug(connection.send_message(*email.smtp_arguments))
