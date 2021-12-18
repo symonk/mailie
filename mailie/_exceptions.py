@@ -1,8 +1,8 @@
 """
--- MailException
-    -- InvalidAttachmentException
-        -- NoSuchAttachment
-    -- SMTPException
+:: MailException
+    :: InvalidAttachmentException
+        :: NoSuchAttachment
+    :: SMTPException
 """
 
 

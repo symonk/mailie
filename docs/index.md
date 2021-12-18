@@ -1,17 +1,21 @@
 # Welcome to mailie's documentation
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-## Commands
+## Command Line
+...
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## DSL
+...
+
+## Email
+...
 
 ## Project layout
 
     mkdocs.yml    # The configuration file.
     docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+        index.md        # The documentation homepage.
+        email.md        # The email documentation
+        dsl.md          # DSL API
+        commandline.md  # Commandline API
+        ...             # Others TBD

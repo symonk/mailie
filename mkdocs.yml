@@ -2,5 +2,10 @@ site_name: Mailie Documentation
 site_url: https://www.google.com
 nav:
     - Home: index.md
+    - Email: email.md
 theme:
   name: material
+
+plugins:
+    - search
+    - mkdocstrings

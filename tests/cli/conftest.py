@@ -2,7 +2,7 @@ import pytest
 from click.testing import Result
 from typer.testing import CliRunner
 
-from mailie.mailie import app
+from mailie.commandline import app
 
 runner = CliRunner()
 

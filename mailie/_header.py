@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-FROM_HEADER = "From"
-SUBJECT_HEADER = "Subject"
-TO_HEADER = "To"
-
 
 class EmailHeader:
-    RFC_2822_DELIMITER = ":"
+
+    DELIMITER = ":"
 
     """
     Representation of a RCF-2822 Header field.  An email header consists of a header
@@ -19,9 +16,9 @@ class EmailHeader:
         :: reference: https://datatracker.ietf.org/doc/html/rfc2822#section-2.2
     """
 
-    def __init__(self, field_name: str, value: str):
+    def __init__(self, field_name: str, field_body: str):
         self.field_name = field_name
-        self.field_body = value
+        self.field_body = field_body
 
     def __iter__(self):
         return iter((self.field_name, self.field_body))
@@ -31,4 +28,4 @@ class EmailHeader:
 
     @classmethod
     def from_string(cls, header: str) -> EmailHeader:
-        return cls(*header.split(cls.RFC_2822_DELIMITER))
+        return cls(*header.split(cls.DELIMITER))

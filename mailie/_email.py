@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 import logging
-import os
 import typing
 from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 
-from ._header import FROM_HEADER
-from ._header import SUBJECT_HEADER
-from ._header import TO_HEADER
-from ._policy import Policies
+from ._constants import FROM_HEADER
+from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
+from ._constants import SUBJECT_HEADER
+from ._constants import TO_HEADER
+from ._policy import policy_factory
+from ._types import EMAIL_ATTACHMENT_UNION
 from ._types import EMAIL_HEADER_ALIAS
 from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
@@ -117,12 +118,12 @@ class Email:
         html: typing.Optional[str] = None,
         charset: str = "utf-8",
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
-        attachments: typing.Optional[typing.List[typing.Union[str, "os.PathLike[str]"]]] = None,
-        preamble: typing.Optional[str] = None,
-        epilogue: typing.Optional[str] = None,
+        attachments: typing.Optional[EMAIL_ATTACHMENT_UNION] = None,
+        preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
+        epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
     ):
-        self.delegate = EmailMessage(Policies.get(policy))
+        self.delegate = EmailMessage(policy_factory(policy))
         self.from_addr = from_addr
         self.to_addrs = emails_to_list(to_addrs)
         self.cc = emails_to_list(cc)
@@ -130,11 +131,10 @@ class Email:
         self.html = html
         self.text = text
         self.charset = charset  # Todo: Where does this fit, charset of what exactly?
-        # smtp servers do not care about email headers.
         self.subject = subject
-        self.preamble = preamble  # Todo: Implement later
-        self.epilogue = epilogue  # Todo: Implement later
-        self.attachments = paths_to_attachments(attachments) if attachments else []
+        self.preamble = preamble
+        self.epilogue = epilogue
+        self.attachments = paths_to_attachments(attachments)
         self.hooks = hooks
         self.headers = convert_strings_to_headers(headers)
 
@@ -157,6 +157,7 @@ class Email:
     def smtp_recipients(self) -> typing.List[str]:
         return self.to_addrs + self.cc + self.bcc
 
+    @property
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
         return self.delegate, self.from_addr, self.smtp_recipients
 
