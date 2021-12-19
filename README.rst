@@ -1,7 +1,7 @@
 .. image:: https://img.shields.io/pypi/v/mailie.svg
         :target: https://pypi.python.org/pypi/mailie
 
-.. image:: https://symonk.github.io/mailie/
+.. image:: https://img.shields.io/badge/Documentation-Docs-brightgreen
         :target: https://symonk.github.io/mailie/
         :alt: Documentation
 
