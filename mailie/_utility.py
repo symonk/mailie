@@ -3,12 +3,12 @@ import pathlib
 import typing
 
 from ._header import EmailHeader
-from ._types import EMAIL_ATTACHMENT_UNION
+from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 from ._types import EMAIL_HEADER_ALIAS
 from ._types import EMAIL_ITERABLE_ALIAS
 
 
-def paths_to_attachments(attachment_paths: typing.Optional[EMAIL_ATTACHMENT_UNION] = None) -> typing.List[bytes]:
+def paths_to_attachments(attachment_paths: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[bytes]:
     """
     Given a list of file paths, builds a container (list) of the actual attachment files,
     ready to be attached to an email.  If attachment_paths is omitted, an empty list is

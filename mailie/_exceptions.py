@@ -1,7 +1,7 @@
 """
 :: MailException
     :: InvalidAttachmentException
-        :: NoSuchAttachment
+        :: FilePathNotAttachmentException
     :: SMTPException
 """
 
@@ -14,7 +14,7 @@ class InvalidAttachmentException(MailieException):
     """Raised when an email is provided an attachment path that is non existent or problematic"""
 
 
-class NoSuchAttachment(InvalidAttachmentException):
+class FilePathNotAttachmentException(InvalidAttachmentException):
     """Raised when the file path given for an attachment does not exist on disk"""
 
 
