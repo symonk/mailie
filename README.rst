@@ -1,3 +1,14 @@
+.. image:: https://img.shields.io/pypi/v/mailie.svg
+        :target: https://pypi.python.org/pypi/mailie
+
+.. image:: https://symonk.github.io/mailie/
+        :target: https://symonk.github.io/mailie/
+        :alt: Documentation
+
+.. image:: https://codecov.io/gh/symonk/mailie/branch/main/graph/badge.svg?token=C0R5875AU7
+    :target: https://codecov.io/gh/symonk/mailie
+
+
 Mailie
 =======
 
