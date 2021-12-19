@@ -10,7 +10,7 @@ Mailie is a multi purpose email library for python, comprised of the following:
  - :star: Load testing capabilities through async SMTP conversations.
  - :star: Extensibility and hook/plugin system.
 
------
+----
 
 ## Some of the core features of **Mailie** are:
 
@@ -25,7 +25,7 @@ Mailie is a multi purpose email library for python, comprised of the following:
  - :star2: Powerful commandline tool that utilises the underlying DSL.
  - :star2: Support for `plain`, `starTLS` and `TLS`.
 
------
+----
 
 ## Using Mailie:
 
@@ -39,4 +39,4 @@ mailie --help # to see all available options and command arg/options!
 
 Coming soon..
 
------
+----
