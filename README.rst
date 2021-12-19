@@ -2,7 +2,7 @@
 Mailie
 =======
 
-:star2: Mailie is a multi purpose email library for python, comprised of the following:
+Mailie is a multi purpose email library for python, comprised of the following:
 
 
  - A simple email DSL.
@@ -12,7 +12,7 @@ Mailie
 
 ----
 
-## :star2: Features:
+## Features:
 
 
  - `Synchronous` and `Asynchronous` SMTP clients.
@@ -27,7 +27,7 @@ Mailie
 
 ----
 
-## :star2: Using Mailie:
+## Using Mailie:
 
 ```python
 pip install mailie
