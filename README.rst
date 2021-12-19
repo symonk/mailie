@@ -25,15 +25,15 @@ Mailie is a multi purpose email library for python, comprised of the following:
 Features:
 -----------------
 
- - `Synchronous` and `Asynchronous` SMTP clients.
- - Simple `plaintext` emails.
- - Simple `multipart/alternative` emails (text/HTML etc).
- - Complex `multipart/mixed` emails.
+ - Synchronous and Asynchronous SMTP clients.
+ - Simple plaintext emails.
+ - Simple multipart/alternative emails (text/HTML etc).
+ - Complex multipart/mixed emails.
  - Powerful attachment capabilities including entire directory support and mime type resolution.
  - A simple DSL for improved readability.
- - Load testing capabilities of an `smtp server`.
+ - Load testing capabilities of an smtp server.
  - Powerful commandline tool that utilises the underlying DSL.
- - Support for `plain`, `starTLS` and `TLS`.
+ - Support for plain, startTLS and TLS.
 
 ----
 
@@ -41,6 +41,7 @@ Using Mailie:
 -----------------
 
 Mailie can be installed via:
+
 
     .. code-block:: console
         pip install mailie
