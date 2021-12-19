@@ -154,6 +154,9 @@ class Email:
         self.headers = convert_strings_to_headers(headers)
         self.attachments = attachment_strategy(attachments_path)  # type: ignore [call-arg]
 
+        for attachment in self.attachments:
+            self.add_attachment(attachment)
+
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
@@ -183,6 +186,11 @@ class Email:
 
     def add_header(self, name: str, value: typing.Any, **params) -> Email:
         self.delegate.add_header(name, value, **params)
+        return self
+
+    def add_attachment(self, attachment: FileAttachment) -> Email:
+        main, sub = attachment.mime_types
+        self.delegate.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.file_name)
         return self
 
     def get_content_type(self) -> str:

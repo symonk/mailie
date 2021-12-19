@@ -1,3 +1,4 @@
+import mimetypes
 import os
 import pathlib
 import typing
@@ -10,8 +11,21 @@ from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 
 @dataclass(repr=True, frozen=True, eq=True)
 class FileAttachment:
-    def __init__(self) -> None:
-        ...
+    file_path: pathlib.Path
+    file_name: str
+    file_extension: str
+    data: bytes
+
+    @property
+    def mime_types(self) -> typing.List[str]:
+        """
+        Attempts to resolve the main type and sub type of the file.  In the event that python cannot
+        determine what it is; an application/octet-stream will be used.
+        """
+        c_type, encoding = mimetypes.guess_type(self.file_path)
+        if c_type is None or encoding is not None:
+            c_type = "application/octet-stream"  # Use a bag of bits as a fallback.
+        return c_type.split("/", 1)
 
 
 class AttachmentStrategy:
@@ -41,16 +55,13 @@ class AttachmentStrategy:
         paths = path if not isinstance(path, (str, os.PathLike)) else [path]
         for p in paths:
             p = pathlib.Path(p)
-            if p.is_dir():
-                # Convert all files in the directory to `FileAttachment`
-                dir_files = list(p.iterdir())
-                if not dir_files:
-                    raise EmptyAttachmentFolderException(f"Directory: {p} does not contain any files")
-                files.extend(map(lambda f: self._generate_file_attachment(f), p.iterdir()))
-                continue
-            elif p.is_file():
-                # Convert the file into a `FileAttachment`
+            if p.is_file():
                 files.append(self._generate_file_attachment(p))
+            elif p.is_dir():
+                potential_files = [p2 for p2 in p.iterdir() if not p.is_dir()]
+                if not potential_files:
+                    raise EmptyAttachmentFolderException(f"Directory: {p} does not contain any suitable files")
+                files.extend(map(lambda f: self._generate_file_attachment(f), potential_files))
             else:
                 raise FilePathNotAttachmentException(f"path: {p} was not a directory or file.")
         return files
@@ -61,5 +72,10 @@ class AttachmentStrategy:
         Given the `pathlib.Path` to a valid file on disk, build it into a `FileAttachment` instance
         and return it.
         """
-        f = FileAttachment()
-        return f
+        with open(path, "rb") as binary:
+            return FileAttachment(
+                file_path=path,
+                file_name=path.stem,
+                file_extension=path.suffix,  # Todo: what about multiple extension files?
+                data=binary.read(),
+            )
