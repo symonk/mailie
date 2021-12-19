@@ -4,6 +4,7 @@ Mailie
 
 Mailie is a multi purpose email library for python, comprised of the following:
 
+
  - :star: A simple email DSL.
  - :star: A powerful command line tool.
  - :star: Load testing capabilities through async SMTP conversations.
@@ -12,6 +13,7 @@ Mailie is a multi purpose email library for python, comprised of the following:
 -----
 
 ## Some of the core features of **Mailie** are:
+
 
  - :star2: `Synchronous` and `Asynchronous` SMTP clients.
  - :star2: Simple `plaintext` emails.
