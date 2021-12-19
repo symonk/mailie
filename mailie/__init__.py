@@ -6,6 +6,11 @@ from ._attachments import FileAttachment
 from ._dispatching import ASyncSMTPClient
 from ._dispatching import SMTPClient
 from ._email import Email
+from ._exceptions import EmptyAttachmentFolderException
+from ._exceptions import FilePathNotAttachmentException
+from ._exceptions import InvalidAttachmentException
+from ._exceptions import MailieException
+from ._exceptions import SMTPException
 from ._header import EmailHeader
 from ._policy import POLICIES
 from ._senders import MailSender
@@ -27,4 +32,9 @@ __all__ = [
     "FileAttachment",
     "AttachmentStrategy",
     "MailSender",
+    "EmptyAttachmentFolderException",
+    "InvalidAttachmentException",
+    "MailieException",
+    "FilePathNotAttachmentException",
+    "SMTPException",
 ]
