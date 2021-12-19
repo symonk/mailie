@@ -40,6 +40,8 @@ Features:
 Using Mailie:
 -----------------
 
+Mailie can be installed via:
+
     .. code-block:: console
         pip install mailie
         mailie --help # to see all available options and command arg/options!
@@ -50,5 +52,3 @@ Contributing to Mailie:
 -----------------
 
 Coming soon..
-
-----
