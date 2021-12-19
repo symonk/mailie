@@ -3,25 +3,8 @@ import pathlib
 import typing
 
 from ._header import EmailHeader
-from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 from ._types import EMAIL_HEADER_ALIAS
 from ._types import EMAIL_ITERABLE_ALIAS
-
-
-def paths_to_attachments(attachment_paths: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[bytes]:
-    """
-    Given a list of file paths, builds a container (list) of the actual attachment files,
-    ready to be attached to an email.  If attachment_paths is omitted, an empty list is
-    returned.  If a directory path is provided all files in the given directory are treated
-    as attachments otherwise the explicit paths provided will each be iterated and attached.
-    If any of the paths in the list provided are infact folders; all files inside those folders
-    will also be checked for any attachments and all will be included.
-    #  Todo: Encapsulate an attachment?
-    #  Todo: Where does inline & content disposition fit into this API.
-    """
-    if not attachment_paths:
-        return []
-    return []  # Todo: implement later.
 
 
 def convert_strings_to_headers(headers: typing.Optional[EMAIL_HEADER_ALIAS] = None):

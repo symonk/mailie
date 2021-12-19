@@ -5,20 +5,17 @@ import typing
 from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 
-from ._attachments import Attachable
-from ._attachments import AttachmentBuilder
+from ._attachments import AttachmentStrategy
 from ._attachments import FileAttachment  # noqa
 from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
 from ._constants import SUBJECT_HEADER
 from ._constants import TO_HEADER
 from ._policy import policy_factory
-from ._types import EMAIL_ATTACHMENT_FILTER_ALIAS
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 from ._types import EMAIL_HEADER_ALIAS
 from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
-from ._utility import paths_to_attachments
 
 log = logging.getLogger(__name__)
 
@@ -87,16 +84,13 @@ class Email:
         paths (string or PathLike).  Additionally it can accept the path to a directory in which case
         all files located in that directory will be considered for attachments.
 
-        :param attachments_path_filter: (Optional) Either a String or regular expression pattern to apply
-        to the attachments found after processing the `attachments_path`.  The filter is one of an
-        inclusive nature; so only files which match against the provided pattern will be included.
-        if attachments_filter is omitted; all files in the directory will be attached; attachments_filter.
-
-        :param attachment_factory: A class which implements the `mailie.Attachable` interface.  This class
+        :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
         can be provided by the user at runtime in order implement a customised attachment lookup and attachment
         process.  If omitted; the run will utilise the `mailie.AttachmentBuilder` class.  The user defined
         instance will be instantiated with the path(s) and `.generate()` will be called, it should adhere to
         the interface and return an iterable of `mailie.FileAttachment` instances.
+
+        # TODO: Where do inline attachments fit in here?
 
         # TODO: Move hooks into the SMTPClient's and out of Email.
         :param hooks: (Optional) A mapping of callable instances for executing user defined code at various
@@ -138,8 +132,9 @@ class Email:
         charset: str = "utf-8",
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
         attachments_path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
-        attachment_factory: typing.Type[Attachable] = AttachmentBuilder,
-        attachments_path_filter: typing.Optional[EMAIL_ATTACHMENT_FILTER_ALIAS] = None,
+        attachment_strategy: typing.Callable[
+            [typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS]], typing.Iterable[FileAttachment]
+        ] = AttachmentStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
@@ -155,9 +150,9 @@ class Email:
         self.subject = subject
         self.preamble = preamble
         self.epilogue = epilogue
-        self.attachments = paths_to_attachments(attachments_path)
         self.hooks = hooks
         self.headers = convert_strings_to_headers(headers)
+        self.attachments = attachment_strategy(attachments_path)  # type: ignore [call-arg]
 
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)

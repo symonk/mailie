@@ -1,8 +1,7 @@
 import importlib
 import logging
 
-from ._attachments import Attachable
-from ._attachments import AttachmentBuilder
+from ._attachments import AttachmentStrategy
 from ._attachments import FileAttachment
 from ._dispatching import ASyncSMTPClient
 from ._dispatching import SMTPClient
@@ -26,7 +25,6 @@ __all__ = [
     "SMTPClient",
     "ASyncSMTPClient",
     "FileAttachment",
-    "AttachmentBuilder",
-    "Attachable",
+    "AttachmentStrategy",
     "MailSender",
 ]
