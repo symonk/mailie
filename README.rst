@@ -2,7 +2,7 @@
 Mailie
 =======
 
-Mailie is a multi purpose email library for python, comprised of the following:
+:star2: Mailie is a multi purpose email library for python, comprised of the following:
 
 
  - A simple email DSL.
@@ -12,22 +12,22 @@ Mailie is a multi purpose email library for python, comprised of the following:
 
 ----
 
-## Some of the core features of **Mailie** are:
+## :star2: Features:
 
 
- - :star2: `Synchronous` and `Asynchronous` SMTP clients.
- - :star2: Simple `plaintext` emails.
- - :star2: Simple `multipart/alternative` emails (text/HTML etc).
- - :star2: Complex `multipart/mixed` emails.
- - :star2: Powerful attachment capabilities including entire directory support and mime type resolution.
- - :star2: A simple DSL for improved readability.
- - :star2: Load testing capabilities of an `smtp server`.
- - :star2: Powerful commandline tool that utilises the underlying DSL.
- - :star2: Support for `plain`, `starTLS` and `TLS`.
+ - `Synchronous` and `Asynchronous` SMTP clients.
+ - Simple `plaintext` emails.
+ - Simple `multipart/alternative` emails (text/HTML etc).
+ - Complex `multipart/mixed` emails.
+ - Powerful attachment capabilities including entire directory support and mime type resolution.
+ - A simple DSL for improved readability.
+ - Load testing capabilities of an `smtp server`.
+ - Powerful commandline tool that utilises the underlying DSL.
+ - Support for `plain`, `starTLS` and `TLS`.
 
 ----
 
-## Using Mailie:
+## :star2: Using Mailie:
 
 ```python
 pip install mailie
@@ -35,7 +35,7 @@ mailie --help # to see all available options and command arg/options!
 ```
 -----
 
-## Contributing to Mailie:
+## :star2: Contributing to Mailie:
 
 Coming soon..
 
