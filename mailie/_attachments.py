@@ -75,7 +75,7 @@ class AttachmentStrategy:
         with open(path, "rb") as binary:
             return FileAttachment(
                 file_path=path,
-                file_name=path.stem,
+                file_name=path.name,
                 file_extension=path.suffix,  # Todo: what about multiple extension files?
                 data=binary.read(),
             )

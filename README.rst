@@ -40,10 +40,10 @@ Features:
 Using Mailie:
 -----------------
 
-```python
-pip install mailie
-mailie --help # to see all available options and command arg/options!
-```
+.. code-block:: console
+    pip install mailie
+    mailie --help # to see all available options and command arg/options!
+
 -----
 
 Contributing to Mailie:
