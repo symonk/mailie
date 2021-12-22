@@ -154,9 +154,6 @@ class Email:
         self.headers = convert_strings_to_headers(headers)
         self.attachments = attachment_strategy(attachments_path)  # type: ignore [call-arg]
 
-        for attachment in self.attachments:
-            self.add_attachment(attachment)
-
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
@@ -168,6 +165,10 @@ class Email:
             # html content provided; convert to multipart/alternative
             # Rendering is client specific here and mileage may vary on delivery.
             self.delegate.add_alternative(self.html, subtype="html")
+            
+        # after setting plaintext content for multipart type handling.
+        for attachment in self.attachments:
+            self.add_attachment(attachment)
 
         for header in self.headers:
             self.add_header(header.field_name, header.field_body)
