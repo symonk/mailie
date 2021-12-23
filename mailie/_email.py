@@ -79,34 +79,20 @@ class Email:
         converted to `EmailHeader` instances internally.  All headers are then assigned onto the delegate
         EmailMessage prior to sending.
 
-        :param attachments_path: (Optional) attachments path can support attaching files from the local
+        :param attachments: (Optional) attachments path can support attaching files from the local
         file system to the email.  It can accept a single path (string or PathLike) or an iterable of
         paths (string or PathLike).  Additionally it can accept the path to a directory in which case
         all files located in that directory will be considered for attachments.
+
+        :param inline_attachments: (Optional) can support attaching files from the local file system
+        to the email in the message body directly (inline).  If not `html=` content is provided an
+        empty body containing the inline attachment(s) will be created.
 
         :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
         can be provided by the user at runtime in order implement a customised attachment lookup and attachment
         process.  If omitted; the run will utilise the `mailie.AttachmentBuilder` class.  The user defined
         instance will be instantiated with the path(s) and `.generate()` will be called, it should adhere to
         the interface and return an iterable of `mailie.FileAttachment` instances.
-
-        # TODO: Where do inline attachments fit in here?
-
-        # TODO: Move hooks into the SMTPClient's and out of Email.
-        :param hooks: (Optional) A mapping of callable instances for executing user defined code at various
-        stages of the SMTP flow.  Currently the following hooks are supported:
-            :: 'post' - Invoked after sending the email (successfully).
-            This permits user defined code to hook and handle post processing before exiting.  Some useful
-            examples of these hooks could be to write the sent email to .eml, or update some other system.
-            Callables set for 'post' should adhere to the following interface:
-
-                def post(email: Email, result: Dict) -> Email:
-                    ...
-
-            `email` and `result` are automatically injected into the callable after the mail has been sent.
-            email is the instance of `Email` that was built and `result` is the dictionary of errors from
-            calling `send_message(...)` in aiosmtplib.
-
 
         Dev priorities:
             :: Complete delegation
@@ -131,13 +117,13 @@ class Email:
         html: typing.Optional[str] = None,
         charset: str = "utf-8",
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
-        attachments_path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
+        attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
+        inline_attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
         attachment_strategy: typing.Callable[
             [typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS]], typing.Iterable[FileAttachment]
         ] = AttachmentStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
-        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
     ):
         self.delegate = EmailMessage(policy_factory(policy))
         self.from_addr = from_addr
@@ -150,9 +136,9 @@ class Email:
         self.subject = subject
         self.preamble = preamble
         self.epilogue = epilogue
-        self.hooks = hooks
         self.headers = convert_strings_to_headers(headers)
-        self.attachments = attachment_strategy(attachments_path)  # type: ignore [call-arg]
+        self.attachments = attachment_strategy(attachments)  # type: ignore [call-arg]
+        self.inline_attachments = attachment_strategy(inline_attachments)
 
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
@@ -161,14 +147,18 @@ class Email:
 
         # Text provided; set the text/plain content
         self.delegate.set_content(self.text, subtype="plain")
+        html = "" if html is None and inline_attachments else None
         if html:
             # html content provided; convert to multipart/alternative
             # Rendering is client specific here and mileage may vary on delivery.
             self.delegate.add_alternative(self.html, subtype="html")
-            
+
         # after setting plaintext content for multipart type handling.
         for attachment in self.attachments:
             self.add_attachment(attachment)
+
+        for attachment in self.inline_attachments:
+            self.delegate.add_related()
 
         for header in self.headers:
             self.add_header(header.field_name, header.field_body)

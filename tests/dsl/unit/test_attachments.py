@@ -7,15 +7,14 @@ from mailie import FilePathNotAttachmentException
 
 def test_attachments_empty_directory(tmp_path) -> None:
     with pytest.raises(EmptyAttachmentFolderException):
-        Email(from_addr="foo@bar.com", to_addrs="hi@bye.com", attachments_path=tmp_path)
+        Email(from_addr="foo@bar.com", to_addrs="hi@bye.com", attachments=tmp_path)
 
 
 def test_madeup_directory() -> None:
     with pytest.raises(FilePathNotAttachmentException) as exc:
-        Email(from_addr="foo@bar.com", to_addrs="hi@bye.com", attachments_path="foo/bar/bin/baz/")
+        Email(from_addr="foo@bar.com", to_addrs="hi@bye.com", attachments="foo/bar/bin/baz/")
     assert exc.value.args[0] == "path: foo/bar/bin/baz was not a directory or file."
 
 
-@pytest.mark.skip(reason="Skipping for now until attachment functionality is further on")
 def test_single_attachment(png_path) -> None:
-    Email(from_addr="foo@bar.com", to_addrs="hi@bye.com", attachments_path=png_path)
+    Email(from_addr="foo@bar.com", to_addrs="hi@bye.com", attachments=png_path)
