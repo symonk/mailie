@@ -2,6 +2,7 @@ import typing
 
 import typer
 
+from mailie import HtmlContent
 from mailie import version
 
 from ._email import Email
@@ -101,7 +102,7 @@ def mail(
         to_addrs=to_addrs,
         cc=cc,
         bcc=bcc,
-        html=html,
+        html=HtmlContent(html),
         policy=policy,
         text=message,
         subject=subject,

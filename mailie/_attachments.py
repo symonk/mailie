@@ -79,3 +79,24 @@ class AttachmentStrategy:
                 file_extension=path.suffix,  # Todo: what about multiple extension files?
                 data=binary.read(),
             )
+
+
+class HtmlContent:
+    def __init__(
+        self,
+        content: str,
+        inline: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
+        attachment_strategy: typing.Optional[AttachmentStrategy] = None,
+    ) -> None:
+        self.content = content
+        self.inline_paths = inline
+        self.attachment_strategy = attachment_strategy or AttachmentStrategy()
+
+    def __iter__(self):
+        return iter((self.content, self.inline_paths))
+
+    def __format__(self, format_spec) -> str:
+        if not self.inline_paths:
+            return self.content
+        _ = self.attachment_strategy(self.inline_paths)
+        return self.content

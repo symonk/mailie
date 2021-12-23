@@ -7,10 +7,13 @@ from email.message import EmailMessage
 
 from ._attachments import AttachmentStrategy
 from ._attachments import FileAttachment  # noqa
+from ._attachments import HtmlContent
 from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
+from ._constants import POLICY_DEFAULT
 from ._constants import SUBJECT_HEADER
 from ._constants import TO_HEADER
+from ._constants import UTF_8
 from ._policy import policy_factory
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 from ._types import EMAIL_HEADER_ALIAS
@@ -66,7 +69,14 @@ class Email:
         By default, an empty body will be created.  For simple plaintext mails, text= is the only data
         necessary, however for more multipart variants html & attachments  can be provided.
 
-        :param html: (Optional) A string of html content to include in the payload (body) of the email.
+        :param html: (Optional) A tuple of either length 1 or 2.  If the tuple is a single element
+        then the value is considered the HTML content in it's unformatted, raw form.  An optional
+        iterable of attachment paths can be provided; these will be have CID's generated implicitly
+        and be formatted into the html content provided in the order in which they are provided.
+        For that reason, a tuple is preferred; using a set cannot guarantee the CID for img src
+        tags in the html template post-format processing.
+
+        A string of html content to include in the payload (body) of the email.
         By default, html is omitted and a simple plain text mail is built, if provided the mail is
         converted to a multipart/alternative where the payload includes both plain text and HTML content.
         Depending on the recipient(s) client, displaying of this will vary however mailie will signal
@@ -82,11 +92,9 @@ class Email:
         :param attachments: (Optional) attachments path can support attaching files from the local
         file system to the email.  It can accept a single path (string or PathLike) or an iterable of
         paths (string or PathLike).  Additionally it can accept the path to a directory in which case
-        all files located in that directory will be considered for attachments.
-
-        :param inline_attachments: (Optional) can support attaching files from the local file system
-        to the email in the message body directly (inline).  If not `html=` content is provided an
-        empty body containing the inline attachment(s) will be created.
+        all files located in that directory will be considered for attachments.  These attachments are
+        NOT inline attachments; to provide inline attachments for the alternative body; pass a 2 length
+        tuple to html=(..., ...).
 
         :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
         can be provided by the user at runtime in order implement a customised attachment lookup and attachment
@@ -102,6 +110,7 @@ class Email:
             :: Use the data model for header indexing etc?
             :: Implement factory pattern properly; rejig `Email` defaults`
             :: Revisit logging, debugging etc
+            :: TONS OF WORK HERE; delegation is a bit of a mess, recursion of messages etc!
     """
 
     def __init__(
@@ -109,16 +118,15 @@ class Email:
         *,
         from_addr: str,
         to_addrs: typing.Union[typing.List[str], str],
-        policy: str = "default",
+        policy: str = POLICY_DEFAULT,
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
         subject: str = "",
         text: str = "",
-        html: typing.Optional[str] = None,
-        charset: str = "utf-8",
+        html: typing.Optional[HtmlContent] = None,
+        charset: str = UTF_8,
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
-        inline_attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
         attachment_strategy: typing.Callable[
             [typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS]], typing.Iterable[FileAttachment]
         ] = AttachmentStrategy(),
@@ -138,7 +146,6 @@ class Email:
         self.epilogue = epilogue
         self.headers = convert_strings_to_headers(headers)
         self.attachments = attachment_strategy(attachments)  # type: ignore [call-arg]
-        self.inline_attachments = attachment_strategy(inline_attachments)
 
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
@@ -147,18 +154,15 @@ class Email:
 
         # Text provided; set the text/plain content
         self.delegate.set_content(self.text, subtype="plain")
-        html = "" if html is None and inline_attachments else None
-        if html:
-            # html content provided; convert to multipart/alternative
-            # Rendering is client specific here and mileage may vary on delivery.
-            self.delegate.add_alternative(self.html, subtype="html")
 
-        # after setting plaintext content for multipart type handling.
+        if self.html:
+            # multipart/alternative.
+            # May have inline attachments; this is handled by `HtmlContent` __format__.
+            self.delegate.add_alternative(format(self.html), subtype="html")
+
+        # Processing 'normal' attachments.
         for attachment in self.attachments:
             self.add_attachment(attachment)
-
-        for attachment in self.inline_attachments:
-            self.delegate.add_related()
 
         for header in self.headers:
             self.add_header(header.field_name, header.field_body)

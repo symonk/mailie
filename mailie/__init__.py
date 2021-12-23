@@ -3,6 +3,7 @@ import logging
 
 from ._attachments import AttachmentStrategy
 from ._attachments import FileAttachment
+from ._attachments import HtmlContent
 from ._dispatching import ASyncSMTPClient
 from ._dispatching import SMTPClient
 from ._email import Email
@@ -13,7 +14,6 @@ from ._exceptions import MailieException
 from ._exceptions import SMTPException
 from ._header import EmailHeader
 from ._policy import POLICIES
-from ._senders import MailSender
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -31,7 +31,7 @@ __all__ = [
     "ASyncSMTPClient",
     "FileAttachment",
     "AttachmentStrategy",
-    "MailSender",
+    "HtmlContent",
     "EmptyAttachmentFolderException",
     "InvalidAttachmentException",
     "MailieException",
