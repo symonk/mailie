@@ -34,4 +34,6 @@ jobs:
         poetry --version
     - name: Execute tests
       run: |
-        tox -v
+        tox -e clean
+        tox -e py38
+        tox -e codecov
