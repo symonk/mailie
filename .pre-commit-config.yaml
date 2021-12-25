@@ -1,7 +1,7 @@
 exclude: ^(.tox|doc|ci/templates|)(/|$)
 repos:
   - repo: https://github.com/ambv/black
-    rev: f0a99f640279adade284eba592630c67ad374574
+    rev: 092959ff1f9253347b01eeb2d6d72e15bad7e25a
     hooks:
       - id: black
         args:
@@ -10,7 +10,7 @@ repos:
           - '--line-length=120'
         language_version: python3.8
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 714bb60f152bf112606077a8b96724079ebd9296
+    rev: v4.1.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -30,7 +30,7 @@ repos:
       - id: mypy
         files: mailie/
   - repo: https://github.com/PyCQA/flake8
-    rev: f7a86ca04b57b8a3bb71549d41ffc560ad5ce482
+    rev: 38c5eceda9af17996601672651668e94a6f35e6a
     hooks:
       - id: flake8
         args: ["--max-line-length=120"]

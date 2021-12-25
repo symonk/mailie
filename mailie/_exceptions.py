@@ -24,3 +24,7 @@ class EmptyAttachmentFolderException(InvalidAttachmentException):
 
 class SMTPException(MailieException):
     """Raised when an exception occurs during the SMTP conversation with the smtp server"""
+
+
+class StartTLSNotSupportedException(SMTPException):
+    """Raised when starttls() fails for the smtp connection as the server does not support the extension"""
