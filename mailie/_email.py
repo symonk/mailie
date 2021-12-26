@@ -185,7 +185,7 @@ class Email:
 
     def add_attachment(self, attachment: FileAttachment) -> Email:
         main, sub = attachment.mime_types
-        self.delegate.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.file_name)
+        self.delegate.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
         return self
 
     def get_content_type(self) -> str:

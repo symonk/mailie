@@ -11,9 +11,9 @@ from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 
 @dataclass(repr=True, frozen=True, eq=True)
 class FileAttachment:
-    file_path: pathlib.Path
-    file_name: str
-    file_extension: str
+    path: pathlib.Path
+    name: str
+    extension: str
     data: bytes
 
     @property
@@ -22,7 +22,7 @@ class FileAttachment:
         Attempts to resolve the main type and sub type of the file.  In the event that python cannot
         determine what it is; an application/octet-stream will be used.
         """
-        c_type, encoding = mimetypes.guess_type(self.file_path)
+        c_type, encoding = mimetypes.guess_type(self.path)
         if c_type is None or encoding is not None:
             c_type = "application/octet-stream"  # Use a bag of bits as a fallback.
         return c_type.split("/", 1)
@@ -39,32 +39,40 @@ class AttachmentStrategy:
         """
         Accepts an iterable of string or PathLike, or a singular str or PathLike.  If a single element is provided
         it is converted into a list of length 1.  A rough overview of this functionality is outlined:
-
-            :: If path is None, en empty list is returned.
-            :: If path is a single string or PathLike
-                :: If `path` is a folder, grab all the files in that directory and build them into `FileAttachment`s.
-                :: Else the file path is converted into a list [path]
-            :: For each path in the paths list
-                :: If `path` is a folder, grab all the files in that directory and build them into `FileAttachment`s.
-                :: If `path` is a singular file, grab the file and build it into a `FileAttachment`
         """
-        files: typing.List[FileAttachment] = []
         if path is None:
-            return files
+            return []
+        paths = [pathlib.Path(p) for p in path] if not isinstance(path, (str, os.PathLike)) else [pathlib.Path(path)]
+        return self._squash(paths)
 
-        paths = path if not isinstance(path, (str, os.PathLike)) else [path]
-        for p in paths:
-            p = pathlib.Path(p)
-            if p.is_file():
-                files.append(self._generate_file_attachment(p))
-            elif p.is_dir():
-                potential_files = [p2 for p2 in p.iterdir() if not p.is_dir()]
-                if not potential_files:
-                    raise EmptyAttachmentFolderException(f"Directory: {p} does not contain any suitable files")
-                files.extend(map(lambda f: self._generate_file_attachment(f), potential_files))
+    def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
+        """
+        Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
+        with appropriate exception handling.  Firstly each path is checked for a directory, if so
+        then all files in that directory are generated as individual attachments.  If the path is
+        a file, then it is generated as an attachment.  At present only files inside directories
+        are generated, recursively looking in sub folders it not (yet) supported.
+
+            :: If the path is a directory
+                :: Find all files in the directory and generate attachments (raises if there are no files)
+            :: If the path is a file
+                :: Generate a `FileAttachment` for the file
+                :: If the path provided is not a file, raises an exception
+        """
+        attachments = []
+        for path in paths:
+            if path.is_dir():
+                non_recursive_files = [sub_path for sub_path in path.iterdir() if not sub_path.is_dir()]
+                if not non_recursive_files:
+                    raise EmptyAttachmentFolderException(
+                        f"Directory: {path} does not contain any suitable files"
+                    ) from None
+                attachments.extend([self._generate_file_attachment(f) for f in non_recursive_files])
+            elif path.is_file():
+                attachments.append(self._generate_file_attachment(path))
             else:
-                raise FilePathNotAttachmentException(f"path: {p} was not a directory or file.")
-        return files
+                raise FilePathNotAttachmentException(f"path: {path} was not a directory or file.") from None
+        return attachments
 
     @staticmethod
     def _generate_file_attachment(path: pathlib.Path) -> FileAttachment:
@@ -74,9 +82,9 @@ class AttachmentStrategy:
         """
         with open(path, "rb") as binary:
             return FileAttachment(
-                file_path=path,
-                file_name=path.name,
-                file_extension=path.suffix,  # Todo: what about multiple extension files?
+                path=path,
+                name=path.name,
+                extension=path.suffix,  # Todo: what about multiple extension files?
                 data=binary.read(),
             )
 
