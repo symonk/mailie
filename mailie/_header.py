@@ -6,7 +6,7 @@ class EmailHeader:
     DELIMITER = ":"
 
     """
-    Representation of a RCF-2822 Header field.  An email header consists of a header
+    Representation of a RFC-2822 Header field.  An email header consists of a header
     field, followed by a colon and finally the field body which is then terminated
     by a carriage return and line feed (CRLF).  Characters in the field name must
     be composed of only US-ASCII characters (code points between 33 & 126).  Colon
@@ -24,7 +24,7 @@ class EmailHeader:
         return iter((self.field_name, self.field_body))
 
     def __repr__(self) -> str:
-        return f"Header=(field_name={self.field_name}, value={self.field_body})"
+        return f"Header=(field_name={self.field_name}, field_body={self.field_body})"
 
     @classmethod
     def from_string(cls, header: str) -> EmailHeader:
