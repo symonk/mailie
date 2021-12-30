@@ -4,9 +4,9 @@ import typer
 
 from mailie import version
 
-from ._email import Email
-from ._header import EmailHeader
-from ._utility import unpack_recipients_from_csv
+from .._email import Email
+from .._header import EmailHeader
+from .._utility import unpack_recipients_from_csv
 
 app = typer.Typer(name="mail")
 
