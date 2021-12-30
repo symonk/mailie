@@ -46,6 +46,7 @@ Mailie can be installed via:
 
 pip install mailie
 mailie --help # for options
+
 ```
 
 -----
