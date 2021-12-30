@@ -3,8 +3,8 @@ import logging
 
 from ._attachments import Attachable
 from ._attachments import FileAttachment
-from ._dispatching import AsyncSMTPClient
-from ._dispatching import SMTPClient
+from ._client import AsyncSMTPClient
+from ._client import SMTPClient
 from ._email import Email
 from ._exceptions import EmptyAttachmentFolderException
 from ._exceptions import FilePathNotAttachmentException
