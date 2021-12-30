@@ -10,7 +10,7 @@ authors = ["symonk <jackofspaces@gmail.com>"]
 readme = "README.rst"
 
 [tool.poetry.scripts]
-mailie = "mailie.commandline.commandline:app"
+mailie = "mailie.commandline.cli:app"
 
 [tool.poetry.dependencies]
 python = "^3.8"
