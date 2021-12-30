@@ -9,6 +9,13 @@ from ._exceptions import FilePathNotAttachmentException
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 
 
+@typing.runtime_checkable
+class Attachable(typing.Protocol):
+    
+    def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
+        raise NotImplementedError
+    
+
 @dataclass(repr=True, frozen=True, eq=True)
 class FileAttachment:
     path: pathlib.Path
@@ -26,16 +33,16 @@ class FileAttachment:
         if c_type is None or encoding is not None:
             c_type = "application/octet-stream"  # Use a bag of bits as a fallback.
         return c_type.split("/", 1)
-
-
-class AttachmentStrategy:
+    
+    
+class AllFilesStrategy(Attachable):
     """
     A simple strategy for finding attachments.  This strategy is NOT recursive; only files found in the
     explicitly defined path directory will be considered (if the path is a dir and not an explicit file path).
     To recursively find all files in sub-folders; consider writing your own strategy.
     """
-
-    def __call__(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
+    
+    def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
         """
         Accepts an iterable of string or PathLike, or a singular str or PathLike.  If a single element is provided
         it is converted into a list of length 1.  A rough overview of this functionality is outlined:
@@ -44,8 +51,8 @@ class AttachmentStrategy:
             return []
         paths = [pathlib.Path(p) for p in path] if not isinstance(path, (str, os.PathLike)) else [pathlib.Path(path)]
         return self._squash(paths)
-
-    def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
+    
+        def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
         """
         Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
         with appropriate exception handling.  Firstly each path is checked for a directory, if so
@@ -87,24 +94,41 @@ class AttachmentStrategy:
                 extension=path.suffix,  # Todo: what about multiple extension files?
                 data=binary.read(),
             )
+        
+class AsyncAllFilesStrategy(AllFilesBase, Attachable):
+    
+    def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
+        """
+        Accepts an iterable of string or PathLike, or a singular str or PathLike.  If a single element is provided
+        it is converted into a list of length 1.  A rough overview of this functionality is outlined:
+        """
+        # Todo: Async implementation
+        ...
+    
+        def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
+        """
+        Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
+        with appropriate exception handling.  Firstly each path is checked for a directory, if so
+        then all files in that directory are generated as individual attachments.  If the path is
+        a file, then it is generated as an attachment.  At present only files inside directories
+        are generated, recursively looking in sub folders it not (yet) supported.
 
-
-class HtmlContent:
-    def __init__(
-        self,
-        content: str,
-        inline: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
-        attachment_strategy: typing.Optional[AttachmentStrategy] = None,
-    ) -> None:
-        self.content = content
-        self.inline_paths = inline
-        self.attachment_strategy = attachment_strategy or AttachmentStrategy()
-
-    def __iter__(self):
-        return iter((self.content, self.inline_paths))
-
-    def __format__(self, format_spec) -> str:
-        if not self.inline_paths:
-            return self.content
-        _ = self.attachment_strategy(self.inline_paths)
-        return self.content
+            :: If the path is a directory
+                :: Find all files in the directory and generate attachments (raises if there are no files)
+            :: If the path is a file
+                :: Generate a `FileAttachment` for the file
+                :: If the path provided is not a file, raises an exception
+        """
+        # Todo: Async implementation
+        ...
+    
+    @staticmethod
+    def _generate_file_attachment(path: pathlib.Path) -> FileAttachment:
+        """
+        Given the `pathlib.Path` to a valid file on disk, build it into a `FileAttachment` instance
+        and return it.
+        """
+        # Todo: Async implementation
+        ...
+    
+    
