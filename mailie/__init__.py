@@ -1,7 +1,7 @@
 import importlib
 import logging
 
-from ._attachments import AttachmentStrategy
+from ._attachments import Attachable
 from ._attachments import FileAttachment
 from ._attachments import HtmlContent
 from ._dispatching import AsyncSMTPClient
@@ -30,7 +30,7 @@ __all__ = [
     "SMTPClient",
     "AsyncSMTPClient",
     "FileAttachment",
-    "AttachmentStrategy",
+    "Attachable",
     "HtmlContent",
     "EmptyAttachmentFolderException",
     "InvalidAttachmentException",
