@@ -49,6 +49,7 @@ class BaseSMTPClient:
         self.debug = debug
         self.hooks = hooks
         self.auth = auth
+        self._state = ClientState.NOT_YET_OPENED
                
 
 class Client(BaseSMTPClient):
