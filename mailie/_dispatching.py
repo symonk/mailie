@@ -34,7 +34,7 @@ class BaseSMTPClient:
         *,
         host: str = "localhost",
         port: int = 25,
-        local_hostname: typing.Optional[str] = None
+        local_hostname: typing.Optional[str] = None,
         timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
