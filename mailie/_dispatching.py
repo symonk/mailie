@@ -35,7 +35,7 @@ class BaseSMTPClient:
         host: str = "localhost",
         port: int = 25,
         local_hostname: typing.Optional[str] = None
-        timeout: float = 30.00
+        timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
@@ -58,8 +58,8 @@ class Client(BaseSMTPClient):
         *,
         host: str = "localhost",
         port: int = 25,
-        local_hostname: typing.Optional[str] = None
-        timeout: float = 30.00
+        local_hostname: typing.Optional[str] = None,
+        timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
@@ -91,8 +91,8 @@ class AsyncClient(BaseSMTPClient):
         *,
         host: str = "localhost",
         port: int = 25,
-        local_hostname: typing.Optional[str] = None
-        timeout: float = 30.00
+        local_hostname: typing.Optional[str] = None,
+        timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
