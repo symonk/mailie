@@ -105,7 +105,7 @@ class AsyncAllFilesStrategy(AllFilesBase, Attachable):
         # Todo: Async implementation
         ...
     
-        def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
+    def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
         """
         Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
         with appropriate exception handling.  Firstly each path is checked for a directory, if so
