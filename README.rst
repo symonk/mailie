@@ -17,7 +17,7 @@ Mailie is a multi purpose email library for python, comprised of the following:
 
  - A simple email DSL.
  - A powerful command line tool.
- - Load testing capabilities through async SMTP conversations.
+ - Load testing capabilities via async SMTP conversations.
  - Extensibility and hook/plugin system.
 
 ----
@@ -42,14 +42,15 @@ Using Mailie:
 
 Mailie can be installed via:
 
+```console
 
-    .. code-block:: console
-        pip install mailie
-        mailie --help # to see all available options and command arg/options!
+pip install mailie
+mailie --help # for options
+```
 
 -----
 
 Contributing to Mailie:
 -----------------
 
-Coming soon..
+Todo ...
