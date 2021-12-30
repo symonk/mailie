@@ -3,7 +3,6 @@ import logging
 
 from ._attachments import Attachable
 from ._attachments import FileAttachment
-from ._attachments import HtmlContent
 from ._dispatching import AsyncSMTPClient
 from ._dispatching import SMTPClient
 from ._email import Email
@@ -31,7 +30,6 @@ __all__ = [
     "AsyncSMTPClient",
     "FileAttachment",
     "Attachable",
-    "HtmlContent",
     "EmptyAttachmentFolderException",
     "InvalidAttachmentException",
     "MailieException",
