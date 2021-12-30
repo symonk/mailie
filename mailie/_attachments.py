@@ -9,13 +9,6 @@ from ._exceptions import FilePathNotAttachmentException
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 
 
-@typing.runtime_checkable
-class Attachable(typing.Protocol):
-    
-    def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
-        raise NotImplementedError
-    
-
 @dataclass(repr=True, frozen=True, eq=True)
 class FileAttachment:
     path: pathlib.Path
@@ -33,6 +26,13 @@ class FileAttachment:
         if c_type is None or encoding is not None:
             c_type = "application/octet-stream"  # Use a bag of bits as a fallback.
         return c_type.split("/", 1)
+    
+    
+@typing.runtime_checkable
+class Attachable(typing.Protocol):
+    
+    def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
+        raise NotImplementedError
     
     
 class AllFilesStrategy(Attachable):
