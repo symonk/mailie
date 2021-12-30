@@ -44,7 +44,9 @@ Mailie can be installed via:
 
     .. code:: console
     
+    
     pip install mailie
+    
     mailie --help
 
 
