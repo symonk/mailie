@@ -44,7 +44,22 @@ class Email:
         (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
         implicitly.
 
-        :param policy: (Optional) ...
+        :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By default 
+        mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used to customise
+        the behaviour of various classes in pythons inbuilt email package.
+        
+        For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of
+        the inbuilt policies available via python email:
+            
+            :: default (uses python line endings via /n - sometimes undesirable)
+            :: SMTP (clone of default, with /r/n line endings for RFC compliance)
+            :: SMTPUTF8 (a UTF-8 equivalent of `smtp`, useful for non-ASCII in sender/recipient data)
+            :: HTTP (useful if serialising headers for HTTP traffic)
+            :: strict (clone of default, except raise_on_defect is assigned `True` to prevent silent failures)
+            
+        If omitted by client code, mailie will assume a `SMTP` strict equivalent by default.  If this is undesirable
+        pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve
+        the policy e.g `policy='SMTPUTF8'`.
 
         :param cc: (Optional) A single email address (string) or an iterable of email addresses. In both cases the
         emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible
