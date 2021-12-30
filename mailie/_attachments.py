@@ -52,7 +52,7 @@ class AllFilesStrategy(Attachable):
         paths = [pathlib.Path(p) for p in path] if not isinstance(path, (str, os.PathLike)) else [pathlib.Path(path)]
         return self._squash(paths)
     
-        def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
+    def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
         """
         Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
         with appropriate exception handling.  Firstly each path is checked for a directory, if so
@@ -95,7 +95,7 @@ class AllFilesStrategy(Attachable):
                 data=binary.read(),
             )
         
-class AsyncAllFilesStrategy(AllFilesBase, Attachable):
+class AsyncAllFilesStrategy(Attachable):
     
     def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
         """
