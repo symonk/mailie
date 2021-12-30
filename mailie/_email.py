@@ -144,7 +144,7 @@ class Email:
         charset: str = UTF_8,
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
-        attachment_strategy: Attachable = AllFilesStrategy()
+        attachment_strategy: Attachable = AllFilesStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
     ):
