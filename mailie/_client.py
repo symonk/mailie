@@ -17,7 +17,7 @@ from ._exceptions import StartTLSNotSupportedException
 log = logging.getLogger(__name__)
 
 
-@enum.unique()
+@enum.unique
 class ClientState(enum.Enum):
     NOT_YET_OPENED = 0  # The client has been instantiated but no requests have been dispatched.
     OPENED = 1  # The client is either inside the `with` context or has dispatched a request.
