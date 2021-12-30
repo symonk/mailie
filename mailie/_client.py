@@ -1,3 +1,4 @@
+import enum
 import functools
 import logging
 import smtplib
@@ -13,6 +14,13 @@ from ._exceptions import StartTLSNotSupportedException
 
 log = logging.getLogger(__name__)
 
+
+@enum.unique()
+class ClientState(enum.Enum)
+    NOT_YET_OPENED = 0  # The client has been instantiated but no requests have been dispatched.
+    OPENED = 1  # The client is either inside the `with` context or has dispatched a request.
+    CLOSED = 2  # The client has exited the `with` context or has been explicitly called `.close()`.
+    
 
 class SMTPClient:
     # Todo: How do we encapsulate sending plain vs SSL?
