@@ -15,12 +15,7 @@ def convert_strings_to_headers(headers: typing.Optional[EMAIL_HEADER_ALIAS] = No
     :param headers: (Optional) list of string headers (adhering to rfc-2822) or
     `EmailHeader` instances.  If headers is omitted, an empty list is returned.
     """
-    if headers is None:
-        return []
-    new = []
-    for header in headers:
-        new.append(header if not isinstance(header, str) else EmailHeader.from_string(header))
-    return new
+    return [header if not isinstance(header, str) else EmailHeader.from_string(header) for header in headers]
 
 
 def emails_to_list(emails: typing.Optional[EMAIL_ITERABLE_ALIAS] = None) -> typing.List[str]:
@@ -42,6 +37,14 @@ def check_is_email(email: str):
 
 
 def unpack_recipients_from_csv(recipient_or_path: str) -> typing.List[str]:
+    """
+    Given a valid path to a `.csv` file containing recipient data; parse the
+    file and generate a list of recipient email addresses.  If the recipient
+    is not a valid path, it is treated as an actual email address and added
+    to the results.
+    
+    # Todo: Treating non files as email addresses seems a little odd.
+    """
     results = []
     recipient_or_path = recipient_or_path.strip()
     path = pathlib.Path(recipient_or_path)
