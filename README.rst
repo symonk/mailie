@@ -42,12 +42,11 @@ Using Mailie:
 
 Mailie can be installed via:
 
-```console
+    .. code:: console
+    
+    pip install mailie
+    mailie --help
 
-pip install mailie
-mailie --help # for options
-
-```
 
 -----
 
