@@ -64,7 +64,7 @@ class Client(BaseSMTPClient):
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
-        auth: typing.Optional[typing.Tuple[str, str]] = None
+        auth: typing.Optional[typing.Tuple[str, str]] = None,
         use_starttls: bool = False,
         use_tls: bool = False,
         tls_context: typing.Optional[ssl.SSLContext] = None
@@ -97,7 +97,7 @@ class AsyncClient(BaseSMTPClient):
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
         hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
-        auth: typing.Optional[typing.Tuple[str, str]] = None
+        auth: typing.Optional[typing.Tuple[str, str]] = None,
         use_starttls: bool = False,
         use_tls: bool = False,
         tls_context: typing.Optional[ssl.SSLContext] = None
