@@ -5,9 +5,9 @@ import typing
 from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 
-from ._attachments import AttachmentStrategy
+from ._attachments import Attachable
+from ._attachments import AllFilesStrategy
 from ._attachments import FileAttachment  # noqa
-from ._attachments import HtmlContent
 from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
 from ._constants import POLICY_DEFAULT
@@ -113,9 +113,11 @@ class Email:
 
         :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
         can be provided by the user at runtime in order implement a customised attachment lookup and attachment
-        process.  If omitted; the run will utilise the `mailie.AttachmentBuilder` class.  The user defined
-        instance will be instantiated with the path(s) and `.generate()` will be called, it should adhere to
-        the interface and return an iterable of `mailie.FileAttachment` instances.
+        process.  If omitted mailie will use a basic file strategy that takes paths literally and creates
+        `FileAttachment` objects out of them, if a directory is provided all files in that directory will be 
+        turned into `FileAttachments` and added to the email (NOT inline).  The default strategy does not
+        recursive into sub directories to hunt for more files; implement your own strategy if that is what
+        you desire.
 
         Dev priorities:
             :: Complete delegation
@@ -138,13 +140,11 @@ class Email:
         bcc: typing.Optional[typing.List[str]] = None,
         subject: str = "",
         text: str = "",
-        html: typing.Optional[HtmlContent] = None,
+        html: typing.Optional[str] = None,
         charset: str = UTF_8,
         headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
-        attachment_strategy: typing.Callable[
-            [typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS]], typing.Iterable[FileAttachment]
-        ] = AttachmentStrategy(),
+        attachment_strategy: Attachable = AllFilesStrategy()
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
     ):
@@ -160,7 +160,7 @@ class Email:
         self.preamble = preamble
         self.epilogue = epilogue
         self.headers = convert_strings_to_headers(headers)
-        self.attachments = attachment_strategy(attachments)  # type: ignore [call-arg]
+        self.attachments = attachment_strategy.generate(attachments)  # type: ignore [call-arg]
 
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
@@ -173,7 +173,7 @@ class Email:
         if self.html:
             # multipart/alternative.
             # May have inline attachments; this is handled by `HtmlContent` __format__.
-            self.delegate.add_alternative(format(self.html), subtype="html")
+            self.delegate.add_alternative(self.html, subtype="html")
 
         # Processing 'normal' attachments.
         for attachment in self.attachments:
