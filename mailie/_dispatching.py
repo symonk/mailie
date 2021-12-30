@@ -8,10 +8,12 @@ import typing
 from ._email import Email
 from ._exceptions import StartTLSNotSupportedException
 
-# TODO: Future release; implement a plugin system, entry point and automatic registry for command line flags?
-# TODO: e.g mailie --send-strategy some_plugin?
-# TODO: Async support here; can we work around duplicating the API?
-
+# Todo: Async support here; can we work around duplicating the API?
+# Todo: How do we encapsulate sending plain vs SSL?
+# Todo: plaintext -> :: TLS :: -> plaintext upgraded via startTLS -> user defined commands?
+# Todo: Handle `auth` & `login` in the conversation gracefully?
+# Todo: Consider enforcing port 587 if starttls=True?
+# Todo: Auth should be encapsulated; consider a function/callable too for user defined auth?
 log = logging.getLogger(__name__)
 
 
@@ -21,13 +23,102 @@ class ClientState(enum.Enum)
     OPENED = 1  # The client is either inside the `with` context or has dispatched a request.
     CLOSED = 2  # The client has exited the `with` context or has been explicitly called `.close()`.
     
+    
+class BaseSMTPClient:
+    """
+    A Base SMTPClient.
+    """
+    
+    def __init__(
+        self,
+        *,
+        host: str = "localhost",
+        port: int = 25,
+        local_hostname: typing.Optional[str] = None
+        timeout: float = 30.00
+        source_address: typing.Optional[typing.Tuple[str, int]] = None,
+        debug: int = 0,
+        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
+        auth: typing.Optional[typing.Tuple[str, str]] = None
+    ) -> None:
+        self.host = host
+        self.port = port
+        self.local_hostname = local_hostname
+        self.timeoout = timeout
+        self.source_address = source_address
+        self.debug = debug
+        self.hooks = hooks
+        self.auth = auth
+               
 
-class SMTPClient:
-    # Todo: How do we encapsulate sending plain vs SSL?
-    # Todo: plaintext -> :: TLS :: -> plaintext upgraded via startTLS -> user defined commands?
-    # Todo: Handle `auth` & `login` in the conversation gracefully?
-    # Todo: Consider enforcing port 587 if starttls=True?
+class Client(BaseSMTPClient):
+    
+    def __init__(
+        self,
+        *,
+        host: str = "localhost",
+        port: int = 25,
+        local_hostname: typing.Optional[str] = None
+        timeout: float = 30.00
+        source_address: typing.Optional[typing.Tuple[str, int]] = None,
+        debug: int = 0,
+        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
+        auth: typing.Optional[typing.Tuple[str, str]] = None
+        use_starttls: bool = False,
+        use_tls: bool = False,
+        tls_context: typing.Optional[ssl.SSLContext] = None
+    ) -> None:
+        super().__init__(host=host, port=port, local_hostname=local_hostname, timeout=timeout, source_address=source_address, debug=debug, hooks=hooks, auth=auth)
+        self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
+        self.use_tls = use_tls
+        self.tls_context = tls_context
+        
+    
+    def send(self, *, email: Email) -> Email:
+        ...
+        
+    def __enter__(self) -> Client:
+        ...
+        
+    def __exit__(*args, **kw) -> None:
+        ...
+        
+        
+class AsyncClient(BaseSMTPClient):
+    
+    def __init__(
+        self,
+        *,
+        host: str = "localhost",
+        port: int = 25,
+        local_hostname: typing.Optional[str] = None
+        timeout: float = 30.00
+        source_address: typing.Optional[typing.Tuple[str, int]] = None,
+        debug: int = 0,
+        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
+        auth: typing.Optional[typing.Tuple[str, str]] = None
+        use_starttls: bool = False,
+        use_tls: bool = False,
+        tls_context: typing.Optional[ssl.SSLContext] = None
+    ) -> None:
+        super().__init__(host=host, port=port, local_hostname=local_hostname, timeout=timeout, source_address=source_address, debug=debug, hooks=hooks, auth=auth)
+        self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
+        self.use_tls = use_tls
+        self.tls_context = tls_context
+        
+        async def send(self, *, email: Email) -> Email:
+            ...
+            
+        async def __aenter__(self) -> AsyncClient:
+            ...
+            
+        async def __exit__(*args, **kw) -> None:
+            ...
+        
+    
 
+class SMTPClient(BaseSMTPClient):
+    
     def __init__(
         self,
         email: Email,
@@ -77,5 +168,5 @@ class SMTPClient:
             return self.email
 
 
-class AsyncSMTPClient:
+class AsyncSMTPClient(BaseSMTPClient):
     ...
