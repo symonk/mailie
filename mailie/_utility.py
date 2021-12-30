@@ -15,7 +15,7 @@ def convert_strings_to_headers(headers: typing.Optional[EMAIL_HEADER_ALIAS] = No
     :param headers: (Optional) list of string headers (adhering to rfc-2822) or
     `EmailHeader` instances.  If headers is omitted, an empty list is returned.
     """
-    return [header if not isinstance(header, str) else EmailHeader.from_string(header) for header in headers]
+    return [header if not isinstance(header, str) else EmailHeader.from_string(header) for header in headers or ()]
 
 
 def emails_to_list(emails: typing.Optional[EMAIL_ITERABLE_ALIAS] = None) -> typing.List[str]:
