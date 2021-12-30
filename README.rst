@@ -19,6 +19,13 @@ Mailie is a multi purpose email library for python, comprised of the following:
  - A powerful command line tool.
  - Load testing capabilities via async SMTP conversations.
  - Extensibility and hook/plugin system.
+ 
+
+Two things to keep in mind for mailie is that:
+
+ - Mailie currently relies on both `aiofiles` (for attachment parsing in cases of both normal and inline attachments)
+ - Results of sending mail relies heavily on the MUA/Email client that the recipient is using, mailie does not attempt to circumvent any oddities here and you should be aware that _mileage may vary_ for the same mails depending on what client the recipient is reviewing them is using.
+ - Mailie supports async smtp conversations as part of an initiative to speed up performance of email sending for genuine reasons, under no circumstances should you use this as a means to overload or cause a DOS style attack on infrastructure in which you do not fully own without written consent from the owners.  Please read the legal disclaimer below.
 
 ----
 
@@ -56,3 +63,10 @@ Contributing to Mailie:
 -----------------
 
 Todo ...
+
+-----
+
+
+Legalities:
+------------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
