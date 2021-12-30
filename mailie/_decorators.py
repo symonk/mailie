@@ -9,6 +9,7 @@ def wraps_conversation(f) -> typing.Any:
     hook invocation before the SMTP conversation has started and after it has been completed.
 
     # TODO: Make this async aware and await accordingly.
+    # TODO: Draft the concept of hooks and entry point for plugins?
     """
 
     @functools.wraps(f)
