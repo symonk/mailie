@@ -3,7 +3,6 @@ import pytest
 from mailie import Email
 from mailie import EmptyAttachmentFolderException
 from mailie import FilePathNotAttachmentException
-from mailie import HtmlContent
 
 
 def test_attachments_empty_directory(tmp_path) -> None:
@@ -25,7 +24,7 @@ def test_inline_attachment(png_path) -> None:
     Email(
         from_addr="foo@bar.com",
         to_addrs="one@two.com",
-        html=HtmlContent(
+        html=
             """
     <html>
   <head></head>
@@ -39,7 +38,4 @@ def test_inline_attachment(png_path) -> None:
     <img src="cid:{0}" />
   </body>
 </html>
-    """,
-            png_path,
-        ),
-    )
+    """)
