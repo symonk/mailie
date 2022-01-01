@@ -240,7 +240,7 @@ class Email:
         Write the structure of this message to stdout. This is handled recursively.
         """
         message = message or self.delegate
-        print(f"|{'-' * level}> {message.get_content_type()}")
+        print(f"{'-' * level}{message.get_content_type()}")
         if message.is_multipart():
             for sub_part in message.get_payload():
                 self.tree_view(message=sub_part, file=file, level=level + 1)
