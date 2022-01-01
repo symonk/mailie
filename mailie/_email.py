@@ -190,6 +190,61 @@ class Email:
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
         return self.delegate, self.from_addr, self.smtp_recipients
 
+    @property
+    def unix_from(self) -> str:
+        return self.delegate.get_unixfrom()
+
+    @unix_from.setter
+    def unix_from(self, unix_from: str) -> None:
+        self.delegate.set_unixfrom(unix_from)
+
+    def attach(self, payload):
+        """
+        Add the given payload to the current payload.
+
+        The current payload will always be a list of objects after this method
+        is called.  If you want to set the payload to a scalar object, use
+        set_payload() instead.
+        """
+        self.delegate.attach(payload)
+
+    def get_payload(self, i=None, decode=False):
+        """
+        Return a reference to the payload.
+
+        The payload will either be a list object or a string.  If you mutate
+        the list object, you modify the message's payload in place.  Optional
+        i returns that index into the payload.
+
+        Optional decode is a flag indicating whether the payload should be
+        decoded or not, according to the Content-Transfer-Encoding header
+        (default is False).
+
+        When True and the message is not a multipart, the payload will be
+        decoded if this header's value is `quoted-printable' or `base64'.  If
+        some other encoding is used, or the header is missing, or if the
+        payload has bogus data (i.e. bogus base64 or uuencoded data), the
+        payload is returned as-is.
+
+        If the message is a multipart and the decode flag is True, then None
+        is returned.
+        """
+        # Here is the logic table for this code, based on the email5.0.0 code:
+        #   i     decode  is_multipart  result
+        # ------  ------  ------------  ------------------------------
+        #  None   True    True          None
+        #   i     True    True          None
+        #  None   False   True          _payload (a list)
+        #   i     False   True          _payload element i (a Message)
+        #   i     False   False         error (not a list)
+        #   i     True    False         error (not a list)
+        #  None   False   False         _payload
+        #  None   True    False         _payload decoded (bytes)
+        # Note that Barry planned to factor out the 'decode' case, but that
+        # isn't so easy now that we handle the 8 bit data, which needs to be
+        # converted in both the decode and non-decode path.
+        return self.delegate.get_payload(i, decode)
+
     def render(self) -> None:
         # TODO: Implement better handling here; return a dictionary of parent:root nodes?
         _structure(self.delegate)
@@ -229,10 +284,20 @@ class Email:
         self.delegate.clear_content()
         return self
 
+    def is_multipart(self) -> bool:
+        """
+        Return True if the message contains multiple MIME parts.
+        """
+        return self.delegate.is_multipart()
+
     # ----- Data model specifics ----- #
 
     def __str__(self) -> str:
-        return str(self.delegate)
+        return self.delegate.as_string()
 
     def __bytes__(self) -> bytes:
-        return bytes(self.delegate)
+        return self.delegate.as_bytes()
+
+    def __len__(self) -> int:
+        # Return the number of headers.
+        return len(self.delegate)
