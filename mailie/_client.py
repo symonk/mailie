@@ -18,6 +18,7 @@ from ._types import SMTP_AUTH_ALIAS
 # Todo: Handle `auth` & `login` in the conversation gracefully?
 # Todo: Consider enforcing port 587 if starttls=True?
 # Todo: Auth should be encapsulated; consider a function/callable too for user defined auth?
+# Todo: This is massively WIP and quite an information overload; break it down into atomic pieces and tackle?
 log = logging.getLogger(__name__)
 
 
