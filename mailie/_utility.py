@@ -42,7 +42,7 @@ def unpack_recipients_from_csv(recipient_or_path: str) -> typing.List[str]:
     file and generate a list of recipient email addresses.  If the recipient
     is not a valid path, it is treated as an actual email address and added
     to the results.
-    
+
     # Todo: Treating non files as email addresses seems a little odd.
     """
     results = []

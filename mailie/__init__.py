@@ -3,8 +3,8 @@ import logging
 
 from ._attachments import Attachable
 from ._attachments import FileAttachment
-from ._client import AsyncSMTPClient
-from ._client import SMTPClient
+from ._client import AsyncClient
+from ._client import Client
 from ._email import Email
 from ._exceptions import EmptyAttachmentFolderException
 from ._exceptions import FilePathNotAttachmentException
@@ -13,6 +13,8 @@ from ._exceptions import MailieException
 from ._exceptions import SMTPException
 from ._header import EmailHeader
 from ._policy import POLICIES
+from ._request import Request
+from ._response import Response
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -26,10 +28,12 @@ __all__ = [
     "POLICIES",
     "version",
     "EmailHeader",
-    "SMTPClient",
-    "AsyncSMTPClient",
+    "Client",
+    "AsyncClient",
     "FileAttachment",
     "Attachable",
+    "Request",
+    "Response",
     "EmptyAttachmentFolderException",
     "InvalidAttachmentException",
     "MailieException",

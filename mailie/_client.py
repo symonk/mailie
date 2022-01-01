@@ -1,13 +1,16 @@
 from __future__ import annotations
+
 import enum
-import functools
 import logging
 import smtplib
 import ssl
+import types
 import typing
 
 from ._email import Email
-from ._exceptions import StartTLSNotSupportedException
+from ._request import Request
+from ._response import Response
+from ._types import SMTP_AUTH_ALIAS
 
 # Todo: Async support here; can we work around duplicating the API?
 # Todo: How do we encapsulate sending plain vs SSL?
@@ -39,8 +42,11 @@ class BaseSMTPClient:
         timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
-        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
-        auth: typing.Optional[typing.Tuple[str, str]] = None
+        hooks: typing.Optional[typing.Dict[str, typing.Callable[[typing.Any], typing.Any]]] = None,
+        auth: typing.Optional[SMTP_AUTH_ALIAS] = None,
+        use_starttls: bool = False,
+        use_tls: bool = False,
+        tls_context: typing.Optional[ssl.SSLContext] = None,
     ) -> None:
         self.host = host
         self.port = port
@@ -48,12 +54,56 @@ class BaseSMTPClient:
         self.timeout = timeout
         self.source_address = source_address
         self.debug = debug
-        self.hooks = hooks
+        self.hooks = hooks or {}
         self.auth = auth
+        self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
+        self.use_tls = use_tls
+        self.tls_context = tls_context
+        self._delegate_client: smtplib.SMTP = (
+            smtplib.SMTP(
+                host=self.host,
+                port=self.port,
+                local_hostname=self.local_hostname,
+                timeout=self.timeout,
+                source_address=self.source_address,
+            )
+            if not use_tls
+            else smtplib.SMTP_SSL(
+                host=self.host,
+                port=self.port,
+                local_hostname=self.local_hostname,
+                timeout=self.timeout,
+                source_address=self.source_address,
+                context=self.tls_context,
+            )
+        )
         self._state = ClientState.NOT_YET_OPENED
+
+    @property
+    def is_closed(self) -> bool:
+        return self._state == ClientState.CLOSED
+
+    @property
+    def is_open(self) -> bool:
+        return self._state == ClientState.OPENED
+
+    @property
+    def pre_hook(self) -> typing.Optional[typing.Callable[[typing.Any], typing.Any]]:
+        return self.hooks.get("pre")
+
+    @property
+    def post_hook(self) -> typing.Optional[typing.Callable[[typing.Any], typing.Any]]:
+        return self.hooks.get("post")
 
 
 class Client(BaseSMTPClient):
+    """
+    A simple synchronous SMTP client.  Client code should typically interact with `send(...)` however
+    if you wish to have more fine grained control, building a `Request` object manually and passing it
+    to `dispatch_request(request=request)` is t he way to handle that.  `send(...)` under the hood creates
+    its own `mailie.Request` instance implicitly.  All SMTP communication will yield a `mailie.Response`
+    instance.
+    """
 
     def __init__(
         self,
@@ -64,30 +114,69 @@ class Client(BaseSMTPClient):
         timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
-        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
-        auth: typing.Optional[typing.Tuple[str, str]] = None,
+        hooks: typing.Optional[typing.Dict[str, typing.Callable[[typing.Any], typing.Any]]] = None,
+        auth: typing.Optional[SMTP_AUTH_ALIAS] = None,
         use_starttls: bool = False,
         use_tls: bool = False,
-        tls_context: typing.Optional[ssl.SSLContext] = None
+        tls_context: typing.Optional[ssl.SSLContext] = None,
     ) -> None:
-        super().__init__(host=host, port=port, local_hostname=local_hostname, timeout=timeout, source_address=source_address, debug=debug, hooks=hooks, auth=auth)
-        self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
-        self.use_tls = use_tls
-        self.tls_context = tls_context
-
-
-    def send(self, *, email: Email) -> Email:
-        ...
+        super().__init__(
+            host=host,
+            port=port,
+            local_hostname=local_hostname,
+            timeout=timeout,
+            source_address=source_address,
+            debug=debug,
+            hooks=hooks,
+            auth=auth,
+            use_starttls=use_starttls,
+            use_tls=use_tls,
+            tls_context=tls_context,
+        )
 
     def __enter__(self) -> Client:
-        ...
+        self._delegate_client.__enter__()
+        return self
 
-    def __exit__(*args, **kw) -> None:
-        ...
+    def __exit__(
+        self,
+        exc_type: typing.Optional[typing.Type[BaseException]] = None,
+        exc_val: typing.Optional[BaseException] = None,
+        exc_tb: typing.Optional[types.TracebackType] = None,
+    ) -> None:
+        self._delegate_client.__exit__(exc_type, exc_val, exc_tb)
+
+    def __del__(self) -> None:
+        self._delegate_client.close()
+
+    def set_debug_level(self, level: int) -> Client:
+        self._delegate_client.set_debuglevel(level)
+        return self
+
+    def send(self, *, email: Email, auth: typing.Optional[SMTP_AUTH_ALIAS] = None) -> Response:
+        """
+        The public API of our SMTP communication, client code should primarily deal with calling
+        this method, auth can be overridden on a per request basis and if provided here will
+        take priority over what was passed into auth= for the session.  This allows changing
+        auth with the same underlying client.
+        """
+        if self._state == ClientState.CLOSED:
+            raise RuntimeError("Cannot send a mail as this client has been closed.")
+        self._state = ClientState.OPENED
+        request = self._build_request(email=email, auth=auth)
+        return self.dispatch_request(request=request)
+
+    def dispatch_request(self, *, request: Request) -> Response:
+        with self._delegate_client.__enter__():
+            self.set_debug_level(self.debug)
+            return Response(self._delegate_client.send_message(*request.email.smtp_arguments))
+
+    @staticmethod
+    def _build_request(*, email: Email, auth: typing.Optional[SMTP_AUTH_ALIAS] = None) -> Request:
+        return Request(email=email, auth=auth)
 
 
 class AsyncClient(BaseSMTPClient):
-
     def __init__(
         self,
         *,
@@ -97,78 +186,31 @@ class AsyncClient(BaseSMTPClient):
         timeout: float = 30.00,
         source_address: typing.Optional[typing.Tuple[str, int]] = None,
         debug: int = 0,
-        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
-        auth: typing.Optional[typing.Tuple[str, str]] = None,
+        hooks: typing.Optional[typing.Dict[str, typing.Callable[[typing.Any], typing.Any]]] = None,
+        auth: typing.Optional[SMTP_AUTH_ALIAS] = None,
         use_starttls: bool = False,
         use_tls: bool = False,
-        tls_context: typing.Optional[ssl.SSLContext] = None
+        tls_context: typing.Optional[ssl.SSLContext] = None,
     ) -> None:
-        super().__init__(host=host, port=port, local_hostname=local_hostname, timeout=timeout, source_address=source_address, debug=debug, hooks=hooks, auth=auth)
-        self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
-        self.use_tls = use_tls
-        self.tls_context = tls_context
+        super().__init__(
+            host=host,
+            port=port,
+            local_hostname=local_hostname,
+            timeout=timeout,
+            source_address=source_address,
+            debug=debug,
+            hooks=hooks,
+            auth=auth,
+            use_starttls=use_starttls,
+            use_tls=use_tls,
+            tls_context=tls_context,
+        )
 
-        async def send(self, *, email: Email) -> Email:
-            ...
+    async def send(self, *, email: Email) -> Email:
+        ...
 
-        async def __aenter__(self) -> AsyncClient:
-            ...
+    async def __aenter__(self) -> AsyncClient:
+        ...
 
-        async def __exit__(*args, **kw) -> None:
-            ...
-
-
-
-class SMTPClient(BaseSMTPClient):
-
-    def __init__(
-        self,
-        email: Email,
-        *,
-        host: str = "localhost",
-        port: int = 25,
-        local_hostname: typing.Optional[str] = None,
-        timeout: float = 30.00,
-        source_address: typing.Optional[typing.Tuple[str, int]] = None,
-        debug: int = 2,
-        starttls: bool = False,
-        tls: bool = False,
-        auth: typing.Optional[typing.Tuple[str, str]] = None,
-        ssl_context: typing.Optional[ssl.SSLContext] = None,
-        hooks: typing.Optional[typing.Callable[[Email, typing.Dict[typing.Any, typing.Any]], None]] = None,
-    ) -> None:
-        self.email = email
-        self.host = host
-        self.port = port
-        self.local_hostname = local_hostname
-        self.timeout = timeout
-        self.source_address = source_address
-        self.debug = debug
-        self.starttls = starttls if tls is False else False  # tls takes priority over starttls for security reasons.
-        self.tls = tls
-        self.auth = auth
-        self.ssl_context = ssl_context or ssl.create_default_context()  # useful for starttls & tls.
-        self.hooks = hooks
-        self._client = functools.partial(smtplib.SMTP_SSL, context=self.ssl_context) if self.tls else smtplib.SMTP
-
-    def send(self) -> Email:
-        with self._client(  # type: ignore [operator]
-            host=self.host,
-            port=self.port,
-            local_hostname=self.local_hostname,
-            timeout=self.timeout,
-            source_address=self.source_address,
-        ) as connection:
-            if self.starttls:
-                try:
-                    stls_result = connection.starttls(context=self.ssl_context)
-                    log.debug(f"upgrading connection via starttls result: {stls_result}")
-                except smtplib.SMTPNotSupportedError:
-                    raise StartTLSNotSupportedException(f"StartTLS not supported on: {self.host}:{self.port}") from None
-            connection.set_debuglevel(self.debug)
-            log.debug(connection.send_message(*self.email.smtp_arguments))
-            return self.email
-
-
-class AsyncSMTPClient(BaseSMTPClient):
-    ...
+    async def __aexit__(*args, **kw) -> None:
+        ...

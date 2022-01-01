@@ -26,22 +26,21 @@ class FileAttachment:
         if c_type is None or encoding is not None:
             c_type = "application/octet-stream"  # Use a bag of bits as a fallback.
         return c_type.split("/", 1)
-    
-    
+
+
 @typing.runtime_checkable
 class Attachable(typing.Protocol):
-    
     def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
         raise NotImplementedError
-    
-    
+
+
 class AllFilesStrategy(Attachable):
     """
     A simple strategy for finding attachments.  This strategy is NOT recursive; only files found in the
     explicitly defined path directory will be considered (if the path is a dir and not an explicit file path).
     To recursively find all files in sub-folders; consider writing your own strategy.
     """
-    
+
     def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
         """
         Accepts an iterable of string or PathLike, or a singular str or PathLike.  If a single element is provided
@@ -51,7 +50,7 @@ class AllFilesStrategy(Attachable):
             return []
         paths = [pathlib.Path(p) for p in path] if not isinstance(path, (str, os.PathLike)) else [pathlib.Path(path)]
         return self._squash(paths)
-    
+
     def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
         """
         Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
@@ -94,9 +93,9 @@ class AllFilesStrategy(Attachable):
                 extension=path.suffix,  # Todo: what about multiple extension files?
                 data=binary.read(),
             )
-        
+
+
 class AsyncAllFilesStrategy(Attachable):
-    
     def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
         """
         Accepts an iterable of string or PathLike, or a singular str or PathLike.  If a single element is provided
@@ -104,7 +103,7 @@ class AsyncAllFilesStrategy(Attachable):
         """
         # Todo: Async implementation
         ...
-    
+
     def _squash(self, paths: typing.List[pathlib.Path]) -> typing.List[FileAttachment]:
         """
         Squashes a list of pathlib.Path instances into their appropriate `FileAttachment` instances
@@ -121,7 +120,7 @@ class AsyncAllFilesStrategy(Attachable):
         """
         # Todo: Async implementation
         ...
-    
+
     @staticmethod
     def _generate_file_attachment(path: pathlib.Path) -> FileAttachment:
         """
@@ -130,5 +129,3 @@ class AsyncAllFilesStrategy(Attachable):
         """
         # Todo: Async implementation
         ...
-    
-    

@@ -24,8 +24,7 @@ def test_inline_attachment(png_path) -> None:
     Email(
         from_addr="foo@bar.com",
         to_addrs="one@two.com",
-        html=
-            """
+        html="""
     <html>
   <head></head>
   <body>
@@ -38,4 +37,5 @@ def test_inline_attachment(png_path) -> None:
     <img src="cid:{0}" />
   </body>
 </html>
-    """)
+    """,
+    )

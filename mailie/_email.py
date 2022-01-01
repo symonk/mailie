@@ -5,8 +5,8 @@ import typing
 from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 
-from ._attachments import Attachable
 from ._attachments import AllFilesStrategy
+from ._attachments import Attachable
 from ._attachments import FileAttachment  # noqa
 from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
@@ -44,19 +44,19 @@ class Email:
         (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
         implicitly.
 
-        :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By default 
-        mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used to customise
-        the behaviour of various classes in pythons inbuilt email package.
-        
+        :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By
+        default mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used
+        to customise the behaviour of various classes in pythons inbuilt email package.
+
         For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of
         the inbuilt policies available via python email:
-            
+
             :: default (uses python line endings via /n - sometimes undesirable)
             :: SMTP (clone of default, with /r/n line endings for RFC compliance)
             :: SMTPUTF8 (a UTF-8 equivalent of `smtp`, useful for non-ASCII in sender/recipient data)
             :: HTTP (useful if serialising headers for HTTP traffic)
             :: strict (clone of default, except raise_on_defect is assigned `True` to prevent silent failures)
-            
+
         If omitted by client code, mailie will assume a `SMTP` strict equivalent by default.  If this is undesirable
         pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve
         the policy e.g `policy='SMTPUTF8'`.
@@ -114,7 +114,7 @@ class Email:
         :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
         can be provided by the user at runtime in order implement a customised attachment lookup and attachment
         process.  If omitted mailie will use a basic file strategy that takes paths literally and creates
-        `FileAttachment` objects out of them, if a directory is provided all files in that directory will be 
+        `FileAttachment` objects out of them, if a directory is provided all files in that directory will be
         turned into `FileAttachments` and added to the email (NOT inline).  The default strategy does not
         recursive into sub directories to hunt for more files; implement your own strategy if that is what
         you desire.

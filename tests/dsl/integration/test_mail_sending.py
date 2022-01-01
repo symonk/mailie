@@ -1,5 +1,5 @@
+from mailie import Client
 from mailie import Email
-from mailie import SMTPClient
 
 
 def test_email_example(mail_to_disk_server):
@@ -11,4 +11,4 @@ def test_email_example(mail_to_disk_server):
         text="plaintext content",
         html="<b> html content </b>",
     )
-    SMTPClient(email=mail, port=9222).send()
+    Client(port=9222).send(email=mail)
