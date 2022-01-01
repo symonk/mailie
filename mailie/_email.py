@@ -229,20 +229,6 @@ class Email:
         If the message is a multipart and the decode flag is True, then None
         is returned.
         """
-        # Here is the logic table for this code, based on the email5.0.0 code:
-        #   i     decode  is_multipart  result
-        # ------  ------  ------------  ------------------------------
-        #  None   True    True          None
-        #   i     True    True          None
-        #  None   False   True          _payload (a list)
-        #   i     False   True          _payload element i (a Message)
-        #   i     False   False         error (not a list)
-        #   i     True    False         error (not a list)
-        #  None   False   False         _payload
-        #  None   True    False         _payload decoded (bytes)
-        # Note that Barry planned to factor out the 'decode' case, but that
-        # isn't so easy now that we handle the 8 bit data, which needs to be
-        # converted in both the decode and non-decode path.
         return self.delegate.get_payload(i, decode)
 
     def render(self) -> None:
@@ -301,3 +287,12 @@ class Email:
     def __len__(self) -> int:
         # Return the number of headers.
         return len(self.delegate)
+
+    def __getattr__(self, item: str) -> typing.Any:
+        # Work around until delegation is fully in place.
+        attribute = getattr(self.delegate, item)
+        if callable(attribute):
+            def wrapper(*args, **kwargs):
+                return attribute(*args, **kwargs)
+            return wrapper
+        return attribute
