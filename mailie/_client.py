@@ -23,13 +23,13 @@ class ClientState(enum.Enum):
     NOT_YET_OPENED = 0  # The client has been instantiated but no requests have been dispatched.
     OPENED = 1  # The client is either inside the `with` context or has dispatched a request.
     CLOSED = 2  # The client has exited the `with` context or has been explicitly called `.close()`.
-    
-    
+
+
 class BaseSMTPClient:
     """
     A Base SMTPClient.
     """
-    
+
     def __init__(
         self,
         *,
@@ -45,16 +45,16 @@ class BaseSMTPClient:
         self.host = host
         self.port = port
         self.local_hostname = local_hostname
-        self.timeoout = timeout
+        self.timeout = timeout
         self.source_address = source_address
         self.debug = debug
         self.hooks = hooks
         self.auth = auth
         self._state = ClientState.NOT_YET_OPENED
-               
+
 
 class Client(BaseSMTPClient):
-    
+
     def __init__(
         self,
         *,
@@ -74,20 +74,20 @@ class Client(BaseSMTPClient):
         self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
         self.use_tls = use_tls
         self.tls_context = tls_context
-        
-    
+
+
     def send(self, *, email: Email) -> Email:
         ...
-        
+
     def __enter__(self) -> Client:
         ...
-        
+
     def __exit__(*args, **kw) -> None:
         ...
-        
-        
+
+
 class AsyncClient(BaseSMTPClient):
-    
+
     def __init__(
         self,
         *,
@@ -107,20 +107,20 @@ class AsyncClient(BaseSMTPClient):
         self.use_starttls = use_starttls if not use_tls else False  # Using tls and starttls will use tls as priority.
         self.use_tls = use_tls
         self.tls_context = tls_context
-        
+
         async def send(self, *, email: Email) -> Email:
             ...
-            
+
         async def __aenter__(self) -> AsyncClient:
             ...
-            
+
         async def __exit__(*args, **kw) -> None:
             ...
-        
-    
+
+
 
 class SMTPClient(BaseSMTPClient):
-    
+
     def __init__(
         self,
         email: Email,
