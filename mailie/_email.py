@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 import typing
-from email.iterators import _structure  # type: ignore [attr-defined]
 from email.message import EmailMessage
 
 from ._attachments import AllFilesStrategy
@@ -21,6 +20,14 @@ from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
 
 log = logging.getLogger(__name__)
+
+
+class MultipartNode:
+    def __init__(self,
+                 content_type: str,
+                 next: MultipartNode = None) -> None:
+        self.content_type = content_type
+        self.next = next
 
 
 class Email:
@@ -119,15 +126,20 @@ class Email:
         recursive into sub directories to hunt for more files; implement your own strategy if that is what
         you desire.
 
+        What kind of emails are typically sent and currently supported?
+            :: Simple plaintext emails
+            :: Simple alternative plaintext/html emails
+            :: Html emails embedded/inline attachments
+            :: Emails with normal attachments
+
         Dev priorities:
             :: Complete delegation
             :: Refactor API
             :: Use a tree and handle render so the data is in memory and accessible for assertions?
-            :: Handle recursive `Email` types for subparts
+            :: Handle recursive `Email` types for sub parts
             :: Use the data model for header indexing etc?
             :: Implement factory pattern properly; rejig `Email` defaults`
             :: Revisit logging, debugging etc
-            :: TONS OF WORK HERE; delegation is a bit of a mess, recursion of messages etc!
     """
 
     def __init__(
@@ -231,9 +243,16 @@ class Email:
         """
         return self.delegate.get_payload(i, decode)
 
-    def render(self) -> None:
-        # TODO: Implement better handling here; return a dictionary of parent:root nodes?
-        _structure(self.delegate)
+    def tree_view(self, *, message: EmailMessage = None, file=None, level: int = 0) -> None:
+        """
+        Write the structure of this message to stdout. This is handled recursively.
+        """
+        if message is None:
+            message = self
+        print(f"|{'-' * level}> {message.get_content_type()}")
+        if message.is_multipart():
+            for sub_part in message.get_payload():
+                self.tree_view(message=sub_part, file=file, level=level + 1)
 
     def add_header(self, name: str, value: typing.Any, **params) -> Email:
         self.delegate.add_header(name, value, **params)
@@ -294,5 +313,6 @@ class Email:
         if callable(attribute):
             def wrapper(*args, **kwargs):
                 return attribute(*args, **kwargs)
+
             return wrapper
         return attribute
