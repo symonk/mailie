@@ -22,14 +22,6 @@ from ._utility import emails_to_list
 log = logging.getLogger(__name__)
 
 
-class MultipartNode:
-    def __init__(self,
-                 content_type: str,
-                 next: MultipartNode = None) -> None:
-        self.content_type = content_type
-        self.next = next
-
-
 class Email:
     """
     An encapsulation and representation of an email message.  At present only simple plaintext
@@ -203,7 +195,7 @@ class Email:
         return self.delegate, self.from_addr, self.smtp_recipients
 
     @property
-    def unix_from(self) -> str:
+    def unix_from(self) -> typing.Optional[str]:
         return self.delegate.get_unixfrom()
 
     @unix_from.setter
@@ -247,8 +239,7 @@ class Email:
         """
         Write the structure of this message to stdout. This is handled recursively.
         """
-        if message is None:
-            message = self
+        message = message or self.delegate
         print(f"|{'-' * level}> {message.get_content_type()}")
         if message.is_multipart():
             for sub_part in message.get_payload():
@@ -311,6 +302,7 @@ class Email:
         # Work around until delegation is fully in place.
         attribute = getattr(self.delegate, item)
         if callable(attribute):
+
             def wrapper(*args, **kwargs):
                 return attribute(*args, **kwargs)
 

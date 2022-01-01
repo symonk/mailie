@@ -1,6 +1,7 @@
 import pytest
-from mailie import Email
 from PIL import Image
+
+from mailie import Email
 
 
 @pytest.fixture()
@@ -25,7 +26,7 @@ def png_path(tmp_path):
 
 
 @pytest.fixture
-def plaintext_email(png_path):
+def html_multi_attach_mail(png_path):
     return Email(
         to_addrs=["recip@recip.com"],
         from_addr="sender@onetwothree.com",
@@ -33,5 +34,5 @@ def plaintext_email(png_path):
         headers=["one:two", "three:four"],
         text="plaintext content",
         html="<b> html content </b>",
-        attachments=[png_path, png_path, png_path]
+        attachments=[png_path, png_path, png_path],
     )
