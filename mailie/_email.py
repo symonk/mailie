@@ -133,15 +133,6 @@ class Email:
 
         `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`
         management in that regard.
-
-        Dev priorities:
-            :: Complete delegation
-            :: Refactor API
-            :: Use a tree and handle render so the data is in memory and accessible for assertions?
-            :: Handle recursive `Email` types for sub parts
-            :: Use the data model for header indexing etc?
-            :: Implement factory pattern properly; rejig `Email` defaults`
-            :: Revisit logging, debugging etc
     """
 
     def __init__(
