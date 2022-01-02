@@ -3,13 +3,14 @@ from __future__ import annotations
 import logging
 import typing
 from email.message import EmailMessage
+from email.policy import SMTP as SMTP_DEFAULT_POLICY
+from email.policy import EmailPolicy
 
 from ._attachments import AllFilesStrategy
 from ._attachments import Attachable
 from ._attachments import FileAttachment  # noqa
 from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
-from ._constants import POLICY_DEFAULT
 from ._constants import SUBJECT_HEADER
 from ._constants import TO_HEADER
 from ._constants import UTF_8
@@ -139,7 +140,7 @@ class Email:
         *,
         from_addr: str,
         to_addrs: typing.Union[typing.List[str], str],
-        policy: str = POLICY_DEFAULT,
+        policy: typing.Union[str, EmailPolicy] = SMTP_DEFAULT_POLICY,
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
         subject: str = "",
@@ -152,7 +153,7 @@ class Email:
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
     ):
-        self.delegate = EmailMessage(policy_factory(policy))
+        self.delegate = EmailMessage(policy=policy_factory(policy))
         self.from_addr = from_addr
         self.to_addrs = emails_to_list(to_addrs)
         self.cc = emails_to_list(cc)

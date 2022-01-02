@@ -6,6 +6,7 @@ from mailie import version
 
 from .._email import Email
 from .._header import EmailHeader
+from .._policy import policy_factory
 from .._utility import unpack_recipients_from_csv
 
 app = typer.Typer(name="mail")
@@ -102,7 +103,7 @@ def mail(
         cc=cc,
         bcc=bcc,
         html=html,
-        policy=policy,
+        policy=policy_factory(policy),
         text=message,
         subject=subject,
         charset=charset,
