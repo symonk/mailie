@@ -12,6 +12,8 @@
 Mailie
 =======
 Read the documentation: https://symonk.github.io/mailie/
+
+
 Mailie is a multi purpose email library for python, comprised of the following:
 
 
