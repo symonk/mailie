@@ -27,6 +27,7 @@ mkdocs = "^1.2.3"
 mkdocs-material = "^8.1.3"
 mkdocstrings = "^0.17.0"
 Pillow = "^8.4.0"
+types-setuptools = "^57.4.5"
 
 
 [tool.isort]

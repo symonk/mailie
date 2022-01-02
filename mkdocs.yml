@@ -3,6 +3,8 @@ site_url: https://www.google.com
 nav:
     - Home: index.md
     - Email: email.md
+    - DSL: dsl.md
+    - Commandline: commandline.md
 theme:
   name: material
 

@@ -26,6 +26,8 @@ from ._utility import emails_to_list
 
 log = logging.getLogger(__name__)
 
+_T = typing.TypeVar("_T")
+
 
 class Email:
     """
@@ -129,6 +131,9 @@ class Email:
             :: Html emails embedded/inline attachments
             :: Emails with normal attachments
 
+        `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`
+        management in that regard.
+
         Dev priorities:
             :: Complete delegation
             :: Refactor API
@@ -164,7 +169,7 @@ class Email:
         self.bcc = emails_to_list(bcc)
         self.html = html
         self.text = text
-        self.charset = charset  # Todo: Where does this fit, charset of what exactly?
+        self.set_charset(charset)
         self.subject = subject
         self.preamble = preamble
         self.epilogue = epilogue
@@ -287,8 +292,8 @@ class Email:
         """
         return self.delegate_message.is_multipart()
 
-    def get(self, name: str, failobj) -> ...:
-        ...
+    def get(self, name: str, failobj: _T) -> _T:
+        return self.delegate_message.get(name, failobj)
 
     # ----- Data model specifics ----- #
 
@@ -311,6 +316,15 @@ class Email:
 
     def __getitem__(self, item: str) -> typing.Any:
         return self.get(item)
+
+    def __setitem__(self) -> typing.Any:
+        ...
+
+    def __delitem__(self) -> typing.Any:
+        """
+        Delete all instances of a header.
+        """
+        ...
 
     def __getattr__(self, item: str) -> typing.Any:
         # Work around until delegation is fully in place.

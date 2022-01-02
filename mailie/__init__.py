@@ -1,5 +1,6 @@
-import importlib
 import logging
+
+import pkg_resources
 
 from ._attachments import Attachable
 from ._attachments import FileAttachment
@@ -20,7 +21,7 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-version = importlib.metadata.version("mailie")  # type: ignore [attr-defined]
+version = pkg_resources.get_distribution("mailie")
 
 
 __all__ = [
