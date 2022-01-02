@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import logging
 import typing
+from email.errors import MessageDefect
 from email.message import EmailMessage
+from email.message import Message
 from email.policy import SMTP as SMTP_DEFAULT_POLICY
-from email.policy import EmailPolicy
+from email.policy import Policy
 
 from ._attachments import AllFilesStrategy
 from ._attachments import Attachable
@@ -16,7 +18,9 @@ from ._constants import TO_HEADER
 from ._constants import UTF_8
 from ._policy import policy_factory
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
+from ._types import EMAIL_CHARSET_ALIAS
 from ._types import EMAIL_HEADER_ALIAS
+from ._types import EMAIL_PAYLOAD_ALIAS
 from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
 
@@ -140,7 +144,7 @@ class Email:
         *,
         from_addr: str,
         to_addrs: typing.Union[typing.List[str], str],
-        policy: typing.Union[str, EmailPolicy] = SMTP_DEFAULT_POLICY,
+        policy: typing.Union[str, Policy] = SMTP_DEFAULT_POLICY,
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
         subject: str = "",
@@ -153,7 +157,7 @@ class Email:
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
     ):
-        self.delegate = EmailMessage(policy=policy_factory(policy))
+        self.delegate_message = EmailMessage(policy=policy_factory(policy))
         self.from_addr = from_addr
         self.to_addrs = emails_to_list(to_addrs)
         self.cc = emails_to_list(cc)
@@ -173,12 +177,12 @@ class Email:
         self.add_header(SUBJECT_HEADER, self.subject)
 
         # Text provided; set the text/plain content
-        self.delegate.set_content(self.text, subtype="plain")
+        self.delegate_message.set_content(self.text, subtype="plain")
 
         if self.html:
             # multipart/alternative.
             # May have inline attachments; this is handled by `HtmlContent` __format__.
-            self.delegate.add_alternative(self.html, subtype="html")
+            self.delegate_message.add_alternative(self.html, subtype="html")
 
         # Processing 'normal' attachments.
         for attachment in self.attachments:
@@ -188,22 +192,31 @@ class Email:
             self.add_header(header.field_name, header.field_body)
 
     @property
+    def defects(self) -> typing.List[MessageDefect]:
+        return self.delegate_message.defects
+
+    @property
     def smtp_recipients(self) -> typing.List[str]:
         return self.to_addrs + self.cc + self.bcc
 
     @property
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
-        return self.delegate, self.from_addr, self.smtp_recipients
+        return self.delegate_message, self.from_addr, self.smtp_recipients
 
-    @property
-    def unix_from(self) -> typing.Optional[str]:
-        return self.delegate.get_unixfrom()
+    def get_unixfrom(self) -> typing.Optional[str]:
+        return self.delegate_message.get_unixfrom()
 
-    @unix_from.setter
-    def unix_from(self, unix_from: str) -> None:
-        self.delegate.set_unixfrom(unix_from)
+    def set_unixfrom(self, unix_from: str) -> Email:
+        self.delegate_message.set_unixfrom(unix_from)
+        return self
 
-    def attach(self, payload):
+    def as_string(self, unixfrom: bool = False, maxheaderlen: int = 0, policy: typing.Optional[Policy] = None) -> str:
+        return self.delegate_message.as_string(unixfrom, maxheaderlen, policy)
+
+    def as_bytes(self, unixfrom: bool = False, policy: typing.Optional[Policy] = None) -> bytes:
+        return self.delegate_message.as_bytes(unixfrom, policy)
+
+    def attach(self, payload: Message) -> None:
         """
         Add the given payload to the current payload.
 
@@ -211,59 +224,46 @@ class Email:
         is called.  If you want to set the payload to a scalar object, use
         set_payload() instead.
         """
-        self.delegate.attach(payload)
+        self.delegate_message.attach(payload)
 
-    def get_payload(self, i=None, decode=False):
-        """
-        Return a reference to the payload.
+    def get_payload(self, i: typing.Optional[int] = None, decode: bool = False) -> typing.Optional[EMAIL_PAYLOAD_ALIAS]:
+        return self.delegate_message.get_payload(i, decode)
 
-        The payload will either be a list object or a string.  If you mutate
-        the list object, you modify the message's payload in place.  Optional
-        i returns that index into the payload.
+    def set_payload(self, payload: EMAIL_PAYLOAD_ALIAS, charset: EMAIL_CHARSET_ALIAS) -> Email:
+        self.delegate_message.set_payload(payload, charset)
+        return self
 
-        Optional decode is a flag indicating whether the payload should be
-        decoded or not, according to the Content-Transfer-Encoding header
-        (default is False).
+    def set_charset(self, charset: EMAIL_CHARSET_ALIAS) -> Email:
+        self.delegate_message.set_charset(charset)
+        return self
 
-        When True and the message is not a multipart, the payload will be
-        decoded if this header's value is `quoted-printable' or `base64'.  If
-        some other encoding is used, or the header is missing, or if the
-        payload has bogus data (i.e. bogus base64 or uuencoded data), the
-        payload is returned as-is.
+    def get_charset(self) -> EMAIL_CHARSET_ALIAS:
+        return self.delegate_message.get_charset()
 
-        If the message is a multipart and the decode flag is True, then None
-        is returned.
-        """
-        return self.delegate.get_payload(i, decode)
-
-    def tree_view(self, *, message: EmailMessage = None, file=None, level: int = 0) -> None:
+    def tree_view(self, *, message: Message = None, file=None, level: int = 0) -> None:
         """
         Write the structure of this message to stdout. This is handled recursively.
         """
-        message = message or self.delegate
+        message = message or self.delegate_message
         print(f"{'-' * level}{message.get_content_type()}")
         if message.is_multipart():
             for sub_part in message.get_payload():
                 self.tree_view(message=sub_part, file=file, level=level + 1)
 
     def add_header(self, name: str, value: typing.Any, **params) -> Email:
-        self.delegate.add_header(name, value, **params)
+        self.delegate_message.add_header(name, value, **params)
         return self
 
     def add_attachment(self, attachment: FileAttachment) -> Email:
         main, sub = attachment.mime_types
-        self.delegate.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
+        self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
         return self
 
     def get_content_type(self) -> str:
-        return self.delegate.get_content_type()
-
-    def set_payload(self, payload: str, charset=None) -> Email:
-        self.delegate.set_payload(payload, charset)
-        return self
+        return self.delegate_message.get_content_type()
 
     def set_content(self, data: str, x: str) -> Email:
-        self.delegate.set_content(data, x)
+        self.delegate_message.set_content(data, x)
         return self
 
     def clear(self) -> Email:
@@ -271,37 +271,50 @@ class Email:
         Clears the headers and payload from the delegated `EmailMessage` messaged.
         If you want to retain non Content- headers, use `clear_content()` instead.
         """
-        self.delegate.clear()
+        self.delegate_message.clear()
         return self
 
     def clear_content(self) -> Email:
         """
         Clears the payload and all non Content- headers.
         """
-        self.delegate.clear_content()
+        self.delegate_message.clear_content()
         return self
 
     def is_multipart(self) -> bool:
         """
         Return True if the message contains multiple MIME parts.
         """
-        return self.delegate.is_multipart()
+        return self.delegate_message.is_multipart()
+
+    def get(self, name: str, failobj) -> ...:
+        ...
 
     # ----- Data model specifics ----- #
 
     def __str__(self) -> str:
-        return self.delegate.as_string()
+        return self.as_string()
 
     def __bytes__(self) -> bytes:
-        return self.delegate.as_bytes()
+        return self.as_bytes()
 
     def __len__(self) -> int:
         # Return the number of headers.
-        return len(self.delegate)
+        return len(self.headers)
+
+    def __contains__(self, item: str) -> bool:
+        return item in self.delegate_message
+
+    def __iter__(self) -> typing.Iterator[str]:
+        for field, value in self.headers:
+            yield field, value
+
+    def __getitem__(self, item: str) -> typing.Any:
+        return self.get(item)
 
     def __getattr__(self, item: str) -> typing.Any:
         # Work around until delegation is fully in place.
-        attribute = getattr(self.delegate, item)
+        attribute = getattr(self.delegate_message, item)
         if callable(attribute):
 
             def wrapper(*args, **kwargs):
