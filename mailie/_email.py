@@ -168,7 +168,9 @@ class Email:
         self.add_header(FROM_HEADER, self.from_addr)
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
         self.add_header(SUBJECT_HEADER, self.subject)
-        # Todo: Now handle headers?
+
+        for header in split_headers_per_rfc(headers):
+            self.add_header(*header)
 
         # Text provided; set the text/plain content
         self.delegate_message.set_content(self.text, subtype="plain")
@@ -181,9 +183,6 @@ class Email:
         # Processing 'normal' attachments.
         for attachment in self.attachments:
             self.add_attachment(attachment)
-
-        for header in split_headers_per_rfc(headers):
-            self.add_header(*header)
 
     @property
     def defects(self) -> typing.List[MessageDefect]:
