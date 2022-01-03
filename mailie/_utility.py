@@ -2,20 +2,19 @@ import csv
 import pathlib
 import typing
 
-from ._header import EmailHeader
-from ._types import EMAIL_HEADER_ALIAS
 from ._types import EMAIL_ITERABLE_ALIAS
 
 
-def convert_strings_to_headers(headers: typing.Optional[EMAIL_HEADER_ALIAS] = None):
+def split_headers_per_rfc(
+    header_data: typing.Optional[typing.Iterable[str]] = None, delimiter: str = ":"
+) -> typing.List[typing.List[str]]:
     """
-    Given a list of strings (or possibly EmailHeader instances), return a new list
-    that converts all the header data into `EmailHeader` instances.
-
-    :param headers: (Optional) list of string headers (adhering to rfc-2822) or
-    `EmailHeader` instances.  If headers is omitted, an empty list is returned.
+    Given an iterable or RFC compliant header strings, convert them into tuples of header field:header value pairs
+    ready for use within a `mailie.Email` instance.  By default using the RFC compliant colon delimiter.
     """
-    return [header if not isinstance(header, str) else EmailHeader.from_string(header) for header in headers or ()]
+    if header_data is None:
+        return []
+    return [header.rsplit(delimiter, maxsplit=1) for header in header_data]
 
 
 def emails_to_list(emails: typing.Optional[EMAIL_ITERABLE_ALIAS] = None) -> typing.List[str]:

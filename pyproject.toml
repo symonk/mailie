@@ -27,8 +27,6 @@ mkdocs = "^1.2.3"
 mkdocs-material = "^8.1.3"
 mkdocstrings = "^0.17.0"
 Pillow = "^8.4.0"
-types-setuptools = "^57.4.5"
-
 
 [tool.isort]
 multi_line_output = 3
@@ -38,20 +36,20 @@ use_parentheses = 'True'
 ensure_newline_before_comments = 'True'
 line_length = 120
 force_single_line = 'True'
-known_first_party = 'restpite'
+known_first_party = 'mailie'
 default_section = 'THIRDPARTY'
 forced_separate = 'tests'
 skip = '.tox,.eggs,ci/templates'
 
 [tool.mypy]
-mypy_path = 'restpite'
+mypy_path = 'mailie'
 check_untyped_defs = 'True'
 disallow_any_generics = 'True'
-ignore_missing_imports = 'True'
+ignore_missing_imports = 'False'
 show_error_codes = 'True'
 strict_equality = 'True'
 warn_redundant_casts = 'True'
-warn_return_any = 'True'
+warn_return_any = 'False'
 warn_unreachable = 'True'
 warn_unused_configs = 'True'
 no_implicit_reexport = 'False'
@@ -62,4 +60,4 @@ target-version = ['py38']
 line-length = 120
 
 [tool.flake8]
-# flake8 does not currently support pyproject.toml.
+# flake8 does not currently support pyproject.toml (handle via pre-commit directly).

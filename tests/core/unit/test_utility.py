@@ -1,6 +1,5 @@
-from mailie import EmailHeader
-from mailie._utility import convert_strings_to_headers
 from mailie._utility import emails_to_list
+from mailie._utility import split_headers_per_rfc
 
 
 def test_email_to_list_with_email() -> None:
@@ -23,12 +22,12 @@ def test_email_to_list_none() -> None:
 
 
 def test_convert_strings_to_headers_empty() -> None:
-    assert convert_strings_to_headers() == []
+    assert split_headers_per_rfc() == []
 
 
 def test_convert_strings_to_headers_strings() -> None:
-    data = ["foo:bar", EmailHeader.from_string("baz:boo")]
-    result = convert_strings_to_headers(data)
+    data = ["foo:bar", "baz:boo"]
+    result = split_headers_per_rfc(data)
     assert len(result) == 2
     assert isinstance(result, list)
-    assert all(isinstance(header, EmailHeader) for header in result)
+    assert result == [["foo", "bar"], ["baz", "boo"]]

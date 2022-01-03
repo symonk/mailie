@@ -5,7 +5,6 @@ import typer
 from mailie import version
 
 from .._email import Email
-from .._header import EmailHeader
 from .._policy import policy_factory
 from .._utility import unpack_recipients_from_csv
 
@@ -107,7 +106,7 @@ def mail(
         text=message,
         subject=subject,
         charset=charset,
-        headers=[EmailHeader.from_string(h) for h in headers],  # noqa
+        headers=headers,  # noqa
     )
 
 

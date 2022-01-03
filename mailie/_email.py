@@ -19,10 +19,10 @@ from ._constants import UTF_8
 from ._policy import policy_factory
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 from ._types import EMAIL_CHARSET_ALIAS
-from ._types import EMAIL_HEADER_ALIAS
+from ._types import EMAIL_HEADER_TYPE_ALIAS
 from ._types import EMAIL_PAYLOAD_ALIAS
-from ._utility import convert_strings_to_headers
 from ._utility import emails_to_list
+from ._utility import split_headers_per_rfc
 
 log = logging.getLogger(__name__)
 
@@ -105,10 +105,8 @@ class Email:
 
         :param charset: (Optional) ...
 
-        :param headers: (Optional) A list of either strings which are rfc-2822 compliant (name:value) or a
-        list of `EmailHeader`.  In the event that strings are present in the iterable dataset, they are
-        converted to `EmailHeader` instances internally.  All headers are then assigned onto the delegate
-        EmailMessage prior to sending.
+        :param headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
+        header field and the header value are separated by colon.
 
         :param attachments: (Optional) attachments path can support attaching files from the local
         file system to the email.  It can accept a single path (string or PathLike) or an iterable of
@@ -132,7 +130,7 @@ class Email:
             :: Emails with normal attachments
 
         `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`
-        management in that regard.
+        management in that regard.  Indexing of `Email` is based on it's headers.
     """
 
     def __init__(
@@ -147,7 +145,7 @@ class Email:
         text: str = "",
         html: typing.Optional[str] = None,
         charset: str = UTF_8,
-        headers: typing.Optional[EMAIL_HEADER_ALIAS] = None,
+        headers: typing.Optional[typing.List[str]] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
         attachment_strategy: Attachable = AllFilesStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
@@ -164,13 +162,13 @@ class Email:
         self.subject = subject
         self.preamble = preamble
         self.epilogue = epilogue
-        self.headers = convert_strings_to_headers(headers)
         self.attachments = attachment_strategy.generate(attachments)  # type: ignore [call-arg]
 
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
         self.add_header(SUBJECT_HEADER, self.subject)
+        # Todo: Now handle headers?
 
         # Text provided; set the text/plain content
         self.delegate_message.set_content(self.text, subtype="plain")
@@ -184,8 +182,8 @@ class Email:
         for attachment in self.attachments:
             self.add_attachment(attachment)
 
-        for header in self.headers:
-            self.add_header(header.field_name, header.field_body)
+        for header in split_headers_per_rfc(headers):
+            self.add_header(*header)
 
     @property
     def defects(self) -> typing.List[MessageDefect]:
@@ -283,8 +281,43 @@ class Email:
         """
         return self.delegate_message.is_multipart()
 
-    def get(self, name: str, failobj: _T) -> _T:
-        return self.delegate_message.get(name, failobj)
+    def get(self, name: str, failobj: typing.Optional[_T] = None) -> _T:
+        """
+        Return the value of the header named `name`.  If the header is not present in the message
+        then failobj is returned.  Invoked by `__getitem__`
+        """
+        return self.delegate_message.get(name, failobj)  # type: ignore [arg-type]
+
+    def get_all(
+        self, name: str, failobj: typing.Optional[_T] = None
+    ) -> typing.Union[typing.List[EMAIL_HEADER_TYPE_ALIAS], _T]:
+        """
+        Return a list of the header values where `name` is the header name.  If there is no header with
+        that name in the message, then `failobj` is returned.  If the header exists multiple times all
+        of it's values are retruend.
+        """
+        return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
+
+    def walk(self):
+        ...
+
+    def keys(self) -> typing.List[str]:
+        """
+        Return a list of all the messages header field names.
+        """
+        return self.delegate_message.keys()
+
+    def values(self) -> typing.List[EMAIL_HEADER_TYPE_ALIAS]:
+        """
+        Return a list of all the messages header values.
+        """
+        return self.delegate_message.values()
+
+    def items(self) -> typing.List[typing.Tuple[str, EMAIL_HEADER_TYPE_ALIAS]]:
+        """
+        Return a list of 2-tuples containing all the messages header field and head values respectively.
+        """
+        return self.delegate_message.items()
 
     # ----- Data model specifics ----- #
 
@@ -295,17 +328,22 @@ class Email:
         return self.as_bytes()
 
     def __len__(self) -> int:
-        # Return the number of headers.
-        return len(self.headers)
+        """
+        Return the total number of headers in the email, including duplicate headers.
+        """
+        return len(self.delegate_message)
 
     def __contains__(self, item: str) -> bool:
         return item in self.delegate_message
 
     def __iter__(self) -> typing.Iterator[str]:
-        for field, value in self.headers:
-            yield field, value
+        yield from iter(self.delegate_message)
 
     def __getitem__(self, item: str) -> typing.Any:
+        """
+        Return the value for the header named `item`.  If no header is present for that key then
+        `None` is returned.  A `KeyError` is never raised here.
+        """
         return self.get(item)
 
     def __setitem__(self) -> typing.Any:
