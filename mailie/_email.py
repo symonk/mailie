@@ -177,10 +177,11 @@ class Email:
 
         if self.html:
             # multipart/alternative.
-            # May have inline attachments; this is handled by `HtmlContent` __format__.
+            # Todo: Handle content ids and inline attachments within this.
             self.delegate_message.add_alternative(self.html, subtype="html")
 
-        # Processing 'normal' attachments.
+        # Handling normal non inline attachments
+        # Todo: Async support required here likely.
         for attachment in self.attachments:
             self.add_attachment(attachment)
 
