@@ -252,6 +252,10 @@ class Email:
         self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
         return self
 
+    async def async_add_attachment(self, attachment: FileAttachment) -> Email:
+        ...
+        return self
+
     def get_content_type(self) -> str:
         return self.delegate_message.get_content_type()
 
