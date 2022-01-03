@@ -105,7 +105,7 @@ class Email:
 
         :param charset: (Optional) ...
 
-        :param headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
+        :param base_headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
         header field and the header value are separated by colon.
 
         :param attachments: (Optional) attachments path can support attaching files from the local
@@ -145,7 +145,7 @@ class Email:
         text: str = "",
         html: typing.Optional[str] = None,
         charset: str = UTF_8,
-        headers: typing.Optional[typing.List[str]] = None,
+        base_headers: typing.Optional[typing.List[str]] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
         attachment_strategy: Attachable = AllFilesStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
@@ -169,7 +169,7 @@ class Email:
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
         self.add_header(SUBJECT_HEADER, self.subject)
 
-        for header in split_headers_per_rfc(headers):
+        for header in split_headers_per_rfc(base_headers):
             self.add_header(*header)
 
         # Text provided; set the text/plain content

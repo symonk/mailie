@@ -106,7 +106,7 @@ def mail(
         text=message,
         subject=subject,
         charset=charset,
-        headers=headers,  # noqa
+        base_headers=headers,  # noqa
     )
 
 
