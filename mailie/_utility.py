@@ -9,7 +9,7 @@ def split_headers_per_rfc(
     header_data: typing.Optional[typing.Iterable[str]] = None, delimiter: str = ":"
 ) -> typing.List[typing.List[str]]:
     """
-    Given an iterable or RFC compliant header strings, convert them into tuples of header field:header value pairs
+    Given an iterable of RFC compliant header strings, convert them into tuples of header field:header value pairs
     ready for use within a `mailie.Email` instance.  By default using the RFC compliant colon delimiter.
     """
     if header_data is None:
