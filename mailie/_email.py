@@ -312,6 +312,79 @@ class Email:
         """
         return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
 
+    def get_content_type(self) -> str:
+        """
+        Return the emails maintype/subtype.  If no `Content-Type` header exists in the email then
+        `get_content_type()` is used to determine it.  If the `Content-Type` header is invalid,
+        `plain/text` is returned.
+        """
+        return self.delegate_message.get_content_type()
+
+    def get_content_maintype(self) -> str:
+        """
+        Return the maintype resolved via `get_content_type()` e.g `plain`
+        """
+        return self.delegate_message.get_content_maintype()
+
+    def get_content_subtype(self) -> str:
+        """
+        Return the subtype resolved via `get_content_type()` e.g `text`
+        """
+        return self.delegate_message.get_content_subtype()
+
+    def get_default_type(self) -> str:
+        """
+        Return the default content type.
+        """
+        return self.delegate_message.get_default_type()
+
+    def set_default_type(self, ctype: str) -> Email:
+        """
+        Sets the default content type. Returns the `Email` instance for fluency
+        """
+        self.delegate_message.set_default_type(ctype)
+        return self
+
+    def set_param(
+        self,
+        param: str,
+        value: str,
+        header: str = ...,
+        requote: bool = ...,
+        charset: typing.Optional[str] = None,
+        language: str = ...,
+        replace: bool = ...,
+    ) -> None:
+        self.delegate_message.set_param(param, value, header, requote, charset, language, replace)
+
+    def del_param(self, param: str, header: str = ..., requote: bool = ...) -> None:
+        self.delegate_message.del_param(param, header, requote)
+
+    def get_filename(self, failobj: _T = None) -> typing.Union[str, _T]:
+        return self.delegate_message.get_filename(failobj)
+
+    def get_boundary(self, failobj: _T = None) -> typing.Union[str, _T]:
+        return self.delegate_message.get_boundary(failobj)
+
+    def set_boundary(self, boundary: str) -> Email:
+        self.delegate_message.set_boundary(boundary)
+        return self
+
+    def clear(self) -> Email:
+        """
+        Clears the headers and payload from the delegated `EmailMessage` messaged.
+        If you want to retain non Content- headers, use `clear_content()` instead.
+        """
+        self.delegate_message.clear()
+        return self
+
+    def clear_content(self) -> Email:
+        """
+        Clears the payload and all non Content- headers.
+        """
+        self.delegate_message.clear_content()
+        return self
+
     @property
     def defects(self) -> typing.List[MessageDefect]:
         return self.delegate_message.defects
@@ -371,26 +444,8 @@ class Email:
         ...
         return self
 
-    def get_content_type(self) -> str:
-        return self.delegate_message.get_content_type()
-
     def set_content(self, data: str, x: str) -> Email:
         self.delegate_message.set_content(data, x)
-        return self
-
-    def clear(self) -> Email:
-        """
-        Clears the headers and payload from the delegated `EmailMessage` messaged.
-        If you want to retain non Content- headers, use `clear_content()` instead.
-        """
-        self.delegate_message.clear()
-        return self
-
-    def clear_content(self) -> Email:
-        """
-        Clears the payload and all non Content- headers.
-        """
-        self.delegate_message.clear_content()
         return self
 
     def walk(self):
