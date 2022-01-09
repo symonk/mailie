@@ -185,6 +185,133 @@ class Email:
         for attachment in self.attachments:
             self.add_attachment(attachment)
 
+    def as_string(self, unixfrom: bool = False, maxheaderlen: int = 0, policy: typing.Optional[Policy] = None) -> str:
+        """Return the entire email message flattened as a string.  If `unixfrom` is True, the envelope sender
+        is included the string.  If maxheaderlen is `0`, the underlying policy is used for determining the
+        max_line_length, an additional `policy=` can be passed to defer to that policy instead.
+        """
+        return self.delegate_message.as_string(unixfrom, maxheaderlen, policy)
+
+    def __str__(self) -> str:
+        """
+        Returns the entire email message flattened as a string.
+        """
+        return self.as_string()
+
+    def as_bytes(self, unixfrom: bool = False, policy: typing.Optional[Policy] = None) -> bytes:
+        """
+        Returns the entire email message flattened as a bytes object.  If `unixfrom` is True, the envelope
+        sender is included in the bytes object.  `policy=` can be provided to override the default policy
+        for various aspects of formatting.  Flattening the message may trigger changes to the underlying
+        `EmailMessage` and this method may **not** be the best way to serialize the message.
+        """
+        return self.delegate_message.as_bytes(unixfrom, policy)
+
+    def __bytes__(self) -> bytes:
+        return self.as_bytes()
+
+    def is_multipart(self) -> bool:
+        """
+        Return True if the message payload is a list of sub email messages.  If is_multipart() returns
+        False the message Email payload should be a string which might be a `Content Transfer Encoding`
+        binary object.
+        """
+        return self.delegate_message.is_multipart()
+
+    def get_unixfrom(self) -> typing.Optional[str]:
+        """
+        Retrieve the `envelope sender` header.
+        """
+        return self.delegate_message.get_unixfrom()
+
+    def set_unixfrom(self, unixfrom: str) -> Email:
+        """
+        Set the messages `envelope sender` header to `unixfrom`.  This is not a property just to keep
+        API delegation with the underlying `EmailMessage`.
+        """
+        self.delegate_message.set_unixfrom(unixfrom)
+        return self
+
+    def __len__(self) -> int:
+        """
+        Return the total number of headers in the message, this tally includes duplicate headers.
+        """
+        return len(self.delegate_message)
+
+    def __contains__(self, name: str) -> bool:
+        """
+        Check if a particular header is present in the email headers.  This check is case insensitive
+        and name should omit the trailing colon `:`.
+        """
+        return name in self.delegate_message
+
+    def __getitem__(self, name: str) -> typing.Any:
+        """
+        Ignoring case, retrieve the header with a field value of `name`.  If no header is found no `KeyError`
+        is raised, but instead `None` is returned.  `name` does not include the trailing colon `:`.
+        """
+        return self.get(name)
+
+    def __setitem__(self, name: str, value: typing.Any) -> None:
+        """
+        Adds a new header to the Email where name is the header field_name and value is the field_value
+        respectively.  The header is appended to the messages existing headers.  This does **not**
+        overwrite existing headers with the same name, but instead appends possible duplicates.  In
+        order to perform an overwrite, consider calling `del` on the `Email` instance with the header
+        field name, then appending this header.  `Email.replace_header(name, value)` can be used as
+        a convenience method for replacing a single headers value.
+        """
+        self.delegate_message[name] = value
+
+    def replace_header(self, _name: str, _value: typing.Any) -> Email:
+        """
+        Convenience method for overwriting an existing header with a new value.  This method will replace
+        the first instance of the header with `_name`.  This method returns the Email instance for fluency.
+        """
+        self.delegate_message.replace_header(_name, _value)
+        return self
+
+    def __delitem__(self, name: str) -> typing.Any:
+        """
+        Deletes all headers of `name`.  If no headers are present this implicitly does nothing.
+        """
+        del self.delegate_message[name]
+
+    def keys(self) -> typing.List[str]:
+        """
+        Return a list of all the messages header field names.
+        """
+        return self.delegate_message.keys()
+
+    def values(self) -> typing.List[EMAIL_HEADER_TYPE_ALIAS]:
+        """
+        Return a list of all the messages header values.
+        """
+        return self.delegate_message.values()
+
+    def items(self) -> typing.List[typing.Tuple[str, EMAIL_HEADER_TYPE_ALIAS]]:
+        """
+        Return a list of 2-tuples containing all the messages header field and head values respectively.
+        """
+        return self.delegate_message.items()
+
+    def get(self, name: str, failobj: typing.Optional[_T] = None) -> _T:
+        """
+        Return the value of the header named `name`.  If the header is not present in the message
+        then failobj is returned.  Invoked by `__getitem__`
+        """
+        return self.delegate_message.get(name, failobj)  # type: ignore [arg-type]
+
+    def get_all(
+        self, name: str, failobj: typing.Optional[_T] = None
+    ) -> typing.Union[typing.List[EMAIL_HEADER_TYPE_ALIAS], _T]:
+        """
+        Return a list of the header values where `name` is the header name.  If there is no header with
+        that name in the message, then `failobj` is returned.  If the header exists multiple times all
+        of it's values are retruend.
+        """
+        return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
+
     @property
     def defects(self) -> typing.List[MessageDefect]:
         return self.delegate_message.defects
@@ -196,19 +323,6 @@ class Email:
     @property
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
         return self.delegate_message, self.from_addr, self.smtp_recipients
-
-    def get_unixfrom(self) -> typing.Optional[str]:
-        return self.delegate_message.get_unixfrom()
-
-    def set_unixfrom(self, unix_from: str) -> Email:
-        self.delegate_message.set_unixfrom(unix_from)
-        return self
-
-    def as_string(self, unixfrom: bool = False, maxheaderlen: int = 0, policy: typing.Optional[Policy] = None) -> str:
-        return self.delegate_message.as_string(unixfrom, maxheaderlen, policy)
-
-    def as_bytes(self, unixfrom: bool = False, policy: typing.Optional[Policy] = None) -> bytes:
-        return self.delegate_message.as_bytes(unixfrom, policy)
 
     def attach(self, payload: Message) -> None:
         """
@@ -279,85 +393,11 @@ class Email:
         self.delegate_message.clear_content()
         return self
 
-    def is_multipart(self) -> bool:
-        """
-        Return True if the message contains multiple MIME parts.
-        """
-        return self.delegate_message.is_multipart()
-
-    def get(self, name: str, failobj: typing.Optional[_T] = None) -> _T:
-        """
-        Return the value of the header named `name`.  If the header is not present in the message
-        then failobj is returned.  Invoked by `__getitem__`
-        """
-        return self.delegate_message.get(name, failobj)  # type: ignore [arg-type]
-
-    def get_all(
-        self, name: str, failobj: typing.Optional[_T] = None
-    ) -> typing.Union[typing.List[EMAIL_HEADER_TYPE_ALIAS], _T]:
-        """
-        Return a list of the header values where `name` is the header name.  If there is no header with
-        that name in the message, then `failobj` is returned.  If the header exists multiple times all
-        of it's values are retruend.
-        """
-        return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
-
     def walk(self):
         ...
 
-    def keys(self) -> typing.List[str]:
-        """
-        Return a list of all the messages header field names.
-        """
-        return self.delegate_message.keys()
-
-    def values(self) -> typing.List[EMAIL_HEADER_TYPE_ALIAS]:
-        """
-        Return a list of all the messages header values.
-        """
-        return self.delegate_message.values()
-
-    def items(self) -> typing.List[typing.Tuple[str, EMAIL_HEADER_TYPE_ALIAS]]:
-        """
-        Return a list of 2-tuples containing all the messages header field and head values respectively.
-        """
-        return self.delegate_message.items()
-
-    # ----- Data model specifics ----- #
-
-    def __str__(self) -> str:
-        return self.as_string()
-
-    def __bytes__(self) -> bytes:
-        return self.as_bytes()
-
-    def __len__(self) -> int:
-        """
-        Return the total number of headers in the email, including duplicate headers.
-        """
-        return len(self.delegate_message)
-
-    def __contains__(self, item: str) -> bool:
-        return item in self.delegate_message
-
     def __iter__(self) -> typing.Iterator[str]:
         yield from iter(self.delegate_message)
-
-    def __getitem__(self, item: str) -> typing.Any:
-        """
-        Return the value for the header named `item`.  If no header is present for that key then
-        `None` is returned.  A `KeyError` is never raised here.
-        """
-        return self.get(item)
-
-    def __setitem__(self) -> typing.Any:
-        ...
-
-    def __delitem__(self) -> typing.Any:
-        """
-        Delete all instances of a header.
-        """
-        ...
 
     def __getattr__(self, item: str) -> typing.Any:
         # Work around until delegation is fully in place.
