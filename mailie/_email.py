@@ -385,6 +385,12 @@ class Email:
         self.delegate_message.clear_content()
         return self
 
+    def __bool__(self) -> bool:
+        """
+        If the `Email` has any defects returns `False`.
+        """
+        return not bool(self.defects)
+
     @property
     def defects(self) -> typing.List[MessageDefect]:
         return self.delegate_message.defects
@@ -453,14 +459,3 @@ class Email:
 
     def __iter__(self) -> typing.Iterator[str]:
         yield from iter(self.delegate_message)
-
-    def __getattr__(self, item: str) -> typing.Any:
-        # Work around until delegation is fully in place.
-        attribute = getattr(self.delegate_message, item)
-        if callable(attribute):
-
-            def wrapper(*args, **kwargs):
-                return attribute(*args, **kwargs)
-
-            return wrapper
-        return attribute
