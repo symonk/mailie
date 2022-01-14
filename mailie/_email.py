@@ -311,6 +311,14 @@ class Email:
         of it's values are retruend.
         """
         return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
+    
+    def add_header(self, _name: str, _value: str, **_params: typing.Any) -> Email:
+        self.delegate_message.add_header(_name, _value, _params)
+        return self
+        
+    def replace_header(self, _name: str, _value: typing.Any) -> Email:
+        self.delegate_message.replace_header(_name, _value)
+        return self
 
     def get_content_type(self) -> str:
         """
