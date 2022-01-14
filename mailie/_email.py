@@ -458,4 +458,4 @@ class Email:
         ...
 
     def __iter__(self) -> typing.Iterator[str]:
-        yield from iter(self.delegate_message)
+        yield from self.delegate_message
