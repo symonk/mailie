@@ -1,3 +1,3 @@
-# Reference
+# Email API Reference
 
-::: mailie._email.Email
+::: mailie._email

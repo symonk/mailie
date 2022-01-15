@@ -42,96 +42,96 @@ class Email:
     (e.g a multipart message) then the payload is a list of EmailMessage objects, otherwise it is just
     a string.
 
-        :param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP
-        communication as part of the `MAIL FROM` part of the conversation later.  Mailie will not assign a
-        FROM header in the message itself, but consider this the envelope/unix from.
+    :param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP
+    communication as part of the `MAIL FROM` part of the conversation later.  Mailie will not assign a
+    FROM header in the message itself, but consider this the envelope/unix from.
 
-        :param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP
-        communication as part of the `RCPT TO` part of the conversation later.  to_addrs can be a single email address
-        (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
-        implicitly.
+    :param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP
+    communication as part of the `RCPT TO` part of the conversation later.  to_addrs can be a single email address
+    (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
+    implicitly.
 
-        :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By
-        default mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used
-        to customise the behaviour of various classes in pythons inbuilt email package.
+    :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By
+    default mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used
+    to customise the behaviour of various classes in pythons inbuilt email package.
 
-        For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of
-        the inbuilt policies available via python email:
+    For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of
+    the inbuilt policies available via python email:
 
-            :: default (uses python line endings via /n - sometimes undesirable)
-            :: SMTP (clone of default, with /r/n line endings for RFC compliance)
-            :: SMTPUTF8 (a UTF-8 equivalent of `smtp`, useful for non-ASCII in sender/recipient data)
-            :: HTTP (useful if serialising headers for HTTP traffic)
-            :: strict (clone of default, except raise_on_defect is assigned `True` to prevent silent failures)
+        :: default (uses python line endings via /n - sometimes undesirable)
+        :: SMTP (clone of default, with /r/n line endings for RFC compliance)
+        :: SMTPUTF8 (a UTF-8 equivalent of `smtp`, useful for non-ASCII in sender/recipient data)
+        :: HTTP (useful if serialising headers for HTTP traffic)
+        :: strict (clone of default, except raise_on_defect is assigned `True` to prevent silent failures)
 
-        If omitted by client code, mailie will assume a `SMTP` strict equivalent by default.  If this is undesirable
-        pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve
-        the policy e.g `policy='SMTPUTF8'`.
+    If omitted by client code, mailie will assume a `SMTP` strict equivalent by default.  If this is undesirable
+    pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve
+    the policy e.g `policy='SMTPUTF8'`.
 
-        :param cc: (Optional) A single email address (string) or an iterable of email addresses. In both cases the
-        emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible
-        to each other; in order to include a hidden recipient, opt for `bcc=...` instead.  CC recipients are
-        handled via a `CC` header and are also added to to_addrs and bcc during the SMTP conversation.
+    :param cc: (Optional) A single email address (string) or an iterable of email addresses. In both cases the
+    emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible
+    to each other; in order to include a hidden recipient, opt for `bcc=...` instead.  CC recipients are
+    handled via a `CC` header and are also added to to_addrs and bcc during the SMTP conversation.
 
-        Including arbitrary headers for CC is not advised as this is handled internally by the Email instance.
+    Including arbitrary headers for CC is not advised as this is handled internally by the Email instance.
 
-        :param bcc: (Optional) A single email address (string) or an iterable of email addresses. In both cases
-        the emails are converted to a list of distinct addresses.  In older versions of python email handling
-        via a BCC header revealed recipients, but is however fixed using send_message(...).  However mailie will
-        not include a `BCC` header in the email regardless and all to_addrs; cc + bcc addresses will be compressed
-        into a single iterable when having the SMTP conversation.
+    :param bcc: (Optional) A single email address (string) or an iterable of email addresses. In both cases
+    the emails are converted to a list of distinct addresses.  In older versions of python email handling
+    via a BCC header revealed recipients, but is however fixed using send_message(...).  However mailie will
+    not include a `BCC` header in the email regardless and all to_addrs; cc + bcc addresses will be compressed
+    into a single iterable when having the SMTP conversation.
 
-        Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.
+    Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.
 
-        :param subject: (Optional) A string to include in the message as part of the subject header.
-        By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted
-        the subject of the email will be empty ''.
+    :param subject: (Optional) A string to include in the message as part of the subject header.
+    By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted
+    the subject of the email will be empty ''.
 
-        :param text: (Optional) A string of text to include as the text/plain payload (body) of the email.
-        By default, an empty body will be created.  For simple plaintext mails, text= is the only data
-        necessary, however for more multipart variants html & attachments  can be provided.
+    :param text: (Optional) A string of text to include as the text/plain payload (body) of the email.
+    By default, an empty body will be created.  For simple plaintext mails, text= is the only data
+    necessary, however for more multipart variants html & attachments  can be provided.
 
-        :param html: (Optional) A tuple of either length 1 or 2.  If the tuple is a single element
-        then the value is considered the HTML content in it's unformatted, raw form.  An optional
-        iterable of attachment paths can be provided; these will be have CID's generated implicitly
-        and be formatted into the html content provided in the order in which they are provided.
-        For that reason, a tuple is preferred; using a set cannot guarantee the CID for img src
-        tags in the html template post-format processing.
+    :param html: (Optional) A tuple of either length 1 or 2.  If the tuple is a single element
+    then the value is considered the HTML content in it's unformatted, raw form.  An optional
+    iterable of attachment paths can be provided; these will be have CID's generated implicitly
+    and be formatted into the html content provided in the order in which they are provided.
+    For that reason, a tuple is preferred; using a set cannot guarantee the CID for img src
+    tags in the html template post-format processing.
 
-        A string of html content to include in the payload (body) of the email.
-        By default, html is omitted and a simple plain text mail is built, if provided the mail is
-        converted to a multipart/alternative where the payload includes both plain text and HTML content.
-        Depending on the recipient(s) client, displaying of this will vary however mailie will signal
-        that the HTML is priority (by the order in which the data is transmitted).
+    A string of html content to include in the payload (body) of the email.
+    By default, html is omitted and a simple plain text mail is built, if provided the mail is
+    converted to a multipart/alternative where the payload includes both plain text and HTML content.
+    Depending on the recipient(s) client, displaying of this will vary however mailie will signal
+    that the HTML is priority (by the order in which the data is transmitted).
 
-        :param charset: (Optional) ...
+    :param charset: (Optional) ...
 
-        :param base_headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
-        header field and the header value are separated by colon.
+    :param base_headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
+    header field and the header value are separated by colon.
 
-        :param attachments: (Optional) attachments path can support attaching files from the local
-        file system to the email.  It can accept a single path (string or PathLike) or an iterable of
-        paths (string or PathLike).  Additionally it can accept the path to a directory in which case
-        all files located in that directory will be considered for attachments.  These attachments are
-        NOT inline attachments; to provide inline attachments for the alternative body; pass a 2 length
-        tuple to html=(..., ...).
+    :param attachments: (Optional) attachments path can support attaching files from the local
+    file system to the email.  It can accept a single path (string or PathLike) or an iterable of
+    paths (string or PathLike).  Additionally it can accept the path to a directory in which case
+    all files located in that directory will be considered for attachments.  These attachments are
+    NOT inline attachments; to provide inline attachments for the alternative body; pass a 2 length
+    tuple to html=(..., ...).
 
-        :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
-        can be provided by the user at runtime in order implement a customised attachment lookup and attachment
-        process.  If omitted mailie will use a basic file strategy that takes paths literally and creates
-        `FileAttachment` objects out of them, if a directory is provided all files in that directory will be
-        turned into `FileAttachments` and added to the email (NOT inline).  The default strategy does not
-        recursive into sub directories to hunt for more files; implement your own strategy if that is what
-        you desire.
+    :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class
+    can be provided by the user at runtime in order implement a customised attachment lookup and attachment
+    process.  If omitted mailie will use a basic file strategy that takes paths literally and creates
+    `FileAttachment` objects out of them, if a directory is provided all files in that directory will be
+    turned into `FileAttachments` and added to the email (NOT inline).  The default strategy does not
+    recursive into sub directories to hunt for more files; implement your own strategy if that is what
+    you desire.
 
-        What kind of emails are typically sent and currently supported?
-            :: Simple plaintext emails
-            :: Simple alternative plaintext/html emails
-            :: Html emails embedded/inline attachments
-            :: Emails with normal attachments
+    What kind of emails are typically sent and currently supported?
+        :: Simple plaintext emails
+        :: Simple alternative plaintext/html emails
+        :: Html emails embedded/inline attachments
+        :: Emails with normal attachments
 
-        `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`
-        management in that regard.  Indexing of `Email` is based on it's headers.
+    `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`
+    management in that regard.  Indexing of `Email` is based on it's headers.
     """
 
     def __init__(
@@ -145,7 +145,7 @@ class Email:
         subject: str = "",
         text: str = "",
         html: typing.Optional[str] = None,
-        charset: str = UTF_8,
+        charset: EMAIL_CHARSET_ALIAS = UTF_8,
         base_headers: typing.Optional[typing.List[str]] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
         attachment_strategy: Attachable = AllFilesStrategy(),
@@ -169,6 +169,7 @@ class Email:
         self.add_header(FROM_HEADER, self.from_addr)
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
         self.add_header(SUBJECT_HEADER, self.subject)
+        self.set_charset(charset)
 
         for header in split_headers_per_rfc(base_headers):
             self.add_header(*header)

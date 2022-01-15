@@ -32,14 +32,3 @@ Features:
  - Support for plain, startTLS and TLS.
 
 ----
-
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md        # The documentation homepage.
-        email.md        # The email documentation
-        dsl.md          # DSL API
-        commandline.md  # Commandline API
-        ...             # Others TBD
