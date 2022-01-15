@@ -26,8 +26,8 @@ class FileAttachment:
         if c_type is None or encoding is not None:
             c_type = "application/octet-stream"  # Use a bag of bits as a fallback.
         return c_type.split("/", 1)
-    
-    def __iter__(self) -> typing.Iterator[bytes, str, str, str]
+
+    def __iter__(self) -> typing.Iterator[typing.AnyStr]:
         return iter((self.data, *self.mime_types, self.name))
 
 

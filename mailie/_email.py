@@ -20,6 +20,7 @@ from ._policy import policy_factory
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
 from ._types import EMAIL_CHARSET_ALIAS
 from ._types import EMAIL_HEADER_TYPE_ALIAS
+from ._types import EMAIL_PARAM_TYPE_ALIAS
 from ._types import EMAIL_PAYLOAD_ALIAS
 from ._utility import emails_to_list
 from ._utility import split_headers_per_rfc
@@ -311,13 +312,9 @@ class Email:
         of it's values are retruend.
         """
         return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
-    
+
     def add_header(self, _name: str, _value: str, **_params: typing.Any) -> Email:
-        self.delegate_message.add_header(_name, _value, _params)
-        return self
-        
-    def replace_header(self, _name: str, _value: typing.Any) -> Email:
-        self.delegate_message.replace_header(_name, _value)
+        self.delegate_message.add_header(_name, _value, **_params)
         return self
 
     def get_content_type(self) -> str:
@@ -353,6 +350,24 @@ class Email:
         self.delegate_message.set_default_type(ctype)
         return self
 
+    def get_params(self, failobj: _T, header: str, unquote: bool) -> typing.List[typing.Tuple[str, str]]:
+        """
+        Returns the messages content headers as a list of tuples split on the `=`.  In the
+        cases where no `=` exists; an empty string is set.  Optional `failobj` is returned
+        in the instance where there is no `Content-Type` header, header can be provided
+        to change the search context from `Content-Type` to that particular header.
+        """
+        return self.delegate_message.get_params(failobj, header, unquote)
+
+    def get_param(
+        self, param: str, failobj: _T, header: str, unquote: bool
+    ) -> typing.Union[_T, EMAIL_PARAM_TYPE_ALIAS]:
+        return self.delegate_message.get_param(param, failobj, header, unquote)
+
+    def del_param(self, param: str, header: str, requote: bool) -> Email:
+        self.delegate_message.del_param(param, header, requote)
+        return self
+
     def set_param(
         self,
         param: str,
@@ -365,8 +380,9 @@ class Email:
     ) -> None:
         self.delegate_message.set_param(param, value, header, requote, charset, language, replace)
 
-    def del_param(self, param: str, header: str = ..., requote: bool = ...) -> None:
-        self.delegate_message.del_param(param, header, requote)
+    def set_type(self, type: str, header: str, requote: bool) -> Email:
+        self.delegate_message.set_type(type, header, requote)
+        return self
 
     def get_filename(self, failobj: _T = None) -> typing.Union[str, _T]:
         return self.delegate_message.get_filename(failobj)
@@ -377,6 +393,24 @@ class Email:
     def set_boundary(self, boundary: str) -> Email:
         self.delegate_message.set_boundary(boundary)
         return self
+
+    def get_content_charset(self, failobj: _T) -> typing.Union[str, _T]:
+        return self.delegate_message.get_content_charset(failobj)
+
+    def get_charsets(self, failobj: _T) -> typing.Union[typing.Union[str], _T]:
+        return self.delegate_message.get_charsets(failobj)
+
+    def walk(self) -> typing.Generator[Email, None, None]:
+        yield from self.delegate_message.walk()
+
+    def get_content_disposition(self) -> typing.Optional[str]:
+        return self.delegate_message.get_content_disposition()
+
+    def get_body(self, preferencelist: typing.Sequence[str]) -> typing.Optional[EmailMessage]:
+        return self.get_body(preferencelist)
+
+    def iter_attachments(self) -> typing.Iterator[EmailMessage]:
+        yield from self.delegate_message.iter_attachments()
 
     def clear(self) -> Email:
         """
@@ -445,10 +479,6 @@ class Email:
             for sub_part in message.get_payload():
                 self.tree_view(message=sub_part, file=file, level=level + 1)
 
-    def add_header(self, name: str, value: typing.Any, **params) -> Email:
-        self.delegate_message.add_header(name, value, **params)
-        return self
-
     def add_attachment(self, attachment: FileAttachment) -> Email:
         main, sub = attachment.mime_types
         self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
@@ -461,9 +491,6 @@ class Email:
     def set_content(self, data: str, x: str) -> Email:
         self.delegate_message.set_content(data, x)
         return self
-
-    def walk(self):
-        ...
 
     def __iter__(self) -> typing.Iterator[str]:
         yield from self.delegate_message
