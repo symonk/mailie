@@ -234,6 +234,30 @@ class Email:
         self.delegate_message.set_unixfrom(unixfrom)
         return self
 
+    def attach(self, payload: Message) -> None:
+        """
+        Add the given payload to the current payload.
+
+        The current payload will always be a list of objects after this method
+        is called.  If you want to set the payload to a scalar object, use
+        set_payload() instead.
+        """
+        self.delegate_message.attach(payload)
+
+    def get_payload(self, i: typing.Optional[int] = None, decode: bool = False) -> typing.Optional[EMAIL_PAYLOAD_ALIAS]:
+        return self.delegate_message.get_payload(i, decode)
+
+    def set_payload(self, payload: EMAIL_PAYLOAD_ALIAS, charset: EMAIL_CHARSET_ALIAS) -> Email:
+        self.delegate_message.set_payload(payload, charset)
+        return self
+
+    def set_charset(self, charset: EMAIL_CHARSET_ALIAS) -> Email:
+        self.delegate_message.set_charset(charset)
+        return self
+
+    def get_charset(self) -> EMAIL_CHARSET_ALIAS:
+        return self.delegate_message.get_charset()
+
     def __len__(self) -> int:
         """
         Return the total number of headers in the message, this tally includes duplicate headers.
@@ -413,6 +437,39 @@ class Email:
     def iter_attachments(self) -> typing.Iterator[EmailMessage]:
         yield from self.delegate_message.iter_attachments()
 
+    def iter_parts(self) -> typing.Iterator[EmailMessage]:
+        yield from self.delegate_message.iter_parts()
+
+    def get_content(self) -> ...:
+        ...
+
+    def set_content(self) -> ...:
+        ...
+
+    def make_related(self) -> ...:
+        ...
+
+    def make_alternative(self) -> ...:
+        ...
+
+    def make_mixed(self) -> ...:
+        ...
+
+    def add_related(self) -> ...:
+        ...
+
+    def add_alternative(self) -> ...:
+        ...
+
+    def add_attachment(self, attachment: FileAttachment) -> Email:
+        # Todo: Fix this API for delegation.
+        main, sub = attachment.mime_types
+        self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
+        return self
+
+    def is_attachment(self) -> bool:
+        return self.delegate_message.is_attachment()
+
     def clear(self) -> Email:
         """
         Clears the headers and payload from the delegated `EmailMessage` messaged.
@@ -446,30 +503,6 @@ class Email:
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
         return self.delegate_message, self.from_addr, self.smtp_recipients
 
-    def attach(self, payload: Message) -> None:
-        """
-        Add the given payload to the current payload.
-
-        The current payload will always be a list of objects after this method
-        is called.  If you want to set the payload to a scalar object, use
-        set_payload() instead.
-        """
-        self.delegate_message.attach(payload)
-
-    def get_payload(self, i: typing.Optional[int] = None, decode: bool = False) -> typing.Optional[EMAIL_PAYLOAD_ALIAS]:
-        return self.delegate_message.get_payload(i, decode)
-
-    def set_payload(self, payload: EMAIL_PAYLOAD_ALIAS, charset: EMAIL_CHARSET_ALIAS) -> Email:
-        self.delegate_message.set_payload(payload, charset)
-        return self
-
-    def set_charset(self, charset: EMAIL_CHARSET_ALIAS) -> Email:
-        self.delegate_message.set_charset(charset)
-        return self
-
-    def get_charset(self) -> EMAIL_CHARSET_ALIAS:
-        return self.delegate_message.get_charset()
-
     def tree_view(self, *, message: Message = None, file=None, level: int = 0) -> None:
         """
         Write the structure of this message to stdout. This is handled recursively.
@@ -480,17 +513,8 @@ class Email:
             for sub_part in message.get_payload():
                 self.tree_view(message=sub_part, file=file, level=level + 1)
 
-    def add_attachment(self, attachment: FileAttachment) -> Email:
-        main, sub = attachment.mime_types
-        self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
-        return self
-
     async def async_add_attachment(self, attachment: FileAttachment) -> Email:
         ...
-        return self
-
-    def set_content(self, data: str, x: str) -> Email:
-        self.delegate_message.set_content(data, x)
         return self
 
     def __iter__(self) -> typing.Iterator[str]:
