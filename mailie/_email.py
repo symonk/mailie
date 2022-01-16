@@ -438,7 +438,7 @@ class Email:
     def get_content_disposition(self) -> typing.Optional[str]:
         return self.delegate_message.get_content_disposition()
 
-    def get_body(self, preferencelist: typing.Sequence[str]) -> typing.Optional[EmailMessage]:
+    def get_body(self, preferencelist: typing.Literal['related', 'html', 'plain']) -> typing.Optional[EmailMessage]:
         return self.get_body(preferencelist)
 
     def iter_attachments(self) -> typing.Iterator[Message]:
