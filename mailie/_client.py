@@ -146,9 +146,11 @@ class Client(BaseSMTPClient):
         exc_tb: typing.Optional[types.TracebackType] = None,
     ) -> None:
         self._delegate_client.__exit__(exc_type, exc_val, exc_tb)
+        self._state = ClientState.CLOSED
 
     def __del__(self) -> None:
         self._delegate_client.close()
+        self._state = ClientState.CLOSED
 
     def set_debug_level(self, level: int) -> Client:
         self._delegate_client.set_debuglevel(level)
@@ -164,13 +166,20 @@ class Client(BaseSMTPClient):
         if self._state == ClientState.CLOSED:
             raise RuntimeError("Cannot send a mail as this client has been closed.")
         self._state = ClientState.OPENED
-        request = self._build_request(email=email, auth=auth)
-        return self.dispatch_request(request=request)
+        return self.dispatch_request(request=self._build_request(email=email, auth=auth))
+
+    def turret(
+        self, *, email: Email, auth: typing.Optional[SMTP_AUTH_ALIAS] = None, count: int = 1
+    ) -> typing.List[Response]:
+        """
+        Turret in the same mail a number of times.  This is a sequential sync operation, in order to perform turreting
+        in a faster more efficient manner; consider using an `AsyncClient`.
+        """
+        return [self.send(email=email, auth=auth) for _ in range(count)]
 
     def dispatch_request(self, *, request: Request) -> Response:
-        with self._delegate_client.__enter__():
-            self.set_debug_level(self.debug)
-            return Response(self._delegate_client.send_message(*request.email.smtp_arguments))
+        self.set_debug_level(self.debug)
+        return Response(self._delegate_client.send_message(*request.email.smtp_arguments))
 
     @staticmethod
     def _build_request(*, email: Email, auth: typing.Optional[SMTP_AUTH_ALIAS] = None) -> Request:
@@ -207,7 +216,7 @@ class AsyncClient(BaseSMTPClient):
             tls_context=tls_context,
         )
 
-    async def send(self, *, email: Email) -> Email:
+    async def send(self, *, email: Email, hostname: str = "localhost", port: int = 25) -> Email:
         ...
 
     async def __aenter__(self) -> AsyncClient:
