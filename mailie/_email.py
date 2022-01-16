@@ -153,6 +153,7 @@ class Email:
         attachment_strategy: Attachable = AllFilesStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
+        boundary: typing.Optional[str] = None,
     ):
         self.delegate_message = EmailMessage(policy=policy_factory(policy))
         self.from_addr = from_addr
@@ -161,10 +162,10 @@ class Email:
         self.bcc = emails_to_list(bcc)
         self.html = html
         self.text = text
-        self.set_charset(charset)
         self.subject = subject
         self.preamble = preamble
         self.epilogue = epilogue
+        self.boundary = boundary
         self.attachments = attachment_strategy.generate(attachments)  # type: ignore [call-arg]
 
         # -- Delegation Specifics ---
@@ -178,6 +179,8 @@ class Email:
 
         # Text provided; set the text/plain content
         self.delegate_message.set_content(self.text, subtype="plain")
+        if self.boundary:
+            self.set_boundary(self.boundary)
 
         if self.html:
             # multipart/alternative.
@@ -456,15 +459,15 @@ class Email:
         return self
 
     def make_related(self, boundary: typing.Optional[str] = None) -> Email:
-        self.delegate_message.make_related(boundary)
+        self.delegate_message.make_related(boundary or self.boundary)
         return self
 
     def make_alternative(self, boundary: typing.Optional[str] = None) -> Email:
-        self.delegate_message.make_alternative(boundary)
+        self.delegate_message.make_alternative(boundary or self.boundary)
         return self
 
     def make_mixed(self, boundary: typing.Optional[str] = None) -> Email:
-        self.delegate_message.make_mixed(boundary)
+        self.delegate_message.make_mixed(boundary or self.boundary)
         return self
 
     def add_related(

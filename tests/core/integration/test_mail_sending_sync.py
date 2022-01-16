@@ -12,3 +12,7 @@ def test_email_example(mail_to_disk_server):
         html="<b> html content </b>",
     )
     Client(port=9222).send(email=mail)
+
+
+def test_email_bounadries(mail_to_disk_server, html_multi_attach_mail):
+    Client(port=9222).send(email=html_multi_attach_mail)
