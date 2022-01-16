@@ -2,10 +2,12 @@ import typing
 
 import typer
 
+from mailie import Client
 from mailie import version
 
 from .._email import Email
 from .._policy import policy_factory
+from .._providers import provider_factory
 from .._utility import unpack_recipients_from_csv
 
 app = typer.Typer(name="mail")
@@ -76,6 +78,11 @@ def unpack_recipients(ctx: typer.Context, recipients: typing.List[str]) -> typin
     return None
 
 
+def validate_provider(ctx: typer.Context, provider):
+    if not ctx.resilient_parsing:
+        return provider if provider is None else provider.upper()
+
+
 @app.command()
 def mail(
     from_addr: str = typer.Option(..., "--from", "-f"),
@@ -94,9 +101,13 @@ def mail(
     charset: str = typer.Option(None, "--charset", "-cs"),
     headers: typing.List[str] = typer.Option(None, "--headers", "-h"),
     verbosity: int = typer.Option(0, "-v", count=True),
+    host: str = typer.Option("localhost", "--smtp"),
+    port: int = typer.Option(25, "--port", "-p"),
+    tls: bool = typer.Option(False, "--tls"),
+    provider: str = typer.Option(None, "--provider", callback=validate_provider),
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    _ = Email(
+    email = Email(
         from_addr=from_addr,
         to_addrs=to_addrs,
         cc=cc,
@@ -108,6 +119,10 @@ def mail(
         charset=charset,
         base_headers=headers,  # noqa
     )
+    if provider:
+        host, port = provider_factory(provider)
+    with Client(host=host, port=port, use_tls=tls) as client:
+        client.send(email=email)
 
 
 @app.callback()
