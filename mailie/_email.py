@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import typing
+from email.contentmanager import ContentManager
 from email.errors import MessageDefect
 from email.message import EmailMessage
 from email.message import Message
@@ -11,6 +12,7 @@ from email.policy import Policy
 from ._attachments import AllFilesStrategy
 from ._attachments import Attachable
 from ._attachments import FileAttachment  # noqa
+from ._constants import CONTENT_TYPE_HEADER
 from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
 from ._constants import SUBJECT_HEADER
@@ -375,19 +377,21 @@ class Email:
         self.delegate_message.set_default_type(ctype)
         return self
 
-    def get_params(self, failobj: _T, header: str, unquote: bool) -> typing.List[typing.Tuple[str, str]]:
+    def get_params(
+        self, failobj: typing.Optional[_T] = None, header: str = CONTENT_TYPE_HEADER, unquote: bool = True
+    ) -> typing.Union[typing.List[typing.Tuple[str, str]], _T]:
         """
         Returns the messages content headers as a list of tuples split on the `=`.  In the
         cases where no `=` exists; an empty string is set.  Optional `failobj` is returned
         in the instance where there is no `Content-Type` header, header can be provided
         to change the search context from `Content-Type` to that particular header.
         """
-        return self.delegate_message.get_params(failobj, header, unquote)
+        return self.delegate_message.get_params(failobj, header, unquote)  # type: ignore [arg-type]
 
     def get_param(
-        self, param: str, failobj: _T, header: str, unquote: bool
+        self, param: str, failobj: typing.Optional[_T] = None, header: str = CONTENT_TYPE_HEADER, unquote: bool = True
     ) -> typing.Union[_T, EMAIL_PARAM_TYPE_ALIAS]:
-        return self.delegate_message.get_param(param, failobj, header, unquote)
+        return self.delegate_message.get_param(param, failobj, header, unquote)  # type: ignore [arg-type]
 
     def del_param(self, param: str, header: str, requote: bool) -> Email:
         self.delegate_message.del_param(param, header, requote)
@@ -397,23 +401,23 @@ class Email:
         self,
         param: str,
         value: str,
-        header: str = ...,
-        requote: bool = ...,
+        header: str = CONTENT_TYPE_HEADER,
+        requote: bool = True,
         charset: typing.Optional[str] = None,
-        language: str = ...,
-        replace: bool = ...,
+        language: str = "",
+        replace: bool = True,
     ) -> None:
         self.delegate_message.set_param(param, value, header, requote, charset, language, replace)
 
-    def set_type(self, type: str, header: str, requote: bool) -> Email:
+    def set_type(self, type: str, header: str = CONTENT_TYPE_HEADER, requote: bool = True) -> Email:
         self.delegate_message.set_type(type, header, requote)
         return self
 
-    def get_filename(self, failobj: _T = None) -> typing.Union[str, _T]:
-        return self.delegate_message.get_filename(failobj)
+    def get_filename(self, failobj: typing.Optional[_T] = None) -> typing.Union[str, _T]:
+        return self.delegate_message.get_filename(failobj)  # type: ignore [arg-type]
 
-    def get_boundary(self, failobj: _T = None) -> typing.Union[str, _T]:
-        return self.delegate_message.get_boundary(failobj)
+    def get_boundary(self, failobj: typing.Optional[_T] = None) -> typing.Union[str, _T]:
+        return self.delegate_message.get_boundary(failobj)  # type: ignore [arg-type]
 
     def set_boundary(self, boundary: str) -> Email:
         self.delegate_message.set_boundary(boundary)
@@ -422,10 +426,10 @@ class Email:
     def get_content_charset(self, failobj: _T) -> typing.Union[str, _T]:
         return self.delegate_message.get_content_charset(failobj)
 
-    def get_charsets(self, failobj: _T) -> typing.Union[typing.Union[str], _T]:
+    def get_charsets(self, failobj: _T) -> typing.Union[_T, typing.List[str]]:
         return self.delegate_message.get_charsets(failobj)
 
-    def walk(self) -> typing.Generator[Email, None, None]:
+    def walk(self) -> typing.Generator[Message, None, None]:
         yield from self.delegate_message.walk()
 
     def get_content_disposition(self) -> typing.Optional[str]:
@@ -434,41 +438,55 @@ class Email:
     def get_body(self, preferencelist: typing.Sequence[str]) -> typing.Optional[EmailMessage]:
         return self.get_body(preferencelist)
 
-    def iter_attachments(self) -> typing.Iterator[EmailMessage]:
+    def iter_attachments(self) -> typing.Iterator[Message]:
         yield from self.delegate_message.iter_attachments()
 
-    def iter_parts(self) -> typing.Iterator[EmailMessage]:
+    def iter_parts(self) -> typing.Iterator[Message]:
         yield from self.delegate_message.iter_parts()
 
-    def get_content(self) -> ...:
-        ...
+    def get_content(
+        self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
+    ) -> typing.Any:
+        return self.delegate_message.get_content(*args, content_manager, **kw)
 
-    def set_content(self) -> ...:
-        ...
+    def set_content(
+        self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
+    ) -> Email:
+        self.delegate_message.set_content(*args, content_manager, **kw)
+        return self
 
-    def make_related(self) -> ...:
-        ...
+    def make_related(self, boundary: typing.Optional[str] = None) -> Email:
+        self.delegate_message.make_related(boundary)
+        return self
 
-    def make_alternative(self) -> ...:
-        ...
+    def make_alternative(self, boundary: typing.Optional[str] = None) -> Email:
+        self.delegate_message.make_alternative(boundary)
+        return self
 
-    def make_mixed(self) -> ...:
-        ...
+    def make_mixed(self, boundary: typing.Optional[str] = None) -> Email:
+        self.delegate_message.make_mixed(boundary)
+        return self
 
-    def add_related(self) -> ...:
-        ...
+    def add_related(
+        self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
+    ) -> None:
+        self.delegate_message.add_related(*args, content_manager, **kw)
 
-    def add_alternative(self) -> ...:
-        ...
+    def add_alternative(
+        self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
+    ) -> None:
+        self.delegate_message.add_alternative(*args, content_manager, **kw)
+
+    # def add_attachment(
+    #     self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
+    # ) -> None:
+    #     ...
 
     def add_attachment(self, attachment: FileAttachment) -> Email:
         # Todo: Fix this API for delegation.
         main, sub = attachment.mime_types
         self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
         return self
-
-    def is_attachment(self) -> bool:
-        return self.delegate_message.is_attachment()
 
     def clear(self) -> Email:
         """
@@ -484,6 +502,9 @@ class Email:
         """
         self.delegate_message.clear_content()
         return self
+
+    def is_attachment(self) -> bool:
+        return self.delegate_message.is_attachment()
 
     def __bool__(self) -> bool:
         """
@@ -514,7 +535,6 @@ class Email:
                 self.tree_view(message=sub_part, file=file, level=level + 1)
 
     async def async_add_attachment(self, attachment: FileAttachment) -> Email:
-        ...
         return self
 
     def __iter__(self) -> typing.Iterator[str]:
