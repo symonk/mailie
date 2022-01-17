@@ -181,6 +181,14 @@ class Client(BaseSMTPClient):
         """
         return [self.send(email=email, auth=auth) for _ in range(count)]
 
+    def fetch_esmtp_options(self, name: str = "") -> typing.Dict[str, str]:
+        """
+        Perform a check for the (E)smtp options available on the host; name if empty will use the
+        FQDN of localhost.
+        """
+        self._delegate_client.ehlo(name)
+        return self._delegate_client.esmtp_features
+
     def dispatch_request(self, *, request: Request) -> Response:
         self.set_debug_level(self.debug)
         return Response(self._delegate_client.send_message(*request.email.smtp_arguments))
