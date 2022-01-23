@@ -2,12 +2,10 @@ import typing
 
 import typer
 
-from mailie import Client
 from mailie import version
 
 from .._email import Email
 from .._policy import policy_factory
-from .._providers import provider_factory
 from .._utility import unpack_recipients_from_csv
 
 app = typer.Typer(name="mail")
@@ -107,9 +105,9 @@ def mail(
     provider: str = typer.Option(None, "--provider", callback=validate_provider),
 ) -> None:
     typer.secho(f"Mailie loaded.. (verbosity: {verbosity})", fg=typer.colors.BRIGHT_GREEN, bold=True)
-    email = Email(
-        from_addr=from_addr,
-        to_addrs=to_addrs,
+    Email(
+        mail_from=from_addr,
+        rcpt_to=to_addrs,
         cc=cc,
         bcc=bcc,
         html=html,
@@ -119,10 +117,6 @@ def mail(
         charset=charset,
         headers=headers,  # noqa
     )
-    if provider:
-        host, port = provider_factory(provider)
-    with Client(host=host, port=port, use_tls=tls) as client:
-        client.send(email=email)
 
 
 @app.callback()

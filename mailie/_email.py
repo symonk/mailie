@@ -36,20 +36,26 @@ _T = typing.TypeVar("_T")
 class Email:
     """
     An encapsulation of an email message.  In cases of multipart email messages this is a tree
-    of Emails.
+    of Emails.  Mailie's `Email` object is treated as a partial mapping, where indexes are based on
+    headers, various utility methods are available for managing message bodies.
 
     An email message is a combination of RFC-2822 headers and a payload.  If the message is a container
     (e.g a multipart message) then the payload is a list of EmailMessage objects, otherwise it is just
     a string.
 
-    :param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP
-    communication as part of the `MAIL FROM` part of the conversation later.  Mailie will not assign a
-    FROM header in the message itself, but consider this the envelope/unix from.
+    :param mail_from: (Optional) The envelope sender of the email, a compliant email address.  If provided
+    this can be automatically deferred when sending the email through the mail SMTPClient.  Client `send(...)`
+    allows overriding this value at runtime.  When specified mailie will NOT include this in the email headers
+    as a `From` header.  smtplib cares not about email headers.  In order to add a From header to the email
+    pass it explicitly into headers=.  When calling send() on the client without specifying the optional mail_from
+    argument, mailie will attempt to fetch the value from the `Email` instance.
 
-    :param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP
-    communication as part of the `RCPT TO` part of the conversation later.  to_addrs can be a single email address
-    (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
-    implicitly.
+    :param rcpt_to: (Optional) The envelope recipient(s) of the email, a compliant email address or a Sequence
+    of compliant email addresses.  If provided this can be automatically defrred when sending the email through
+    the mailie SMTPClient.  Client `send(...)` allows overriding this value at runtime.  When specified mailie
+    will NOT include this in the email headers as a `To` header.  smtplib cares not about email headers.  In order
+    to add a To header to the email, pass it explicitly into headers=.  When calling send() on the client without
+    specifying the optional mail_to argument, mailie will attempt to fetch the value from the `Email` instance.
 
     :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By
     default mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used
@@ -133,15 +139,13 @@ class Email:
         :: Html emails embedded/inline attachments
         :: Emails with normal attachments
 
-    `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`
-    management in that regard.  Indexing of `Email` is based on it's headers.
     """
 
     def __init__(
         self,
         *,
-        from_addr: str,
-        to_addrs: typing.Union[typing.List[str], str],
+        mail_from: typing.Optional[str] = None,
+        rcpt_to: typing.Optional[typing.Union[typing.Sequence[str], str]] = None,
         policy: typing.Union[str, Policy] = SMTP_DEFAULT_POLICY,
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
@@ -157,8 +161,8 @@ class Email:
         boundary: typing.Optional[str] = None,
     ):
         self.delegate_message = EmailMessage(policy=policy_factory(policy))
-        self.from_addr = from_addr
-        self.to_addrs = emails_to_list(to_addrs)
+        self.mail_from = mail_from
+        self.rcpt_to = emails_to_list(rcpt_to)
         self.cc = emails_to_list(cc)
         self.bcc = emails_to_list(bcc)
         self.html = html
@@ -169,11 +173,10 @@ class Email:
         self.boundary = boundary
         self.attachments = attachment_strategy.generate(attachments)  # type: ignore [call-arg]
 
-        # -- Delegation Specifics ---
-        self.add_header(FROM_HEADER, self.from_addr)
-        self.add_header(TO_HEADER, ", ".join(self.to_addrs))
         self.set_charset(charset)
         headers = headers_to_list(headers)  # Keep a consistent API internally while allowing various user types.
+        headers.append(f"{FROM_HEADER}:{self.mail_from}")
+        headers.append(f"{TO_HEADER}:{', '.join(self.rcpt_to)}")
 
         if subject:
             headers.append(f"{SUBJECT_HEADER}:{subject}")
@@ -193,9 +196,8 @@ class Email:
             # Todo: Handle content ids and inline attachments within this.
             self.delegate_message.add_alternative(self.html, subtype="html")
 
-        # Handling normal non inline attachments
-        # Todo: Async support required here likely.
         for attachment in self.attachments:
+            # Todo: We need to handle async file IO, on linux at least?
             self.add_attachment(attachment)
 
     def as_string(self, unixfrom: bool = False, maxheaderlen: int = 0, policy: typing.Optional[Policy] = None) -> str:
@@ -527,11 +529,11 @@ class Email:
 
     @property
     def smtp_recipients(self) -> typing.List[str]:
-        return self.to_addrs + self.cc + self.bcc
+        return self.rcpt_to + self.cc + self.bcc
 
     @property
-    def smtp_arguments(self) -> typing.Tuple[EmailMessage, str, typing.List[str]]:
-        return self.delegate_message, self.from_addr, self.smtp_recipients
+    def smtp_arguments(self) -> typing.Tuple[EmailMessage, typing.Optional[str], typing.Optional[typing.Sequence[str]]]:
+        return self.delegate_message, self.mail_from, self.smtp_recipients
 
     def tree_view(self, *, message: Message = None, file=None, level: int = 0) -> None:
         """

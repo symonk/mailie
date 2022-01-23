@@ -28,8 +28,8 @@ def png_path(tmp_path):
 @pytest.fixture
 def html_multi_attach_mail(png_path):
     return Email(
-        to_addrs=["recip@recip.com"],
-        from_addr="sender@onetwothree.com",
+        rcpt_to=["recip@recip.com"],
+        mail_from="sender@onetwothree.com",
         subject="fooo!",
         headers=["one:two", "three:four"],
         text="plaintext content",

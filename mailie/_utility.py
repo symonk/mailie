@@ -40,7 +40,7 @@ def headers_to_list(headers: EMAIL_HEADER_TYPES = None) -> typing.List[str]:
         return []
     if isinstance(headers, typing.MutableMapping):
         return [f"{key}:{value}" for key, value in headers.items()]
-    return headers
+    return list(headers)
 
 
 def check_is_email(email: str):
