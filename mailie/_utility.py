@@ -2,6 +2,7 @@ import csv
 import pathlib
 import typing
 
+from ._types import EMAIL_HEADER_TYPES
 from ._types import EMAIL_ITERABLE_ALIAS
 
 
@@ -28,6 +29,18 @@ def emails_to_list(emails: typing.Optional[EMAIL_ITERABLE_ALIAS] = None) -> typi
     if emails is None:
         return []
     return [emails] if isinstance(emails, str) else [email for email in set(emails)]
+
+
+def headers_to_list(headers: EMAIL_HEADER_TYPES = None) -> typing.List[str]:
+    """
+    Converts the user defined headers into an RFC compliant list, offers slightly more functionality to the
+    user while guaranteeing the internal API is consistent.
+    """
+    if headers is None:
+        return []
+    if isinstance(headers, typing.MutableMapping):
+        return [f"{key}:{value}" for key, value in headers.items()]
+    return headers
 
 
 def check_is_email(email: str):

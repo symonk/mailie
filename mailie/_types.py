@@ -15,3 +15,4 @@ EMAIL_ITERABLE_ALIAS = typing.Union[str, typing.Iterable[str]]
 EMAIL_ATTACHMENT_PATH_ALIAS = typing.Union[typing.List[str], typing.List["os.PathLike[str]"], str, "os.PathLike[str]"]
 EMAIL_ATTACHMENT_FILTER_ALIAS = typing.Union[str, re.Pattern]
 SMTP_AUTH_ALIAS = Auth
+EMAIL_HEADER_TYPES = typing.Optional[typing.Union[typing.List[str], typing.MutableMapping[str, str]]]

@@ -25,6 +25,7 @@ from ._types import EMAIL_HEADER_TYPE_ALIAS
 from ._types import EMAIL_PARAM_TYPE_ALIAS
 from ._types import EMAIL_PAYLOAD_ALIAS
 from ._utility import emails_to_list
+from ._utility import headers_to_list
 from ._utility import split_headers_per_rfc
 
 log = logging.getLogger(__name__)
@@ -34,11 +35,8 @@ _T = typing.TypeVar("_T")
 
 class Email:
     """
-    An encapsulation and representation of an email message.  At present only simple plaintext
-    mails and multipart/alternative plain + html content mails are supported.  Client code should
-    opt for using the email_factory rather than importing and instantiating `Email` instances
-    themselves.  Only keyword arguments are supported in both `Email` and `email_factory` in a bid
-    to build a more robust API.
+    An encapsulation of an email message.  In cases of multipart email messages this is a tree
+    of Emails.
 
     An email message is a combination of RFC-2822 headers and a payload.  If the message is a container
     (e.g a multipart message) then the payload is a list of EmailMessage objects, otherwise it is just
@@ -87,7 +85,9 @@ class Email:
 
     :param subject: (Optional) A string to include in the message as part of the subject header.
     By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted
-    the subject of the email will be empty ''.
+    the subject of the email will be empty ''.  If subject= is provided it will automatically appended
+    into the headers, it is also possible to ignore subject and pass a 'Subject' header directly for
+    the same affect.
 
     :param text: (Optional) A string of text to include as the text/plain payload (body) of the email.
     By default, an empty body will be created.  For simple plaintext mails, text= is the only data
@@ -108,8 +108,9 @@ class Email:
 
     :param charset: (Optional) ...
 
-    :param base_headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
-    header field and the header value are separated by colon.
+    :param headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
+    header field and the header value are separated by colon.  A mapping is also permitted where the
+    colons are omitted such as {"header_field_name": "header_field_value"}
 
     :param attachments: (Optional) attachments path can support attaching files from the local
     file system to the email.  It can accept a single path (string or PathLike) or an iterable of
@@ -144,11 +145,11 @@ class Email:
         policy: typing.Union[str, Policy] = SMTP_DEFAULT_POLICY,
         cc: typing.Optional[typing.List[str]] = None,
         bcc: typing.Optional[typing.List[str]] = None,
-        subject: str = "",
-        text: str = "",
+        subject: typing.Optional[str] = None,
+        text: typing.Optional[str] = None,
         html: typing.Optional[str] = None,
         charset: EMAIL_CHARSET_ALIAS = UTF_8,
-        base_headers: typing.Optional[typing.List[str]] = None,
+        headers: typing.Optional[typing.Union[typing.List[str], typing.MutableMapping[str, str]]] = None,
         attachments: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None,
         attachment_strategy: Attachable = AllFilesStrategy(),
         preamble: str = NON_MIME_AWARE_CLIENT_MESSAGE,
@@ -171,14 +172,19 @@ class Email:
         # -- Delegation Specifics ---
         self.add_header(FROM_HEADER, self.from_addr)
         self.add_header(TO_HEADER, ", ".join(self.to_addrs))
-        self.add_header(SUBJECT_HEADER, self.subject)
         self.set_charset(charset)
+        headers = headers_to_list(headers)  # Keep a consistent API internally while allowing various user types.
 
-        for header in split_headers_per_rfc(base_headers):
-            self.add_header(*header)
+        if subject:
+            headers.append(f"{SUBJECT_HEADER}:{subject}")
 
-        # Text provided; set the text/plain content
-        self.delegate_message.set_content(self.text, subtype="plain")
+        if headers:
+            for header in split_headers_per_rfc(headers):
+                self.add_header(*header)
+
+        if text:
+            # Text content has been provided, a plain text body will be prepared.
+            self.delegate_message.set_content(self.text, subtype="plain")
         if self.boundary:
             self.set_boundary(self.boundary)
 
@@ -438,7 +444,7 @@ class Email:
     def get_content_disposition(self) -> typing.Optional[str]:
         return self.delegate_message.get_content_disposition()
 
-    def get_body(self, preferencelist: typing.Literal['related', 'html', 'plain']) -> typing.Optional[EmailMessage]:
+    def get_body(self, preferencelist: typing.Literal["related", "html", "plain"]) -> typing.Optional[EmailMessage]:
         return self.get_body(preferencelist)
 
     def iter_attachments(self) -> typing.Iterator[Message]:

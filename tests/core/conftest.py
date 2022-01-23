@@ -31,7 +31,7 @@ def html_multi_attach_mail(png_path):
         to_addrs=["recip@recip.com"],
         from_addr="sender@onetwothree.com",
         subject="fooo!",
-        base_headers=["one:two", "three:four"],
+        headers=["one:two", "three:four"],
         text="plaintext content",
         html="<b> html content </b>",
         attachments=[png_path, png_path, png_path],

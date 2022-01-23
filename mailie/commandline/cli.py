@@ -117,7 +117,7 @@ def mail(
         text=message,
         subject=subject,
         charset=charset,
-        base_headers=headers,  # noqa
+        headers=headers,  # noqa
     )
     if provider:
         host, port = provider_factory(provider)
