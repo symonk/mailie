@@ -13,10 +13,8 @@ from ._attachments import AllFilesStrategy
 from ._attachments import Attachable
 from ._attachments import FileAttachment  # noqa
 from ._constants import CONTENT_TYPE_HEADER
-from ._constants import FROM_HEADER
 from ._constants import NON_MIME_AWARE_CLIENT_MESSAGE
 from ._constants import SUBJECT_HEADER
-from ._constants import TO_HEADER
 from ._constants import UTF_8
 from ._policy import policy_factory
 from ._types import EMAIL_ATTACHMENT_PATH_ALIAS
@@ -175,8 +173,6 @@ class Email:
 
         self.set_charset(charset)
         headers = headers_to_list(headers)  # Keep a consistent API internally while allowing various user types.
-        headers.append(f"{FROM_HEADER}:{self.mail_from}")
-        headers.append(f"{TO_HEADER}:{', '.join(self.rcpt_to)}")
 
         if subject:
             headers.append(f"{SUBJECT_HEADER}:{subject}")

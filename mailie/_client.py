@@ -151,7 +151,7 @@ class Client(BaseSMTPClient):
     def __del__(self) -> None:
         try:
             self._delegate_client.close()
-        except BaseException:
+        except Exception:
             pass
         finally:
             self._state = ClientState.CLOSED
