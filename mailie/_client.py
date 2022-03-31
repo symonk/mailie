@@ -196,6 +196,13 @@ class Client(BaseSMTPClient):
     @staticmethod
     def _build_request(*, email: Email, auth: typing.Optional[SMTP_AUTH_ALIAS] = None) -> Request:
         return Request(email=email, auth=auth)
+    
+    def is_connected(self) -> bool:
+        try:
+            status = self._delegate_client.noop()[0]
+        except:
+            status = -1
+        return True if status == 250 else False
 
 
 class AsyncClient(BaseSMTPClient):
