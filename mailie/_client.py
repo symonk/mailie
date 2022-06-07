@@ -100,8 +100,8 @@ class BaseSMTPClient:
 class Client(BaseSMTPClient):
     """
     A simple synchronous SMTP client.  Client code should typically interact with `send(...)` however
-    if you wish to have more fine grained control, building a `Request` object manually and passing it
-    to `dispatch_request(request=request)` is t he way to handle that.  `send(...)` under the hood creates
+    if you wish to have more fine-grained control, building a `Request` object manually and passing it
+    to `dispatch_request(request=request)` is the way to handle that.  `send(...)` under the hood creates
     its own `mailie.Request` instance implicitly.  All SMTP communication will yield a `mailie.Response`
     instance.
     """
