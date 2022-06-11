@@ -1,4 +1,4 @@
-import os
+import os  # noqa (forward references)
 import re
 import typing
 from email.charset import Charset
@@ -16,3 +16,5 @@ EMAIL_ATTACHMENT_PATH_ALIAS = typing.Union[typing.List[str], typing.List["os.Pat
 EMAIL_ATTACHMENT_FILTER_ALIAS = typing.Union[str, re.Pattern]
 SMTP_AUTH_ALIAS = Auth
 EMAIL_HEADER_TYPES = typing.Optional[typing.Union[typing.Sequence[str], typing.MutableMapping[str, str]]]
+HOOKS_ALIAS = typing.Optional[typing.Callable[[typing.Any], typing.Any]]
+EMAIL_PROVIDER_TYPES = typing.Tuple[str, int]

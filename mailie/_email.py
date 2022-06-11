@@ -34,7 +34,7 @@ _T = typing.TypeVar("_T")
 class Email:
     """
     An encapsulation of an email message.  In cases of multipart email messages this is a tree
-    of Emails.  Mailie's `Email` object is treated as a partial mapping, where indexes are based on
+    of Emails.  Mailies `Email` object is treated as a partial mapping, where indexes are based on
     headers, various utility methods are available for managing message bodies.
 
     An email message is a combination of RFC-2822 headers and a payload.  If the message is a container
@@ -540,9 +540,6 @@ class Email:
         if message.is_multipart():
             for sub_part in message.get_payload():
                 self.tree_view(message=sub_part, file=file, level=level + 1)
-
-    async def async_add_attachment(self, attachment: FileAttachment) -> Email:
-        return self
 
     def __iter__(self) -> typing.Iterator[str]:
         yield from self.delegate_message

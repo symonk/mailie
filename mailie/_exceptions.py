@@ -28,3 +28,7 @@ class SMTPException(MailieException):
 
 class StartTLSNotSupportedException(SMTPException):
     """Raised when starttls() fails for the smtp connection as the server does not support the extension"""
+
+
+class MailieClientClosedException(MailieException):
+    """Raised when attempting to use an instance of the mailie client to send mail after it has been closed"""
