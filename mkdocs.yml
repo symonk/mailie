@@ -19,8 +19,9 @@ edit_uri: ""
 
 nav:
     - Introduction: index.md
-    - QuickStart: quickstart.md
-    - Advanced Usage: advanced.md
+    - Email: email.md
+    - DSL: dsl.md
+    - Commandline: commandline.md
 plugins:
     - search
     - mkdocstrings:
@@ -36,7 +37,7 @@ plugins:
               show_source: false
               docstring_section_style: table
         watch:
-          - asserto/
+          - mailie/
 markdown_extensions:
   - admonition
   - attr_list
