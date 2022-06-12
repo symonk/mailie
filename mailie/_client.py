@@ -173,6 +173,13 @@ class SyncClient:
             raise
 
     @raise_on_closed
+    def has_extn(self, opt: str) -> bool:
+        """
+        Check if the SMTP server supports a given SMTP extension.
+        """
+        return self.delegate.has_extn(opt)
+
+    @raise_on_closed
     def smtp_options(self, name: str = "") -> typing.Dict[str, str]:
         """
         Perform a check for the (E)smtp options available on the host.  If name is empty then
