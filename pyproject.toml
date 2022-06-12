@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "mailie"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python email DSL and CLI with asynchronous sending capabilities."
 authors = ["symonk <jackofspaces@gmail.com>"]
 readme = "README.rst"
