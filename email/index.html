@@ -6,33 +6,39 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="A fluent DSL for python assertions.">
       
       
-        <link rel="canonical" href="https://www.google.com/email/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.4">
     
     
       
-        <title>Email - Mailie Documentation</title>
+        <title>Email - Mailie</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bb3983ee.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
         
       
+      
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:300,300i,400,400i,700,700i%7CWork+Sans:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Work Sans";--md-code-font:"Work Sans"}</style>
       
     
     
@@ -52,7 +58,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="light-blue" data-md-color-accent="purple">
   
     
     
@@ -76,20 +82,20 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Mailie Documentation" class="md-header__button md-logo" aria-label="Mailie Documentation" data-md-component="logo">
+    <a href=".." title="Mailie" class="md-header__button md-logo" aria-label="Mailie" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Mailie Documentation
+            Mailie
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -105,7 +111,7 @@
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -113,13 +119,13 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
       
@@ -137,6 +143,18 @@
   </div>
 </div>
     
+    
+      <div class="md-header__source">
+        <a href="https://github.com/symonk/mailie/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M216.29 158.39H137C97 147.9 6.51 150.63 6.51 233.18c0 30.09 15 51.23 35 61-25.1 23-37 33.85-37 49.21 0 11 4.47 21.14 17.89 26.81C8.13 383.61 0 393.35 0 411.65c0 32.11 28.05 50.82 101.63 50.82 70.75 0 111.79-26.42 111.79-73.18 0-58.66-45.16-56.5-151.63-63l13.43-21.55c27.27 7.58 118.7 10 118.7-67.89 0-18.7-7.73-31.71-15-41.07l37.41-2.84zm-63.42 241.9c0 32.06-104.89 32.1-104.89 2.43 0-8.14 5.27-15 10.57-21.54 77.71 5.3 94.32 3.37 94.32 19.11zm-50.81-134.58c-52.8 0-50.46-71.16 1.2-71.16 49.54 0 50.82 71.16-1.2 71.16zm133.3 100.51v-32.1c26.75-3.66 27.24-2 27.24-11V203.61c0-8.5-2.05-7.38-27.24-16.26l4.47-32.92H324v168.71c0 6.51.4 7.32 6.51 8.14l20.73 2.84v32.1zm52.45-244.31c-23.17 0-36.59-13.43-36.59-36.61s13.42-35.77 36.59-35.77c23.58 0 37 12.62 37 35.77s-13.42 36.61-37 36.61zM512 350.46c-17.49 8.53-43.1 16.26-66.28 16.26-48.38 0-66.67-19.5-66.67-65.46V194.75c0-5.42 1.05-4.06-31.71-4.06V154.5c35.78-4.07 50-22 54.47-66.27h38.63c0 65.83-1.34 61.81 3.26 61.81H501v40.65h-60.56v97.15c0 6.92-4.92 51.41 60.57 26.84z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    symonk/mailie
+  </div>
+</a>
+      </div>
     
   </nav>
   
@@ -162,14 +180,26 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Mailie Documentation" class="md-nav__button md-logo" aria-label="Mailie Documentation" data-md-component="logo">
+    <a href=".." title="Mailie" class="md-nav__button md-logo" aria-label="Mailie" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
-    Mailie Documentation
+    Mailie
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/symonk/mailie/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M216.29 158.39H137C97 147.9 6.51 150.63 6.51 233.18c0 30.09 15 51.23 35 61-25.1 23-37 33.85-37 49.21 0 11 4.47 21.14 17.89 26.81C8.13 383.61 0 393.35 0 411.65c0 32.11 28.05 50.82 101.63 50.82 70.75 0 111.79-26.42 111.79-73.18 0-58.66-45.16-56.5-151.63-63l13.43-21.55c27.27 7.58 118.7 10 118.7-67.89 0-18.7-7.73-31.71-15-41.07l37.41-2.84zm-63.42 241.9c0 32.06-104.89 32.1-104.89 2.43 0-8.14 5.27-15 10.57-21.54 77.71 5.3 94.32 3.37 94.32 19.11zm-50.81-134.58c-52.8 0-50.46-71.16 1.2-71.16 49.54 0 50.82 71.16-1.2 71.16zm133.3 100.51v-32.1c26.75-3.66 27.24-2 27.24-11V203.61c0-8.5-2.05-7.38-27.24-16.26l4.47-32.92H324v168.71c0 6.51.4 7.32 6.51 8.14l20.73 2.84v32.1zm52.45-244.31c-23.17 0-36.59-13.43-36.59-36.61s13.42-35.77 36.59-35.77c23.58 0 37 12.62 37 35.77s-13.42 36.61-37 36.61zM512 350.46c-17.49 8.53-43.1 16.26-66.28 16.26-48.38 0-66.67-19.5-66.67-65.46V194.75c0-5.42 1.05-4.06-31.71-4.06V154.5c35.78-4.07 50-22 54.47-66.27h38.63c0 65.83-1.34 61.81 3.26 61.81H501v40.65h-60.56v97.15c0 6.92-4.92 51.41 60.57 26.84z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    symonk/mailie
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -182,7 +212,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Overview
+        Introduction
       </a>
     </li>
   
@@ -422,6 +452,13 @@
           <li class="md-nav__item">
   <a href="#mailie._email.Email.set_unixfrom" class="md-nav__link">
     set_unixfrom()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mailie._email.Email.smtp_arguments" class="md-nav__link">
+    smtp_arguments()
   </a>
   
 </li>
@@ -707,6 +744,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#mailie._email.Email.smtp_arguments" class="md-nav__link">
+    smtp_arguments()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#mailie._email.Email.tree_view" class="md-nav__link">
     tree_view()
   </a>
@@ -738,16 +782,17 @@
               
                 
 
-<h1 id="email-api-reference">Email API Reference</h1>
+
+<h1 id="email-api-reference">Email API Reference<a class="headerlink" href="#email-api-reference" title="Permanent link">&para;</a></h1>
 
 
-  <div class="doc doc-object doc-module">
+<div class="doc doc-object doc-module">
+
 
 <a id="mailie._email"></a>
-    <div class="doc doc-contents first">
+  <div class="doc doc-contents first">
 
-
-
+  
 
   <div class="doc doc-children">
 
@@ -758,596 +803,163 @@
 
 
 
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h2 id="mailie._email.Email" class="doc doc-heading">
-        <code>
-Email        </code>
+<code class="highlight language-python"><span class="n">Email</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">mail_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rcpt_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">SMTP_DEFAULT_POLICY</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bcc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="n">UTF_8</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attachments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attachment_strategy</span><span class="o">=</span><span class="n">AllFilesStrategy</span><span class="p">(),</span> <span class="n">preamble</span><span class="o">=</span><span class="n">NON_MIME_AWARE_CLIENT_MESSAGE</span><span class="p">,</span> <span class="n">epilogue</span><span class="o">=</span><span class="n">NON_MIME_AWARE_CLIENT_MESSAGE</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
+  <div class="doc doc-contents ">
 
-</h2>
-
-    <div class="doc doc-contents ">
-
-      <p>An encapsulation and representation of an email message.  At present only simple plaintext
-mails and multipart/alternative plain + html content mails are supported.  Client code should
-opt for using the email_factory rather than importing and instantiating <code>Email</code> instances
-themselves.  Only keyword arguments are supported in both <code>Email</code> and <code>email_factory</code> in a bid
-to build a more robust API.</p>
+  
+      <p>An encapsulation of an email message.  In cases of multipart email messages this is a tree
+of Emails.  Mailies <code>Email</code> object is treated as a partial mapping, where indexes are based on
+headers, various utility methods are available for managing message bodies.</p>
 <p>An email message is a combination of RFC-2822 headers and a payload.  If the message is a container
 (e.g a multipart message) then the payload is a list of EmailMessage objects, otherwise it is just
 a string.</p>
-<p>:param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP
-communication as part of the <code>MAIL FROM</code> part of the conversation later.  Mailie will not assign a
-FROM header in the message itself, but consider this the envelope/unix from.</p>
-<p>:param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP
-communication as part of the <code>RCPT TO</code> part of the conversation later.  to_addrs can be a single email address
-(str) or a list of email addresses.  In the event a single address is given, it will be converted to a list
-implicitly.</p>
-<p>:param policy: (Optional) An instance of <code>email.policy.Policy</code> used for governing disparate use cases. By
-default mailie will assume a <code>SMTP</code> policy that automatically handles /r/n.  In a nutshell; policies are used
-to customise the behaviour of various classes in pythons inbuilt email package.</p>
-<p>For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of
-the inbuilt policies available via python email:</p>
-<pre><code>:: default (uses python line endings via /n - sometimes undesirable)
-:: SMTP (clone of default, with /r/n line endings for RFC compliance)
-:: SMTPUTF8 (a UTF-8 equivalent of `smtp`, useful for non-ASCII in sender/recipient data)
-:: HTTP (useful if serialising headers for HTTP traffic)
-:: strict (clone of default, except raise_on_defect is assigned `True` to prevent silent failures)
-</code></pre>
-<p>If omitted by client code, mailie will assume a <code>SMTP</code> strict equivalent by default.  If this is undesirable
-pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve
-the policy e.g <code>policy='SMTPUTF8'</code>.</p>
-<p>:param cc: (Optional) A single email address (string) or an iterable of email addresses. In both cases the
-emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible
-to each other; in order to include a hidden recipient, opt for <code>bcc=...</code> instead.  CC recipients are
-handled via a <code>CC</code> header and are also added to to_addrs and bcc during the SMTP conversation.</p>
-<p>Including arbitrary headers for CC is not advised as this is handled internally by the Email instance.</p>
-<p>:param bcc: (Optional) A single email address (string) or an iterable of email addresses. In both cases
-the emails are converted to a list of distinct addresses.  In older versions of python email handling
-via a BCC header revealed recipients, but is however fixed using send_message(...).  However mailie will
-not include a <code>BCC</code> header in the email regardless and all to_addrs; cc + bcc addresses will be compressed
-into a single iterable when having the SMTP conversation.</p>
-<p>Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.</p>
-<p>:param subject: (Optional) A string to include in the message as part of the subject header.
-By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted
-the subject of the email will be empty ''.</p>
-<p>:param text: (Optional) A string of text to include as the text/plain payload (body) of the email.
-By default, an empty body will be created.  For simple plaintext mails, text= is the only data
-necessary, however for more multipart variants html &amp; attachments  can be provided.</p>
-<p>:param html: (Optional) A tuple of either length 1 or 2.  If the tuple is a single element
-then the value is considered the HTML content in it's unformatted, raw form.  An optional
-iterable of attachment paths can be provided; these will be have CID's generated implicitly
-and be formatted into the html content provided in the order in which they are provided.
-For that reason, a tuple is preferred; using a set cannot guarantee the CID for img src
-tags in the html template post-format processing.</p>
-<p>A string of html content to include in the payload (body) of the email.
-By default, html is omitted and a simple plain text mail is built, if provided the mail is
-converted to a multipart/alternative where the payload includes both plain text and HTML content.
-Depending on the recipient(s) client, displaying of this will vary however mailie will signal
-that the HTML is priority (by the order in which the data is transmitted).</p>
-<p>:param charset: (Optional) ...</p>
-<p>:param base_headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the
-header field and the header value are separated by colon.</p>
-<p>:param attachments: (Optional) attachments path can support attaching files from the local
-file system to the email.  It can accept a single path (string or PathLike) or an iterable of
-paths (string or PathLike).  Additionally it can accept the path to a directory in which case
-all files located in that directory will be considered for attachments.  These attachments are
-NOT inline attachments; to provide inline attachments for the alternative body; pass a 2 length
-tuple to html=(..., ...).</p>
-<p>:param attachment_strategy: A class which implements the <code>mailie.Attachable</code> interface.  This class
-can be provided by the user at runtime in order implement a customised attachment lookup and attachment
-process.  If omitted mailie will use a basic file strategy that takes paths literally and creates
-<code>FileAttachment</code> objects out of them, if a directory is provided all files in that directory will be
-turned into <code>FileAttachments</code> and added to the email (NOT inline).  The default strategy does not
-recursive into sub directories to hunt for more files; implement your own strategy if that is what
-you desire.</p>
-<p>What kind of emails are typically sent and currently supported?
-    :: Simple plaintext emails
-    :: Simple alternative plaintext/html emails
-    :: Html emails embedded/inline attachments
-    :: Emails with normal attachments</p>
-<p><code>Email</code> implements a the <code>Mapping</code> interface (partially) and is mostly concerned around <code>header</code>
-management in that regard.  Indexing of <code>Email</code> is based on it's headers.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Email</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An encapsulation and representation of an email message.  At present only simple plaintext</span>
-<span class="sd">    mails and multipart/alternative plain + html content mails are supported.  Client code should</span>
-<span class="sd">    opt for using the email_factory rather than importing and instantiating `Email` instances</span>
-<span class="sd">    themselves.  Only keyword arguments are supported in both `Email` and `email_factory` in a bid</span>
-<span class="sd">    to build a more robust API.</span>
-
-<span class="sd">    An email message is a combination of RFC-2822 headers and a payload.  If the message is a container</span>
-<span class="sd">    (e.g a multipart message) then the payload is a list of EmailMessage objects, otherwise it is just</span>
-<span class="sd">    a string.</span>
-
-<span class="sd">    :param from_addr: (Required) The envelope sender of the email.  This is what is provided during the SMTP</span>
-<span class="sd">    communication as part of the `MAIL FROM` part of the conversation later.  Mailie will not assign a</span>
-<span class="sd">    FROM header in the message itself, but consider this the envelope/unix from.</span>
-
-<span class="sd">    :param to_addrs: (Required) The envelope recipient(s) of the email.  This is what is provided during the SMTP</span>
-<span class="sd">    communication as part of the `RCPT TO` part of the conversation later.  to_addrs can be a single email address</span>
-<span class="sd">    (str) or a list of email addresses.  In the event a single address is given, it will be converted to a list</span>
-<span class="sd">    implicitly.</span>
-
-<span class="sd">    :param policy: (Optional) An instance of `email.policy.Policy` used for governing disparate use cases. By</span>
-<span class="sd">    default mailie will assume a `SMTP` policy that automatically handles /r/n.  In a nutshell; policies are used</span>
-<span class="sd">    to customise the behaviour of various classes in pythons inbuilt email package.</span>
-
-<span class="sd">    For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of</span>
-<span class="sd">    the inbuilt policies available via python email:</span>
-
-<span class="sd">        :: default (uses python line endings via /n - sometimes undesirable)</span>
-<span class="sd">        :: SMTP (clone of default, with /r/n line endings for RFC compliance)</span>
-<span class="sd">        :: SMTPUTF8 (a UTF-8 equivalent of `smtp`, useful for non-ASCII in sender/recipient data)</span>
-<span class="sd">        :: HTTP (useful if serialising headers for HTTP traffic)</span>
-<span class="sd">        :: strict (clone of default, except raise_on_defect is assigned `True` to prevent silent failures)</span>
-
-<span class="sd">    If omitted by client code, mailie will assume a `SMTP` strict equivalent by default.  If this is undesirable</span>
-<span class="sd">    pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve</span>
-<span class="sd">    the policy e.g `policy=&#39;SMTPUTF8&#39;`.</span>
-
-<span class="sd">    :param cc: (Optional) A single email address (string) or an iterable of email addresses. In both cases the</span>
-<span class="sd">    emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible</span>
-<span class="sd">    to each other; in order to include a hidden recipient, opt for `bcc=...` instead.  CC recipients are</span>
-<span class="sd">    handled via a `CC` header and are also added to to_addrs and bcc during the SMTP conversation.</span>
-
-<span class="sd">    Including arbitrary headers for CC is not advised as this is handled internally by the Email instance.</span>
-
-<span class="sd">    :param bcc: (Optional) A single email address (string) or an iterable of email addresses. In both cases</span>
-<span class="sd">    the emails are converted to a list of distinct addresses.  In older versions of python email handling</span>
-<span class="sd">    via a BCC header revealed recipients, but is however fixed using send_message(...).  However mailie will</span>
-<span class="sd">    not include a `BCC` header in the email regardless and all to_addrs; cc + bcc addresses will be compressed</span>
-<span class="sd">    into a single iterable when having the SMTP conversation.</span>
-
-<span class="sd">    Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.</span>
-
-<span class="sd">    :param subject: (Optional) A string to include in the message as part of the subject header.</span>
-<span class="sd">    By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted</span>
-<span class="sd">    the subject of the email will be empty &#39;&#39;.</span>
-
-<span class="sd">    :param text: (Optional) A string of text to include as the text/plain payload (body) of the email.</span>
-<span class="sd">    By default, an empty body will be created.  For simple plaintext mails, text= is the only data</span>
-<span class="sd">    necessary, however for more multipart variants html &amp; attachments  can be provided.</span>
-
-<span class="sd">    :param html: (Optional) A tuple of either length 1 or 2.  If the tuple is a single element</span>
-<span class="sd">    then the value is considered the HTML content in it&#39;s unformatted, raw form.  An optional</span>
-<span class="sd">    iterable of attachment paths can be provided; these will be have CID&#39;s generated implicitly</span>
-<span class="sd">    and be formatted into the html content provided in the order in which they are provided.</span>
-<span class="sd">    For that reason, a tuple is preferred; using a set cannot guarantee the CID for img src</span>
-<span class="sd">    tags in the html template post-format processing.</span>
-
-<span class="sd">    A string of html content to include in the payload (body) of the email.</span>
-<span class="sd">    By default, html is omitted and a simple plain text mail is built, if provided the mail is</span>
-<span class="sd">    converted to a multipart/alternative where the payload includes both plain text and HTML content.</span>
-<span class="sd">    Depending on the recipient(s) client, displaying of this will vary however mailie will signal</span>
-<span class="sd">    that the HTML is priority (by the order in which the data is transmitted).</span>
-
-<span class="sd">    :param charset: (Optional) ...</span>
-
-<span class="sd">    :param base_headers: (Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the</span>
-<span class="sd">    header field and the header value are separated by colon.</span>
-
-<span class="sd">    :param attachments: (Optional) attachments path can support attaching files from the local</span>
-<span class="sd">    file system to the email.  It can accept a single path (string or PathLike) or an iterable of</span>
-<span class="sd">    paths (string or PathLike).  Additionally it can accept the path to a directory in which case</span>
-<span class="sd">    all files located in that directory will be considered for attachments.  These attachments are</span>
-<span class="sd">    NOT inline attachments; to provide inline attachments for the alternative body; pass a 2 length</span>
-<span class="sd">    tuple to html=(..., ...).</span>
-
-<span class="sd">    :param attachment_strategy: A class which implements the `mailie.Attachable` interface.  This class</span>
-<span class="sd">    can be provided by the user at runtime in order implement a customised attachment lookup and attachment</span>
-<span class="sd">    process.  If omitted mailie will use a basic file strategy that takes paths literally and creates</span>
-<span class="sd">    `FileAttachment` objects out of them, if a directory is provided all files in that directory will be</span>
-<span class="sd">    turned into `FileAttachments` and added to the email (NOT inline).  The default strategy does not</span>
-<span class="sd">    recursive into sub directories to hunt for more files; implement your own strategy if that is what</span>
-<span class="sd">    you desire.</span>
-
-<span class="sd">    What kind of emails are typically sent and currently supported?</span>
-<span class="sd">        :: Simple plaintext emails</span>
-<span class="sd">        :: Simple alternative plaintext/html emails</span>
-<span class="sd">        :: Html emails embedded/inline attachments</span>
-<span class="sd">        :: Emails with normal attachments</span>
-
-<span class="sd">    `Email` implements a the `Mapping` interface (partially) and is mostly concerned around `header`</span>
-<span class="sd">    management in that regard.  Indexing of `Email` is based on it&#39;s headers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">from_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">to_addrs</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">policy</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="n">SMTP_DEFAULT_POLICY</span><span class="p">,</span>
-        <span class="n">cc</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">bcc</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">html</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">charset</span><span class="p">:</span> <span class="n">EMAIL_CHARSET_ALIAS</span> <span class="o">=</span> <span class="n">UTF_8</span><span class="p">,</span>
-        <span class="n">base_headers</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">attachments</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">EMAIL_ATTACHMENT_PATH_ALIAS</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">attachment_strategy</span><span class="p">:</span> <span class="n">Attachable</span> <span class="o">=</span> <span class="n">AllFilesStrategy</span><span class="p">(),</span>
-        <span class="n">preamble</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">NON_MIME_AWARE_CLIENT_MESSAGE</span><span class="p">,</span>
-        <span class="n">epilogue</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">NON_MIME_AWARE_CLIENT_MESSAGE</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span> <span class="o">=</span> <span class="n">EmailMessage</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">policy_factory</span><span class="p">(</span><span class="n">policy</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">from_addr</span> <span class="o">=</span> <span class="n">from_addr</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">to_addrs</span> <span class="o">=</span> <span class="n">emails_to_list</span><span class="p">(</span><span class="n">to_addrs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">=</span> <span class="n">emails_to_list</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bcc</span> <span class="o">=</span> <span class="n">emails_to_list</span><span class="p">(</span><span class="n">bcc</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="n">html</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_charset</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">subject</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">preamble</span> <span class="o">=</span> <span class="n">preamble</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">epilogue</span> <span class="o">=</span> <span class="n">epilogue</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span> <span class="o">=</span> <span class="n">attachment_strategy</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">attachments</span><span class="p">)</span>  <span class="c1"># type: ignore [call-arg]</span>
-
-        <span class="c1"># -- Delegation Specifics ---</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="n">FROM_HEADER</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_addr</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="n">TO_HEADER</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_addrs</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="n">SUBJECT_HEADER</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_charset</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">split_headers_per_rfc</span><span class="p">(</span><span class="n">base_headers</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="o">*</span><span class="n">header</span><span class="p">)</span>
-
-        <span class="c1"># Text provided; set the text/plain content</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="s2">&quot;plain&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">html</span><span class="p">:</span>
-            <span class="c1"># multipart/alternative.</span>
-            <span class="c1"># Todo: Handle content ids and inline attachments within this.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">add_alternative</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">html</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Handling normal non inline attachments</span>
-        <span class="c1"># Todo: Async support required here likely.</span>
-        <span class="k">for</span> <span class="n">attachment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_attachment</span><span class="p">(</span><span class="n">attachment</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">as_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">maxheaderlen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the entire email message flattened as a string.  If `unixfrom` is True, the envelope sender</span>
-<span class="sd">        is included the string.  If maxheaderlen is `0`, the underlying policy is used for determining the</span>
-<span class="sd">        max_line_length, an additional `policy=` can be passed to defer to that policy instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">as_string</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">,</span> <span class="n">maxheaderlen</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the entire email message flattened as a string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_string</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">as_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the entire email message flattened as a bytes object.  If `unixfrom` is True, the envelope</span>
-<span class="sd">        sender is included in the bytes object.  `policy=` can be provided to override the default policy</span>
-<span class="sd">        for various aspects of formatting.  Flattening the message may trigger changes to the underlying</span>
-<span class="sd">        `EmailMessage` and this method may **not** be the best way to serialize the message.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">is_multipart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return True if the message payload is a list of sub email messages.  If is_multipart() returns</span>
-<span class="sd">        False the message Email payload should be a string which might be a `Content Transfer Encoding`</span>
-<span class="sd">        binary object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">is_multipart</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_unixfrom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the `envelope sender` header.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_unixfrom</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">set_unixfrom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the messages `envelope sender` header to `unixfrom`.  This is not a property just to keep</span>
-<span class="sd">        API delegation with the underlying `EmailMessage`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_unixfrom</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add the given payload to the current payload.</span>
-
-<span class="sd">        The current payload will always be a list of objects after this method</span>
-<span class="sd">        is called.  If you want to set the payload to a scalar object, use</span>
-<span class="sd">        set_payload() instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">decode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">EMAIL_PAYLOAD_ALIAS</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_payload</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">decode</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">set_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">EMAIL_PAYLOAD_ALIAS</span><span class="p">,</span> <span class="n">charset</span><span class="p">:</span> <span class="n">EMAIL_CHARSET_ALIAS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_payload</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">charset</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">set_charset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">charset</span><span class="p">:</span> <span class="n">EMAIL_CHARSET_ALIAS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_charset</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">get_charset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EMAIL_CHARSET_ALIAS</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_charset</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the total number of headers in the message, this tally includes duplicate headers.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if a particular header is present in the email headers.  This check is case insensitive</span>
-<span class="sd">        and name should omit the trailing colon `:`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ignoring case, retrieve the header with a field value of `name`.  If no header is found no `KeyError`</span>
-<span class="sd">        is raised, but instead `None` is returned.  `name` does not include the trailing colon `:`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds a new header to the Email where name is the header field_name and value is the field_value</span>
-<span class="sd">        respectively.  The header is appended to the messages existing headers.  This does **not**</span>
-<span class="sd">        overwrite existing headers with the same name, but instead appends possible duplicates.  In</span>
-<span class="sd">        order to perform an overwrite, consider calling `del` on the `Email` instance with the header</span>
-<span class="sd">        field name, then appending this header.  `Email.replace_header(name, value)` can be used as</span>
-<span class="sd">        a convenience method for replacing a single headers value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">replace_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convenience method for overwriting an existing header with a new value.  This method will replace</span>
-<span class="sd">        the first instance of the header with `_name`.  This method returns the Email instance for fluency.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">replace_header</span><span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Deletes all headers of `name`.  If no headers are present this implicitly does nothing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of all the messages header field names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">EMAIL_HEADER_TYPE_ALIAS</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of all the messages header values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EMAIL_HEADER_TYPE_ALIAS</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of 2-tuples containing all the messages header field and head values respectively.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">_T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the value of the header named `name`.  If the header is not present in the message</span>
-<span class="sd">        then failobj is returned.  Invoked by `__getitem__`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
-
-    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">_T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">EMAIL_HEADER_TYPE_ALIAS</span><span class="p">],</span> <span class="n">_T</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of the header values where `name` is the header name.  If there is no header with</span>
-<span class="sd">        that name in the message, then `failobj` is returned.  If the header exists multiple times all</span>
-<span class="sd">        of it&#39;s values are retruend.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
-
-    <span class="k">def</span> <span class="nf">add_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">_params</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">_value</span><span class="p">,</span> <span class="o">**</span><span class="n">_params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">get_content_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the emails maintype/subtype.  If no `Content-Type` header exists in the email then</span>
-<span class="sd">        `get_content_type()` is used to determine it.  If the `Content-Type` header is invalid,</span>
-<span class="sd">        `plain/text` is returned.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_type</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_content_maintype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the maintype resolved via `get_content_type()` e.g `plain`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_maintype</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_content_subtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the subtype resolved via `get_content_type()` e.g `text`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_subtype</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_default_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the default content type.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_default_type</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">set_default_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctype</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the default content type. Returns the `Email` instance for fluency</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_default_type</span><span class="p">(</span><span class="n">ctype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unquote</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the messages content headers as a list of tuples split on the `=`.  In the</span>
-<span class="sd">        cases where no `=` exists; an empty string is set.  Optional `failobj` is returned</span>
-<span class="sd">        in the instance where there is no `Content-Type` header, header can be provided</span>
-<span class="sd">        to change the search context from `Content-Type` to that particular header.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="n">failobj</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">unquote</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">get_param</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unquote</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="p">,</span> <span class="n">EMAIL_PARAM_TYPE_ALIAS</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">failobj</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">unquote</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">del_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">requote</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">del_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">requote</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">set_param</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">header</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-        <span class="n">requote</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-        <span class="n">charset</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-        <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">requote</span><span class="p">,</span> <span class="n">charset</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">replace</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">requote</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_type</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">requote</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_T</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(</span><span class="n">failobj</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">get_boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_T</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_boundary</span><span class="p">(</span><span class="n">failobj</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">set_boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundary</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_boundary</span><span class="p">(</span><span class="n">boundary</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">get_content_charset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_T</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_charset</span><span class="p">(</span><span class="n">failobj</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">get_charsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">_T</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_charsets</span><span class="p">(</span><span class="n">failobj</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="n">Email</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">walk</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_content_disposition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_disposition</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preferencelist</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">EmailMessage</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body</span><span class="p">(</span><span class="n">preferencelist</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">iter_attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">EmailMessage</span><span class="p">]:</span>
-        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">iter_attachments</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">iter_parts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">EmailMessage</span><span class="p">]:</span>
-        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">iter_parts</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">set_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">make_related</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">make_alternative</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">make_mixed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">add_related</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">add_alternative</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span><span class="p">:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">add_attachment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attachment</span><span class="p">:</span> <span class="n">FileAttachment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="c1"># Todo: Fix this API for delegation.</span>
-        <span class="n">main</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">.</span><span class="n">mime_types</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">add_attachment</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">maintype</span><span class="o">=</span><span class="n">main</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">sub</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">attachment</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">is_attachment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">is_attachment</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clears the headers and payload from the delegated `EmailMessage` messaged.</span>
-<span class="sd">        If you want to retain non Content- headers, use `clear_content()` instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">clear_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clears the payload and all non Content- headers.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">clear_content</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If the `Email` has any defects returns `False`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defects</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">defects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">MessageDefect</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">defects</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">smtp_recipients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_addrs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bcc</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">smtp_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">EmailMessage</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_addr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">smtp_recipients</span>
-
-    <span class="k">def</span> <span class="nf">tree_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write the structure of this message to stdout. This is handled recursively.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="n">message</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">level</span><span class="si">}{</span><span class="n">message</span><span class="o">.</span><span class="n">get_content_type</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">is_multipart</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">sub_part</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">get_payload</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">tree_view</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">sub_part</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">async_add_attachment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attachment</span><span class="p">:</span> <span class="n">FileAttachment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-        <span class="o">...</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span>
-</code></pre></div>
-        </details>
-
-
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>mail_from</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>(Optional) The envelope sender of the email, a compliant email address.  If provided this can be automatically deferred when sending the email through the mail SMTPClient.  Client <code>send(...)</code> allows overriding this value at runtime.  When specified mailie will NOT include this in the email headers as a <code>From</code> header.  smtplib cares not about email headers.  In order to add a From header to the email pass it explicitly into headers=.  When calling send() on the client without specifying the optional mail_from argument, mailie will attempt to fetch the value from the <code>Email</code> instance.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>rcpt_to</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[typing.<span title="typing.Union">Union</span>[typing.<span title="typing.Sequence">Sequence</span>[str], str]]</code>
+          </td>
+          <td><p>(Optional) The envelope recipient(s) of the email, a compliant email address or a Sequence of compliant email addresses.  If provided this can be automatically defrred when sending the email through the mailie SMTPClient.  Client <code>send(...)</code> allows overriding this value at runtime.  When specified mailie will NOT include this in the email headers as a <code>To</code> header.  smtplib cares not about email headers.  In order to add a To header to the email, pass it explicitly into headers=.  When calling send() on the client without specifying the optional mail_to argument, mailie will attempt to fetch the value from the <code>Email</code> instance.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>policy</code></td>
+          <td>
+                <code>typing.<span title="typing.Union">Union</span>[str, <span title="email.policy.Policy">Policy</span>]</code>
+          </td>
+          <td><p>(Optional) An instance of <code>email.policy.Policy</code> used for governing disparate use cases. By default mailie will assume a <code>SMTP</code> policy that automatically handles /r/n.  In a nutshell; policies are used to customise the behaviour of various classes in pythons inbuilt email package.  For more information see: https://docs.python.org/3/library/email.policy.html.  Below outlines some of the inbuilt policies available via python email:  :: default (uses python line endings via /n - sometimes undesirable) :: SMTP (clone of default, with /r/n line endings for RFC compliance) :: SMTPUTF8 (a UTF-8 equivalent of <code>smtp</code>, useful for non-ASCII in sender/recipient data) :: HTTP (useful if serialising headers for HTTP traffic) :: strict (clone of default, except raise_on_defect is assigned <code>True</code> to prevent silent failures)  If omitted by client code, mailie will assume a <code>SMTP</code> strict equivalent by default.  If this is undesirable pass your own policy, e.g email.policy.SMTP. For core policies; mailie supports passing a string to resolve the policy e.g <code>policy='SMTPUTF8'</code>.</p></td>
+          <td>
+                <code>SMTP_DEFAULT_POLICY</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>cc</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[typing.<span title="typing.Iterable">Iterable</span>[str]]</code>
+          </td>
+          <td><p>(Optional) A single email address (string) or an iterable of email addresses. In both cases the emails are converted to a list of distinct addresses.  Recipients set for cc (carbon copy) are all visible to each other; in order to include a hidden recipient, opt for <code>bcc=...</code> instead.  CC recipients are handled via a <code>CC</code> header and are also added to to_addrs and bcc during the SMTP conversation.  Including arbitrary headers for CC is not advised as this is handled internally by the Email instance.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>bcc</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[typing.<span title="typing.Iterable">Iterable</span>[str]]</code>
+          </td>
+          <td><p>(Optional) A single email address (string) or an iterable of email addresses. In both cases the emails are converted to a list of distinct addresses.  In older versions of python email handling via a BCC header revealed recipients, but is however fixed using send_message(...).  However mailie will not include a <code>BCC</code> header in the email regardless and all to_addrs; cc + bcc addresses will be compressed into a single iterable when having the SMTP conversation.  Including arbitrary headers for BCC is not advised as this is handled internally by the Email instance.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>subject</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>(Optional) A string to include in the message as part of the subject header. By design emails do not REQUIRE a subject however it is good practice to include one.  If omitted the subject of the email will be empty ''.  If subject= is provided it will automatically appended into the headers, it is also possible to ignore subject and pass a 'Subject' header directly for the same affect.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>text</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>(Optional) A string of text to include as the text/plain payload (body) of the email. By default, an empty body will be created.  For simple plaintext mails, text= is the only data necessary, however for more multipart variants html &amp; attachments  can be provided.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>html</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>(Optional) A tuple of either length 1 or 2.  If the tuple is a single element then the value is considered the HTML content in it's unformatted, raw form.  An optional iterable of attachment paths can be provided; these will be have CID's generated implicitly and be formatted into the html content provided in the order in which they are provided. For that reason, a tuple is preferred; using a set cannot guarantee the CID for img src tags in the html template post-format processing.  A string of html content to include in the payload (body) of the email. By default, html is omitted and a simple plain text mail is built, if provided the mail is converted to a multipart/alternative where the payload includes both plain text and HTML content. Depending on the recipient(s) client, displaying of this will vary however mailie will signal that the HTML is priority (by the order in which the data is transmitted).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>charset</code></td>
+          <td>
+                <code><span title="mailie._types.EMAIL_CHARSET_ALIAS">EMAIL_CHARSET_ALIAS</span></code>
+          </td>
+          <td><p>(Optional) ...</p></td>
+          <td>
+                <code>UTF_8</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>headers</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[typing.<span title="typing.Union">Union</span>[typing.<span title="typing.List">List</span>[str], typing.<span title="typing.MutableMapping">MutableMapping</span>[str, str]]]</code>
+          </td>
+          <td><p>(Optional) A list of strings which are RFC-5322 or RFC-6532 compliant, where the header field and the header value are separated by colon.  A mapping is also permitted where the colons are omitted such as {"header_field_name": "header_field_value"}</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>attachments</code></td>
+          <td>
+                <code>typing.<span title="typing.Optional">Optional</span>[<span title="mailie._types.EMAIL_ATTACHMENT_PATH_ALIAS">EMAIL_ATTACHMENT_PATH_ALIAS</span>]</code>
+          </td>
+          <td><p>(Optional) attachments path can support attaching files from the local file system to the email.  It can accept a single path (string or PathLike) or an iterable of paths (string or PathLike).  Additionally it can accept the path to a directory in which case all files located in that directory will be considered for attachments.  These attachments are NOT inline attachments; to provide inline attachments for the alternative body; pass a 2 length tuple to html=(..., ...).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>attachment_strategy</code></td>
+          <td>
+                <code><span title="mailie._attachments.Attachable">Attachable</span></code>
+          </td>
+          <td><p>A class which implements the <code>mailie.Attachable</code> interface.  This class can be provided by the user at runtime in order implement a customised attachment lookup and attachment process.  If omitted mailie will use a basic file strategy that takes paths literally and creates <code>FileAttachment</code> objects out of them, if a directory is provided all files in that directory will be turned into <code>FileAttachments</code> and added to the email (NOT inline).  The default strategy does not recursive into sub directories to hunt for more files; implement your own strategy if that is what you desire.  What kind of emails are typically sent and currently supported? :: Simple plaintext emails :: Simple alternative plaintext/html emails :: Html emails embedded/inline attachments :: Emails with normal attachments</p></td>
+          <td>
+                <code>AllFilesStrategy()</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  
 
   <div class="doc doc-children">
 
@@ -1359,191 +971,110 @@ management in that regard.  Indexing of <code>Email</code> is based on it's head
 
 
 
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__bool__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__bool__</span><span class="p">()</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__bool__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>If the <code>Email</code> has any defects returns <code>False</code>.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    If the `Email` has any defects returns `False`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defects</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__contains__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__contains__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__contains__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Check if a particular header is present in the email headers.  This check is case insensitive
 and name should omit the trailing colon <code>:</code>.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check if a particular header is present in the email headers.  This check is case insensitive</span>
-<span class="sd">    and name should omit the trailing colon `:`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__delitem__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__delitem__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__delitem__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Deletes all headers of <code>name</code>.  If no headers are present this implicitly does nothing.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Deletes all headers of `name`.  If no headers are present this implicitly does nothing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__getitem__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__getitem__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__getitem__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Ignoring case, retrieve the header with a field value of <code>name</code>.  If no header is found no <code>KeyError</code>
 is raised, but instead <code>None</code> is returned.  <code>name</code> does not include the trailing colon <code>:</code>.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Ignoring case, retrieve the header with a field value of `name`.  If no header is found no `KeyError`</span>
-<span class="sd">    is raised, but instead `None` is returned.  `name` does not include the trailing colon `:`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__len__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__len__</span><span class="p">()</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__len__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the total number of headers in the message, this tally includes duplicate headers.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the total number of headers in the message, this tally includes duplicate headers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__setitem__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__setitem__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__setitem__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Adds a new header to the Email where name is the header field_name and value is the field_value
 respectively.  The header is appended to the messages existing headers.  This does <strong>not</strong>
 overwrite existing headers with the same name, but instead appends possible duplicates.  In
@@ -1551,771 +1082,470 @@ order to perform an overwrite, consider calling <code>del</code> on the <code>Em
 field name, then appending this header.  <code>Email.replace_header(name, value)</code> can be used as
 a convenience method for replacing a single headers value.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds a new header to the Email where name is the header field_name and value is the field_value</span>
-<span class="sd">    respectively.  The header is appended to the messages existing headers.  This does **not**</span>
-<span class="sd">    overwrite existing headers with the same name, but instead appends possible duplicates.  In</span>
-<span class="sd">    order to perform an overwrite, consider calling `del` on the `Email` instance with the header</span>
-<span class="sd">    field name, then appending this header.  `Email.replace_header(name, value)` can be used as</span>
-<span class="sd">    a convenience method for replacing a single headers value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.__str__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
 
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
+<a href="#mailie._email.Email.__str__" class="headerlink" title="Permanent link">&para;</a></h3>
 
-</h3>
 
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Returns the entire email message flattened as a string.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the entire email message flattened as a string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_string</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.as_bytes" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">as_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">as_bytes</span><span class="p">(</span><span class="n">unixfrom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.as_bytes" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Returns the entire email message flattened as a bytes object.  If <code>unixfrom</code> is True, the envelope
 sender is included in the bytes object.  <code>policy=</code> can be provided to override the default policy
 for various aspects of formatting.  Flattening the message may trigger changes to the underlying
 <code>EmailMessage</code> and this method may <strong>not</strong> be the best way to serialize the message.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">as_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the entire email message flattened as a bytes object.  If `unixfrom` is True, the envelope</span>
-<span class="sd">    sender is included in the bytes object.  `policy=` can be provided to override the default policy</span>
-<span class="sd">    for various aspects of formatting.  Flattening the message may trigger changes to the underlying</span>
-<span class="sd">    `EmailMessage` and this method may **not** be the best way to serialize the message.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">as_bytes</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.as_string" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">as_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">maxheaderlen</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">as_string</span><span class="p">(</span><span class="n">unixfrom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">maxheaderlen</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.as_string" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the entire email message flattened as a string.  If <code>unixfrom</code> is True, the envelope sender
 is included the string.  If maxheaderlen is <code>0</code>, the underlying policy is used for determining the
 max_line_length, an additional <code>policy=</code> can be passed to defer to that policy instead.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">as_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">maxheaderlen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the entire email message flattened as a string.  If `unixfrom` is True, the envelope sender</span>
-<span class="sd">    is included the string.  If maxheaderlen is `0`, the underlying policy is used for determining the</span>
-<span class="sd">    max_line_length, an additional `policy=` can be passed to defer to that policy instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">as_string</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">,</span> <span class="n">maxheaderlen</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.attach" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">attach</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.attach" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Add the given payload to the current payload.</p>
 <p>The current payload will always be a list of objects after this method
 is called.  If you want to set the payload to a scalar object, use
 set_payload() instead.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add the given payload to the current payload.</span>
-
-<span class="sd">    The current payload will always be a list of objects after this method</span>
-<span class="sd">    is called.  If you want to set the payload to a scalar object, use</span>
-<span class="sd">    set_payload() instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.clear" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">clear</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.clear" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Clears the headers and payload from the delegated <code>EmailMessage</code> messaged.
 If you want to retain non Content- headers, use <code>clear_content()</code> instead.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Clears the headers and payload from the delegated `EmailMessage` messaged.</span>
-<span class="sd">    If you want to retain non Content- headers, use `clear_content()` instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-    <span class="k">return</span> <span class="bp">self</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.clear_content" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">clear_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">clear_content</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.clear_content" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Clears the payload and all non Content- headers.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Clears the payload and all non Content- headers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">clear_content</span><span class="p">()</span>
-    <span class="k">return</span> <span class="bp">self</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.get" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the value of the header named <code>name</code>.  If the header is not present in the message
 then failobj is returned.  Invoked by <code>__getitem__</code></p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">_T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the value of the header named `name`.  If the header is not present in the message</span>
-<span class="sd">    then failobj is returned.  Invoked by `__getitem__`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_all" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_all</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.get_all" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return a list of the header values where <code>name</code> is the header name.  If there is no header with
 that name in the message, then <code>failobj</code> is returned.  If the header exists multiple times all
 of it's values are retruend.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">_T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">EMAIL_HEADER_TYPE_ALIAS</span><span class="p">],</span> <span class="n">_T</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a list of the header values where `name` is the header name.  If there is no header with</span>
-<span class="sd">    that name in the message, then `failobj` is returned.  If the header exists multiple times all</span>
-<span class="sd">    of it&#39;s values are retruend.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">failobj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-
-
-
-
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_content_maintype" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_content_maintype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_content_maintype</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.get_content_maintype" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the maintype resolved via <code>get_content_type()</code> e.g <code>plain</code></p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_content_maintype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the maintype resolved via `get_content_type()` e.g `plain`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_maintype</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_content_subtype" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_content_subtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_content_subtype</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.get_content_subtype" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the subtype resolved via <code>get_content_type()</code> e.g <code>text</code></p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_content_subtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the subtype resolved via `get_content_type()` e.g `text`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_subtype</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_content_type" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_content_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_content_type</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.get_content_type" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the emails maintype/subtype.  If no <code>Content-Type</code> header exists in the email then
 <code>get_content_type()</code> is used to determine it.  If the <code>Content-Type</code> header is invalid,
 <code>plain/text</code> is returned.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_content_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the emails maintype/subtype.  If no `Content-Type` header exists in the email then</span>
-<span class="sd">    `get_content_type()` is used to determine it.  If the `Content-Type` header is invalid,</span>
-<span class="sd">    `plain/text` is returned.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_content_type</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_default_type" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_default_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_default_type</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.get_default_type" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return the default content type.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_default_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the default content type.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_default_type</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_params" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">unquote</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_params</span><span class="p">(</span><span class="n">failobj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">CONTENT_TYPE_HEADER</span><span class="p">,</span> <span class="n">unquote</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.get_params" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Returns the messages content headers as a list of tuples split on the <code>=</code>.  In the
 cases where no <code>=</code> exists; an empty string is set.  Optional <code>failobj</code> is returned
 in the instance where there is no <code>Content-Type</code> header, header can be provided
 to change the search context from <code>Content-Type</code> to that particular header.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failobj</span><span class="p">:</span> <span class="n">_T</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unquote</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the messages content headers as a list of tuples split on the `=`.  In the</span>
-<span class="sd">    cases where no `=` exists; an empty string is set.  Optional `failobj` is returned</span>
-<span class="sd">    in the instance where there is no `Content-Type` header, header can be provided</span>
-<span class="sd">    to change the search context from `Content-Type` to that particular header.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="n">failobj</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">unquote</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.get_unixfrom" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_unixfrom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_unixfrom</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.get_unixfrom" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Retrieve the <code>envelope sender</code> header.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_unixfrom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Retrieve the `envelope sender` header.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">get_unixfrom</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.is_multipart" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">is_multipart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">is_multipart</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.is_multipart" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return True if the message payload is a list of sub email messages.  If is_multipart() returns
 False the message Email payload should be a string which might be a <code>Content Transfer Encoding</code>
 binary object.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_multipart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return True if the message payload is a list of sub email messages.  If is_multipart() returns</span>
-<span class="sd">    False the message Email payload should be a string which might be a `Content Transfer Encoding`</span>
-<span class="sd">    binary object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">is_multipart</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.items" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">items</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.items" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return a list of 2-tuples containing all the messages header field and head values respectively.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EMAIL_HEADER_TYPE_ALIAS</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a list of 2-tuples containing all the messages header field and head values respectively.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.keys" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">keys</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.keys" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return a list of all the messages header field names.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a list of all the messages header field names.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.replace_header" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">replace_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">replace_header</span><span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.replace_header" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Convenience method for overwriting an existing header with a new value.  This method will replace
 the first instance of the header with <code>_name</code>.  This method returns the Email instance for fluency.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">replace_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convenience method for overwriting an existing header with a new value.  This method will replace</span>
-<span class="sd">    the first instance of the header with `_name`.  This method returns the Email instance for fluency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">replace_header</span><span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">self</span>
-</code></pre></div>
-        </details>
-    </div>
-
   </div>
 
+</div>
 
-
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.set_default_type" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">set_default_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctype</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">set_default_type</span><span class="p">(</span><span class="n">ctype</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.set_default_type" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Sets the default content type. Returns the <code>Email</code> instance for fluency</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_default_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctype</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sets the default content type. Returns the `Email` instance for fluency</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_default_type</span><span class="p">(</span><span class="n">ctype</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">self</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-
-
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.set_unixfrom" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">set_unixfrom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">set_unixfrom</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.set_unixfrom" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Set the messages <code>envelope sender</code> header to <code>unixfrom</code>.  This is not a property just to keep
 API delegation with the underlying <code>EmailMessage</code>.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_unixfrom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unixfrom</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Email</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the messages `envelope sender` header to `unixfrom`.  This is not a property just to keep</span>
-<span class="sd">    API delegation with the underlying `EmailMessage`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">set_unixfrom</span><span class="p">(</span><span class="n">unixfrom</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">self</span>
-</code></pre></div>
-        </details>
-    </div>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="mailie._email.Email.smtp_arguments" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">smtp_arguments</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#mailie._email.Email.smtp_arguments" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Useful attributes for engaging in SMTP communication with this email object.  Email from and to headers
+are used as a fallback if no explicit ones are passed to the mailie clients when sending an email.</p>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.tree_view" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">tree_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">tree_view</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+<a href="#mailie._email.Email.tree_view" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Write the structure of this message to stdout. This is handled recursively.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tree_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write the structure of this message to stdout. This is handled recursively.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="n">message</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">level</span><span class="si">}{</span><span class="n">message</span><span class="o">.</span><span class="n">get_content_type</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">is_multipart</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">sub_part</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">get_payload</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tree_view</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">sub_part</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
 
 <h3 id="mailie._email.Email.values" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">values</span><span class="p">()</span></code>
+
+<a href="#mailie._email.Email.values" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
-</h3>
-
-    <div class="doc doc-contents ">
-
+  <div class="doc doc-contents ">
+  
       <p>Return a list of all the messages header values.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>mailie/_email.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">EMAIL_HEADER_TYPE_ALIAS</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a list of all the messages header values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegate_message</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
+  </div>
+
+</div>
+
+
 
   </div>
 
+  </div>
 
+</div>
 
 
 
 
   </div>
 
-    </div>
-
   </div>
 
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-  </div>
+</div>
 
               
             </article>
+            
           </div>
         </div>
         
@@ -2323,19 +1553,20 @@ API delegation with the underlying <code>EmailMessage</code>.</p>
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Introduction" rel="prev">
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Previous
               </span>
-              Overview
+              Introduction
             </div>
           </div>
         </a>
@@ -2352,7 +1583,7 @@ API delegation with the underlying <code>EmailMessage</code>.</p>
             </div>
           </div>
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
           </div>
         </a>
       
@@ -2361,6 +1592,10 @@ API delegation with the underlying <code>EmailMessage</code>.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2016 - 2022 Simon Kerr
+    </div>
   
   
     Made with
@@ -2378,10 +1613,10 @@ API delegation with the underlying <code>EmailMessage</code>.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.361d90f1.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate"], "search": "../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.289a2a4b.min.js"></script>
+      <script src="../assets/javascripts/bundle.f758a944.min.js"></script>
       
     
   </body>
