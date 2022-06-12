@@ -144,16 +144,18 @@ class SyncClient:
         `SMTPUTF8` then non ascii characters will be permitted (if the server supports it).
         """
         self.state = ClientState.OPENED
-        send_args = {
-            "msg": email.email_message,
-            "from_addr": from_addr or email.mail_from,
-            "to_addrs": to_addrs or email.rcpt_to,
-            "mail_options": mail_options or (),
-            "rcpt_options": rcpt_options or (),
-        }
         # Todo: Decide what needs handled and what can be bubbled etc.
         try:
-            return SMTPResponse(self.delegate.send_message(**send_args), enforce_all)
+            return SMTPResponse(
+                self.delegate.send_message(
+                    msg=email.email_message,  # type: ignore[arg-type]
+                    from_addr=from_addr or email.mail_from,
+                    to_addrs=to_addrs or email.rcpt_to,
+                    mail_options=mail_options or (),
+                    rcpt_options=rcpt_options or (),
+                ),
+                enforce_all,
+            )
         # All recipients got refused.
         except smtplib.SMTPRecipientsRefused:
             raise

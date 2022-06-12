@@ -18,4 +18,4 @@ SMTP_AUTH_ALIAS = Auth
 EMAIL_HEADER_TYPES = typing.Optional[typing.Union[typing.Sequence[str], typing.MutableMapping[str, str]]]
 HOOKS_ALIAS = typing.Optional[typing.Callable[[typing.Any], typing.Any]]
 EMAIL_PROVIDER_TYPES = typing.Tuple[str, int]
-EMAIL_FROM_TO_TYPES = typing.Union[typing.Iterable[str], str]
+EMAIL_FROM_TO_TYPES = typing.Union[typing.Sequence[str], str]
