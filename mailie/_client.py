@@ -108,11 +108,12 @@ class SyncClient:
     @raise_on_closed
     def send(
         self,
-        from_addr: typing.Optional[str],
-        to_addrs: EMAIL_FROM_TO_TYPES,
+        *,
         email: Email,
-        mail_options,
-        rcpt_options,
+        from_addr: typing.Optional[str] = None,
+        to_addrs: typing.Optional[EMAIL_FROM_TO_TYPES] = None,
+        mail_options: typing.Optional[typing.Sequence[str]] = None,
+        rcpt_options: typing.Optional[typing.Sequence[str]] = None,
         enforce_all: bool = False,
     ) -> SMTPResponse:
         """
@@ -147,8 +148,8 @@ class SyncClient:
             "msg": email.email_message,
             "from_addr": from_addr or email.mail_from,
             "to_addrs": to_addrs or email.rcpt_to,
-            "mail_options": mail_options,
-            "rcpt_options": rcpt_options,
+            "mail_options": mail_options or (),
+            "rcpt_options": rcpt_options or (),
         }
         # Todo: Decide what needs handled and what can be bubbled etc.
         try:
@@ -170,7 +171,7 @@ class SyncClient:
             raise
 
     @raise_on_closed
-    def smtp_options(self, name: str) -> typing.Dict[str, str]:
+    def smtp_options(self, name: str = "") -> typing.Dict[str, str]:
         """
         Perform a check for the (E)smtp options available on the host.  If name is empty then
         the fully qualified domain name of the local host.

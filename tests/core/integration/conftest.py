@@ -5,7 +5,7 @@ from server import BackgroundSMTPServer
 
 
 @pytest.fixture(scope="function")
-def mail_to_disk_server(request, tmpdir):
+def integration_mail_server(request):
     server = BackgroundSMTPServer()
     server.start()
     request.addfinalizer(server.close)
