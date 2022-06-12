@@ -37,6 +37,12 @@ class Attachable(typing.Protocol):
         raise NotImplementedError
 
 
+class SingleFileStrategy(Attachable):
+
+    def generate(self, path: typing.Optional[EMAIL_ATTACHMENT_PATH_ALIAS] = None) -> typing.List[FileAttachment]:
+        ...
+
+
 class AllFilesStrategy(Attachable):
     """
     A simple strategy for finding attachments.  This strategy is NOT recursive; only files found in the
@@ -125,7 +131,7 @@ class AsyncAllFilesStrategy(Attachable):
         ...
 
     @staticmethod
-    def _generate_file_attachment(path: pathlib.Path) -> FileAttachment:
+    async def _generate_file_attachment(path: pathlib.Path) -> FileAttachment:
         """
         Given the `pathlib.Path` to a valid file on disk, build it into a `FileAttachment` instance
         and return it.
