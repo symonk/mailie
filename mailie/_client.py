@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import enum
+import functools
 import logging
 import smtplib
 import typing
 
 from ._email import Email
 from ._exceptions import MailieClientClosedException
-from ._request import Request
-from ._response import Response
+from ._response import SMTPResponse
+from ._types import EMAIL_FROM_TO_TYPES
 from ._types import HOOKS_ALIAS
 from ._types import SMTP_AUTH_ALIAS
 
@@ -23,6 +24,22 @@ from ._types import SMTP_AUTH_ALIAS
 log = logging.getLogger(__name__)
 
 
+def raise_on_closed(fn):
+    """
+    Guard the client code to ensure the underlying client has not already been closed.
+    This should only be used on MailieClient instance methods.
+    """
+
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        client: SyncClient = args[0]
+        if client.state is ClientState.CLOSED:
+            raise MailieClientClosedException("Cannot send mail, this client has been closed.  Open a new instance.")
+        return fn(*args, **kwargs)
+
+    return wrapper
+
+
 @enum.unique
 class ClientState(enum.Enum):
     NOT_YET_OPENED = 0  # The client has been instantiated but no requests have been dispatched.
@@ -30,10 +47,11 @@ class ClientState(enum.Enum):
     CLOSED = 2  # The client has exited the `with` context or has been explicitly called `.close()`.
 
 
-class MailieClient:
+class SyncClient:
     """
     A simple mail client that supports SMTP, SMTP_SSL & LMTP as well as any subclasses of
-    smtplib.SMTP.
+    smtplib.SMTP.  This client is synchronous and will dispatch mails sequentially (if
+    multiple are provided).
     """
 
     def __init__(
@@ -58,8 +76,9 @@ class MailieClient:
         self.delegate = delegate_client(**client_kwargs)
         self.state = ClientState.NOT_YET_OPENED
         self.delegate.set_debuglevel(self.debug)
-        self.before: HOOKS_ALIAS = hooks.get("pre")
-        self.after: HOOKS_ALIAS = hooks.get("post")
+        hooks = hooks or {}
+        self.before: typing.Optional[HOOKS_ALIAS] = hooks.get("pre")
+        self.after: typing.Optional[HOOKS_ALIAS] = hooks.get("post")
 
     @staticmethod
     def _merge_client_arguments(
@@ -77,7 +96,7 @@ class MailieClient:
         client_kw.update(**updates)
         return client_kw
 
-    def __enter__(self) -> MailieClient:
+    def __enter__(self) -> SyncClient:
         self.delegate.__enter__()
         self.state = ClientState.OPENED
         return self
@@ -86,17 +105,75 @@ class MailieClient:
         self.delegate.__exit__(exc_type, exc_val, exc_tb)
         self.state = ClientState.CLOSED
 
-    def send(self, email: Email, auth: SMTP_AUTH_ALIAS = None) -> Response:
+    @raise_on_closed
+    def send(
+        self,
+        from_addr: typing.Optional[str],
+        to_addrs: EMAIL_FROM_TO_TYPES,
+        email: Email,
+        mail_options,
+        rcpt_options,
+        enforce_all: bool = False,
+    ) -> SMTPResponse:
         """
-        Send
+        Synchronously send an email.  from_addr & to_addrs are envelope senders, not to be confused with actual
+        email TO and FROM headers.  SMTP communication cares NOT about an emails headers.
+
+        :param from_addr: (optional) group of RFC-822 email addresses, uses the email message FROM header as fallback.
+        :param to_addrs: (optional) An RFC-822 compliant email address, uses the email message TO header as fallback.
+        :param email: Mailie `Email` object to send.
+        :param mail_options: ESMTP options that should be passed with all MAIL FROM commands. (i.e 8bitmime)
+        :param rcpt_options: ESMTP options that should be passed with all RCPT commands. (i.e DSN)
+        :param enforce_all: Raise an exception if ALL to_addrs did not successfully receive the message.
+
+        Right now mailie only supports high level sending APIs.  In future an Email obj will be 'aware' of the
+        rcpt and mail options it can provide here.  Mailie only supports sending `Email` instances for a simpler
+        API, sending raw bytes or strings containing ASCII is not officially supported though could be in the future.
+
+        If there has been no EHLO or HELO command in the session, this will attempt ESMTP EHLO first, if ESMTP
+        is supported by the server then message size and each of the specified options will be passed to it if
+        the server broadcasts support such option(s).  If EHLO fails, HELO will be sent and ESMTP specific options
+        will be suppressed by the underlying client.
+
+        Because multiple to_addrs is permitted, if the mail is able to be successfully delivered to at least one of them
+        no exception will be raised, if all recipients fail then an exception is raised.  To ensure that ALL recipients
+        had no problems, `enforce_all=True` can be used.
+
+        Typically, by default only ASCII is permitted for to/from addresses, however if mail_options contains
+        `SMTPUTF8` then non ascii characters will be permitted (if the server supports it).
         """
-        if self.state.CLOSED:
-            raise MailieClientClosedException("Cannot send mail, this client has been closed.  Open a new instance.")
         self.state = ClientState.OPENED
-        request = Request(email=email, auth=auth)
-        return Response(self.delegate.send_message(*request.email.smtp_arguments))
+        send_args = {
+            "msg": email.email_message,
+            "from_addr": from_addr or email.mail_from,
+            "to_addrs": to_addrs or email.rcpt_to,
+            "mail_options": mail_options,
+            "rcpt_options": rcpt_options,
+        }
+        # Todo: Decide what needs handled and what can be bubbled etc.
+        try:
+            return SMTPResponse(self.delegate.send_message(**send_args), enforce_all)
+        # All recipients got refused.
+        except smtplib.SMTPRecipientsRefused:
+            raise
+        # The server failed to respond to HELO (After EHLO)
+        except smtplib.SMTPHeloError:
+            raise
+        # The server refused the from_address.
+        except smtplib.SMTPSenderRefused:
+            raise
+        # The server replied with an unexpected error code (not recipient refusal)
+        except smtplib.SMTPDataError:
+            raise
+        # SMTPUTF8 was provided in mail_options but the server does not support it.
+        except smtplib.SMTPNotSupportedError:
+            raise
 
-    def send_many(self) -> ...: ...
-
-    def smtp_options(self):
-        ...
+    @raise_on_closed
+    def smtp_options(self, name: str) -> typing.Dict[str, str]:
+        """
+        Perform a check for the (E)smtp options available on the host.  If name is empty then
+        the fully qualified domain name of the local host.
+        """
+        self.delegate.ehlo(name)
+        return self.delegate.esmtp_features

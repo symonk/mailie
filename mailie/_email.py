@@ -158,7 +158,7 @@ class Email:
         epilogue: str = NON_MIME_AWARE_CLIENT_MESSAGE,
         boundary: typing.Optional[str] = None,
     ):
-        self.delegate_message = EmailMessage(policy=policy_factory(policy))
+        self.email_message = EmailMessage(policy=policy_factory(policy))
         self.mail_from = mail_from
         self.rcpt_to = emails_to_list(rcpt_to)
         self.cc = emails_to_list(cc)
@@ -183,14 +183,14 @@ class Email:
 
         if text:
             # Text content has been provided, a plain text body will be prepared.
-            self.delegate_message.set_content(self.text, subtype="plain")
+            self.email_message.set_content(self.text, subtype="plain")
         if self.boundary:
             self.set_boundary(self.boundary)
 
         if self.html:
             # multipart/alternative.
             # Todo: Handle content ids and inline attachments within this.
-            self.delegate_message.add_alternative(self.html, subtype="html")
+            self.email_message.add_alternative(self.html, subtype="html")
 
         for attachment in self.attachments:
             # Todo: We need to handle async file IO, on linux at least?
@@ -201,7 +201,7 @@ class Email:
         is included the string.  If maxheaderlen is `0`, the underlying policy is used for determining the
         max_line_length, an additional `policy=` can be passed to defer to that policy instead.
         """
-        return self.delegate_message.as_string(unixfrom, maxheaderlen, policy)
+        return self.email_message.as_string(unixfrom, maxheaderlen, policy)
 
     def __str__(self) -> str:
         """
@@ -216,7 +216,7 @@ class Email:
         for various aspects of formatting.  Flattening the message may trigger changes to the underlying
         `EmailMessage` and this method may **not** be the best way to serialize the message.
         """
-        return self.delegate_message.as_bytes(unixfrom, policy)
+        return self.email_message.as_bytes(unixfrom, policy)
 
     def __bytes__(self) -> bytes:
         return self.as_bytes()
@@ -227,20 +227,20 @@ class Email:
         False the message Email payload should be a string which might be a `Content Transfer Encoding`
         binary object.
         """
-        return self.delegate_message.is_multipart()
+        return self.email_message.is_multipart()
 
     def get_unixfrom(self) -> typing.Optional[str]:
         """
         Retrieve the `envelope sender` header.
         """
-        return self.delegate_message.get_unixfrom()
+        return self.email_message.get_unixfrom()
 
     def set_unixfrom(self, unixfrom: str) -> Email:
         """
         Set the messages `envelope sender` header to `unixfrom`.  This is not a property just to keep
         API delegation with the underlying `EmailMessage`.
         """
-        self.delegate_message.set_unixfrom(unixfrom)
+        self.email_message.set_unixfrom(unixfrom)
         return self
 
     def attach(self, payload: Message) -> None:
@@ -251,34 +251,34 @@ class Email:
         is called.  If you want to set the payload to a scalar object, use
         set_payload() instead.
         """
-        self.delegate_message.attach(payload)
+        self.email_message.attach(payload)
 
     def get_payload(self, i: typing.Optional[int] = None, decode: bool = False) -> typing.Optional[EMAIL_PAYLOAD_ALIAS]:
-        return self.delegate_message.get_payload(i, decode)
+        return self.email_message.get_payload(i, decode)
 
     def set_payload(self, payload: EMAIL_PAYLOAD_ALIAS, charset: EMAIL_CHARSET_ALIAS) -> Email:
-        self.delegate_message.set_payload(payload, charset)
+        self.email_message.set_payload(payload, charset)
         return self
 
     def set_charset(self, charset: EMAIL_CHARSET_ALIAS) -> Email:
-        self.delegate_message.set_charset(charset)
+        self.email_message.set_charset(charset)
         return self
 
     def get_charset(self) -> EMAIL_CHARSET_ALIAS:
-        return self.delegate_message.get_charset()
+        return self.email_message.get_charset()
 
     def __len__(self) -> int:
         """
         Return the total number of headers in the message, this tally includes duplicate headers.
         """
-        return len(self.delegate_message)
+        return len(self.email_message)
 
     def __contains__(self, name: str) -> bool:
         """
         Check if a particular header is present in the email headers.  This check is case insensitive
         and name should omit the trailing colon `:`.
         """
-        return name in self.delegate_message
+        return name in self.email_message
 
     def __getitem__(self, name: str) -> typing.Any:
         """
@@ -296,46 +296,46 @@ class Email:
         field name, then appending this header.  `Email.replace_header(name, value)` can be used as
         a convenience method for replacing a single headers value.
         """
-        self.delegate_message[name] = value
+        self.email_message[name] = value
 
     def replace_header(self, _name: str, _value: typing.Any) -> Email:
         """
         Convenience method for overwriting an existing header with a new value.  This method will replace
         the first instance of the header with `_name`.  This method returns the Email instance for fluency.
         """
-        self.delegate_message.replace_header(_name, _value)
+        self.email_message.replace_header(_name, _value)
         return self
 
     def __delitem__(self, name: str) -> typing.Any:
         """
         Deletes all headers of `name`.  If no headers are present this implicitly does nothing.
         """
-        del self.delegate_message[name]
+        del self.email_message[name]
 
     def keys(self) -> typing.List[str]:
         """
         Return a list of all the messages header field names.
         """
-        return self.delegate_message.keys()
+        return self.email_message.keys()
 
     def values(self) -> typing.List[EMAIL_HEADER_TYPE_ALIAS]:
         """
         Return a list of all the messages header values.
         """
-        return self.delegate_message.values()
+        return self.email_message.values()
 
     def items(self) -> typing.List[typing.Tuple[str, EMAIL_HEADER_TYPE_ALIAS]]:
         """
         Return a list of 2-tuples containing all the messages header field and head values respectively.
         """
-        return self.delegate_message.items()
+        return self.email_message.items()
 
     def get(self, name: str, failobj: typing.Optional[_T] = None) -> _T:
         """
         Return the value of the header named `name`.  If the header is not present in the message
         then failobj is returned.  Invoked by `__getitem__`
         """
-        return self.delegate_message.get(name, failobj)  # type: ignore [arg-type]
+        return self.email_message.get(name, failobj)  # type: ignore [arg-type]
 
     def get_all(
         self, name: str, failobj: typing.Optional[_T] = None
@@ -345,10 +345,10 @@ class Email:
         that name in the message, then `failobj` is returned.  If the header exists multiple times all
         of it's values are retruend.
         """
-        return self.delegate_message.get_all(name, failobj)  # type: ignore [arg-type]
+        return self.email_message.get_all(name, failobj)  # type: ignore [arg-type]
 
     def add_header(self, _name: str, _value: str, **_params: typing.Any) -> Email:
-        self.delegate_message.add_header(_name, _value, **_params)
+        self.email_message.add_header(_name, _value, **_params)
         return self
 
     def get_content_type(self) -> str:
@@ -357,31 +357,31 @@ class Email:
         `get_content_type()` is used to determine it.  If the `Content-Type` header is invalid,
         `plain/text` is returned.
         """
-        return self.delegate_message.get_content_type()
+        return self.email_message.get_content_type()
 
     def get_content_maintype(self) -> str:
         """
         Return the maintype resolved via `get_content_type()` e.g `plain`
         """
-        return self.delegate_message.get_content_maintype()
+        return self.email_message.get_content_maintype()
 
     def get_content_subtype(self) -> str:
         """
         Return the subtype resolved via `get_content_type()` e.g `text`
         """
-        return self.delegate_message.get_content_subtype()
+        return self.email_message.get_content_subtype()
 
     def get_default_type(self) -> str:
         """
         Return the default content type.
         """
-        return self.delegate_message.get_default_type()
+        return self.email_message.get_default_type()
 
     def set_default_type(self, ctype: str) -> Email:
         """
         Sets the default content type. Returns the `Email` instance for fluency
         """
-        self.delegate_message.set_default_type(ctype)
+        self.email_message.set_default_type(ctype)
         return self
 
     def get_params(
@@ -393,15 +393,15 @@ class Email:
         in the instance where there is no `Content-Type` header, header can be provided
         to change the search context from `Content-Type` to that particular header.
         """
-        return self.delegate_message.get_params(failobj, header, unquote)  # type: ignore [arg-type]
+        return self.email_message.get_params(failobj, header, unquote)  # type: ignore [arg-type]
 
     def get_param(
         self, param: str, failobj: typing.Optional[_T] = None, header: str = CONTENT_TYPE_HEADER, unquote: bool = True
     ) -> typing.Union[_T, EMAIL_PARAM_TYPE_ALIAS]:
-        return self.delegate_message.get_param(param, failobj, header, unquote)  # type: ignore [arg-type]
+        return self.email_message.get_param(param, failobj, header, unquote)  # type: ignore [arg-type]
 
     def del_param(self, param: str, header: str, requote: bool) -> Email:
-        self.delegate_message.del_param(param, header, requote)
+        self.email_message.del_param(param, header, requote)
         return self
 
     def set_param(
@@ -414,75 +414,75 @@ class Email:
         language: str = "",
         replace: bool = True,
     ) -> None:
-        self.delegate_message.set_param(param, value, header, requote, charset, language, replace)
+        self.email_message.set_param(param, value, header, requote, charset, language, replace)
 
     def set_type(self, type: str, header: str = CONTENT_TYPE_HEADER, requote: bool = True) -> Email:
-        self.delegate_message.set_type(type, header, requote)
+        self.email_message.set_type(type, header, requote)
         return self
 
     def get_filename(self, failobj: typing.Optional[_T] = None) -> typing.Union[str, _T]:
-        return self.delegate_message.get_filename(failobj)  # type: ignore [arg-type]
+        return self.email_message.get_filename(failobj)  # type: ignore [arg-type]
 
     def get_boundary(self, failobj: typing.Optional[_T] = None) -> typing.Union[str, _T]:
-        return self.delegate_message.get_boundary(failobj)  # type: ignore [arg-type]
+        return self.email_message.get_boundary(failobj)  # type: ignore [arg-type]
 
     def set_boundary(self, boundary: str) -> Email:
-        self.delegate_message.set_boundary(boundary)
+        self.email_message.set_boundary(boundary)
         return self
 
     def get_content_charset(self, failobj: _T) -> typing.Union[str, _T]:
-        return self.delegate_message.get_content_charset(failobj)
+        return self.email_message.get_content_charset(failobj)
 
     def get_charsets(self, failobj: _T) -> typing.Union[_T, typing.List[str]]:
-        return self.delegate_message.get_charsets(failobj)
+        return self.email_message.get_charsets(failobj)
 
     def walk(self) -> typing.Generator[Message, None, None]:
-        yield from self.delegate_message.walk()
+        yield from self.email_message.walk()
 
     def get_content_disposition(self) -> typing.Optional[str]:
-        return self.delegate_message.get_content_disposition()
+        return self.email_message.get_content_disposition()
 
     def get_body(self, preferencelist: typing.Literal["related", "html", "plain"]) -> typing.Optional[EmailMessage]:
         return self.get_body(preferencelist)
 
     def iter_attachments(self) -> typing.Iterator[Message]:
-        yield from self.delegate_message.iter_attachments()
+        yield from self.email_message.iter_attachments()
 
     def iter_parts(self) -> typing.Iterator[Message]:
-        yield from self.delegate_message.iter_parts()
+        yield from self.email_message.iter_parts()
 
     def get_content(
         self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
     ) -> typing.Any:
-        return self.delegate_message.get_content(*args, content_manager, **kw)
+        return self.email_message.get_content(*args, content_manager, **kw)
 
     def set_content(
         self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
     ) -> Email:
-        self.delegate_message.set_content(*args, content_manager, **kw)
+        self.email_message.set_content(*args, content_manager, **kw)
         return self
 
     def make_related(self, boundary: typing.Optional[str] = None) -> Email:
-        self.delegate_message.make_related(boundary or self.boundary)
+        self.email_message.make_related(boundary or self.boundary)
         return self
 
     def make_alternative(self, boundary: typing.Optional[str] = None) -> Email:
-        self.delegate_message.make_alternative(boundary or self.boundary)
+        self.email_message.make_alternative(boundary or self.boundary)
         return self
 
     def make_mixed(self, boundary: typing.Optional[str] = None) -> Email:
-        self.delegate_message.make_mixed(boundary or self.boundary)
+        self.email_message.make_mixed(boundary or self.boundary)
         return self
 
     def add_related(
         self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
     ) -> None:
-        self.delegate_message.add_related(*args, content_manager, **kw)
+        self.email_message.add_related(*args, content_manager, **kw)
 
     def add_alternative(
         self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
     ) -> None:
-        self.delegate_message.add_alternative(*args, content_manager, **kw)
+        self.email_message.add_alternative(*args, content_manager, **kw)
 
     # def add_attachment(
     #     self, *args: typing.Any, content_manager: typing.Optional[ContentManager] = None, **kw: typing.Any
@@ -492,7 +492,7 @@ class Email:
     def add_attachment(self, attachment: FileAttachment) -> Email:
         # Todo: Fix this API for delegation.
         main, sub = attachment.mime_types
-        self.delegate_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
+        self.email_message.add_attachment(attachment.data, maintype=main, subtype=sub, filename=attachment.name)
         return self
 
     def clear(self) -> Email:
@@ -500,18 +500,18 @@ class Email:
         Clears the headers and payload from the delegated `EmailMessage` messaged.
         If you want to retain non Content- headers, use `clear_content()` instead.
         """
-        self.delegate_message.clear()
+        self.email_message.clear()
         return self
 
     def clear_content(self) -> Email:
         """
         Clears the payload and all non Content- headers.
         """
-        self.delegate_message.clear_content()
+        self.email_message.clear_content()
         return self
 
     def is_attachment(self) -> bool:
-        return self.delegate_message.is_attachment()
+        return self.email_message.is_attachment()
 
     def __bool__(self) -> bool:
         """
@@ -521,7 +521,7 @@ class Email:
 
     @property
     def defects(self) -> typing.List[MessageDefect]:
-        return self.delegate_message.defects
+        return self.email_message.defects
 
     @property
     def smtp_recipients(self) -> typing.List[str]:
@@ -529,17 +529,21 @@ class Email:
 
     @property
     def smtp_arguments(self) -> typing.Tuple[EmailMessage, typing.Optional[str], typing.Optional[typing.Sequence[str]]]:
-        return self.delegate_message, self.mail_from, self.smtp_recipients
+        """
+        Useful attributes for engaging in SMTP communication with this email object.  Email from and to headers
+        are used as a fallback if no explicit ones are passed to the mailie clients when sending an email.
+        """
+        return self.email_message, self.mail_from, self.smtp_recipients
 
     def tree_view(self, *, message: Message = None, file=None, level: int = 0) -> None:
         """
         Write the structure of this message to stdout. This is handled recursively.
         """
-        message = message or self.delegate_message
+        message = message or self.email_message
         print(f"{'-' * level}{message.get_content_type()}")
         if message.is_multipart():
             for sub_part in message.get_payload():
                 self.tree_view(message=sub_part, file=file, level=level + 1)
 
     def __iter__(self) -> typing.Iterator[str]:
-        yield from self.delegate_message
+        yield from self.email_message
