@@ -2,6 +2,7 @@ import pytest
 from PIL import Image
 
 from mailie import Email
+from mailie import SyncClient
 
 
 @pytest.fixture()
@@ -36,3 +37,13 @@ def html_multi_attach_mail(png_path):
         html="<b> html content </b>",
         attachments=[png_path, png_path, png_path],
     )
+
+
+@pytest.fixture(scope="function")
+def email_factory():
+    return Email
+
+
+@pytest.fixture(scope="function")
+def sync_client():
+    return SyncClient
