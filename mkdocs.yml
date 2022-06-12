@@ -1,13 +1,52 @@
-site_name: Mailie Documentation
-site_url: https://www.google.com
-nav:
-    - Overview: index.md
-    - Email: email.md
-    - DSL: dsl.md
-    - Commandline: commandline.md
+site_name: Mailie
+site_description: A fluent DSL for python assertions.
+site_url:
 theme:
   name: material
+  features:
+    - content.code.annotate
+  palette:
+    primary: light blue
+    accent: purple
+  font:
+    text: Work Sans
+    code: Work Sans
+  icon:
+    repo: fontawesome/brands/git
+repo_name: symonk/mailie
+repo_url: https://github.com/symonk/mailie/
+edit_uri: ""
 
+nav:
+    - Introduction: index.md
+    - QuickStart: quickstart.md
+    - Advanced Usage: advanced.md
 plugins:
     - search
-    - mkdocstrings
+    - mkdocstrings:
+        default_handler: python
+        handlers:
+          python:
+            selection:
+              docstring_style: sphinx
+            rendering:
+              line_length: 88
+              show_if_no_docstring: false
+              merge_init_into_class: true
+              show_source: false
+              docstring_section_style: table
+        watch:
+          - asserto/
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+copyright: Copyright &copy; 2016 - 2022 Simon Kerr
